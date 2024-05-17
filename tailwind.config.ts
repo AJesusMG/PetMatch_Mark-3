@@ -9,29 +9,67 @@ const config: Config = {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Poppins', 'sans-serif'],
+      },
+    },
   },
   darkMode: "class",
-  plugins: [nextui({
-    themes: {
-      dark: {
-        colors: {
-          primary: {
+  plugins: [
+    nextui({
+      themes: {
+        dark: {
+          colors: {
+            primary: {
+              foreground: "#fff",
+              DEFAULT: "#fff",
+            },
+            secondary: {
+              foreground: "#fff ",
+              DEFAULT: "#FFD893",
+            },
+            success : {
+              foreground: "#fff",
+              DEFAULT: "#99E550",
+            },
+            danger : {
+              foreground: "#fff",
+              DEFAULT: "#FF543E",
+            },
+            warning : {
+              foreground: "#fff",
+              DEFAULT: "#FEAE21",
+            }
           },
-          secondary: {
+        },
+        light: {
+          colors: {
+            primary: {
+              foreground: "#fff",
+              DEFAULT: "#fff",
+            },
+            secondary: {
+              foreground: "#fff ",
+              DEFAULT: "#FFD893",
+            },
+            success : {
+              foreground: "#fff",
+              DEFAULT: "#99E550",
+            },
+            danger : {
+              foreground: "#fff",
+              DEFAULT: "#FF543E",
+            },
+            warning : {
+              foreground: "#fff",
+              DEFAULT: "#FEAE21",
+            }
           },
         },
       },
-      light: {
-        colors: {
-          primary: {
-          },
-          secondary: {
-          },
-        },
-      }
-    }
-  })],
+    }),
+  ],
 };
 
 export default config;
