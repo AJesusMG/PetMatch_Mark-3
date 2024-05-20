@@ -8,7 +8,6 @@ import WitnessCard from "@/Components/WitnessCard/WitnessCard";
 import NewsLetter from "@/Components/NewsLetter/NewsLetter";
 import Footer from "@/Components/Footer/Footer";
 
-
 const testimonies = [
   {
     id: "1",
@@ -36,7 +35,7 @@ const testimonies = [
   }
 ];
 
-const page = () => {
+export default function Page() {
   return (
     <div className="flex flex-col w-full h-full">
       <NavBar />
@@ -45,7 +44,8 @@ const page = () => {
         <div className="flex flex-row mt-16 w-full justify-between">
           <div className="flex flex-col gap-2 w-1/2">
             <h1 className="text-7xl font-bold">
-              Conoce<p className="text-8xl text-[#FEAE21] mt-4">PetMatch</p>
+              Conoce
+              <p className="text-8xl text-primary-500 mt-4">PetMatch</p>
             </h1>
             <p className="text-justify text-xl">
               PetMatch es una plataforma de adopción de mascotas que ofrece una
@@ -59,7 +59,9 @@ const page = () => {
         </div>
         <div className="flex flex-col w-full h-full gap-4">
           <h1 className="font-bold text-center text-7xl">Testimonios</h1>
-          <p className="text-xl text-center">Descubre cómo PetMatch cambió la vida de estas mascotas y sus familias para siempre.</p>
+          <p className="text-xl text-center">
+            Descubre cómo PetMatch cambió la vida de estas mascotas y sus familias para siempre.
+          </p>
           <div className="flex flex-row mt-10 gap-8 w-full items-center">
             {testimonies.map((testimony) => (
               <WitnessCard
@@ -74,13 +76,11 @@ const page = () => {
             ))}
           </div>
         </div>
+        <div className="flex flex-col mb-16">
+          <NewsLetter />
+        </div>
       </div>
-      <div className="flex flex-col mt-16">
-        <NewsLetter />
-      </div>
-      <Footer/>
+      <Footer />
     </div>
   );
-};
-
-export default page;
+}

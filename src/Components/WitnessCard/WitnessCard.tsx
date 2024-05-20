@@ -27,7 +27,7 @@ export default function WitnessCard({ id, image, user, date, description, starRa
             </CardBody>
             <div className="px-7">
                 {[...Array(5)].map((_, index) => (
-                    <span key={index} className={`material-symbols-outlined ${index < starRating ? '!text-[#FEAE21]' : 'text-gray-200'}`}>
+                    <span key={index} className={`material-symbols-outlined ${index < starRating ? '!text-primary-500' : 'text-gray-200'}`}>
                         star
                     </span>
                 ))}

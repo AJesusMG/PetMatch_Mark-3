@@ -33,12 +33,12 @@ export default function NavBar() {
             </NavbarContent>
             <NavbarContent justify="end">
                 <NavbarItem>
-                    <Button as={Link} href="#" variant="bordered" className="border-[#FEAE21] text-md">
+                    <Button as={Link} href="#" variant="bordered" className="border-primary-500 text-md">
                         Iniciar Sesión
                     </Button>
                 </NavbarItem>
                 <NavbarItem>
-                    <Button as={Link} href="#" variant="solid" className="bg-[#99E550] font-bold text-md">
+                    <Button as={Link} href="#" variant="solid" className="bg-success-300 font-bold text-md">
                         Registrate
                     </Button>
                 </NavbarItem>
