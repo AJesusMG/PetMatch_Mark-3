@@ -1,4 +1,5 @@
-import AuthForm from "@/Components/auth/AuthForm"
+import AuthForm from "@/Components/auth/AuthCard"
+import Image from "next/image"
 
 export default function Auth(){
     return(
