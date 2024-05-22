@@ -123,7 +123,7 @@ const config: Config = {
               800: "#801b1f",
               900: "#4d1114",
               DEFAULT: "#FF543E",
-              foreground: "#F8F8F8",
+              foreground: "#112D4E",
             },
           },
         },
@@ -193,3 +193,5 @@ const config: Config = {
 };
 
 export default config;
+
+

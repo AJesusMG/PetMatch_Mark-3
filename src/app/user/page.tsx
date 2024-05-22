@@ -1,3 +1,5 @@
+
+import PostCard from "@/Components/PostCard/PostCard";
 import React from "react";
 import PostCard from "@/Components/PostCard/PostCard";
 import UserButton from "@/Components/UserButton/UserButton";
