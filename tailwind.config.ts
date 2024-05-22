@@ -67,9 +67,7 @@ const config: Config = {
   plugins: [
     nextui({
       themes: {
-
         dark: {
-
           colors: {
             primary: {
               50: "#fff4e5",
@@ -98,7 +96,6 @@ const config: Config = {
               900: "#332513",
               DEFAULT: "#FFD893",
               foreground: "#F8F8F8",
-
             },
             success: {
               50: "#f0fbea",
@@ -126,12 +123,6 @@ const config: Config = {
               800: "#801b1f",
               900: "#4d1114",
               DEFAULT: "#FF543E",
-
-              foreground: "#112D4E",
-            },
-          },
-        },
-        dark: {
               foreground: "#F8F8F8",
             },
           },
@@ -150,7 +141,6 @@ const config: Config = {
               800: "#804500",
               900: "#4d2700",
               DEFAULT: "#FEAE21",
-
               foreground: "#112D4E",
             },
             secondary: {
@@ -193,7 +183,6 @@ const config: Config = {
               800: "#801b1f",
               900: "#4d1114",
               DEFAULT: "#FF543E",
-
               foreground: "#112D4E",
             },
           },

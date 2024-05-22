@@ -1,4 +1,3 @@
-
 import PostCard from "@/Components/PostCard/PostCard";
 import React from "react";
 
@@ -42,4 +41,3 @@ export default function Page() {
         </div>
     );
 }
-
