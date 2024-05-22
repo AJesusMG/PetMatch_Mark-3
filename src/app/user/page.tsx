@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> e8f2e18 (fix : correct user code)
 import React from "react";
 import PostCard from "@/Components/PostCard/PostCard";
 import UserButton from "@/Components/UserButton/UserButton";
