@@ -63,9 +63,6 @@ export default function FullPostCard({ id, imageUrl, avatar, user, content, race
             </div>
           </div>
         </div>
-        <div className="flex justify-end p-4">
-          <Button>Adoptar</Button>
-        </div>
       </div>
     </Card>
   );

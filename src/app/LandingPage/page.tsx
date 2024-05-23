@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import React from "react";
 import Hero3DComponent from "@/Components/Hero3DComponent/Hero3DComponent";
@@ -35,34 +35,26 @@ const testimonies = [
   }
 ];
 
-export default function Page() {
+export default function LandingPage() {
   return (
-    <div className="flex flex-col w-full h-full">
+    <div className="flex flex-col min-h-screen">
       <NavBar />
       <Hero3DComponent />
-      <div className="flex flex-col w-full h-full gap-32 px-24">
-        <div className="flex flex-row mt-16 w-full justify-between">
-          <div className="flex flex-col gap-2 w-1/2">
-            <h1 className="text-7xl font-bold">
-              Conoce
-              <p className="text-8xl text-primary-500 mt-4">PetMatch</p>
-            </h1>
+      <div className="flex flex-col px-24 mt-32 space-y-32 mb-32">
+        <div className="flex justify-between">
+          <div className="w-1/2">
+            <h1 className="text-7xl font-bold">Conoce</h1>
+            <p className="text-8xl text-primary-500 mt-4">PetMatch</p>
             <p className="text-justify text-xl">
-              PetMatch es una plataforma de adopción de mascotas que ofrece una
-              experiencia personalizada para cada usuario. Nuestro formulario
-              ayuda a encontrar la mascota ideal, y nuestra red social integrada
-              permite compartir consejos y experiencias entre usuarios, creando
-              una comunidad comprometida con el bienestar animal.
+              PetMatch es una plataforma de adopción de mascotas que ofrece una experiencia personalizada para cada usuario. Nuestro formulario ayuda a encontrar la mascota ideal, y nuestra red social integrada permite compartir consejos y experiencias entre usuarios, creando una comunidad comprometida con el bienestar animal.
             </p>
           </div>
           <Image width={600} alt="NextUI hero Image" src="/Lomito.jpg" />
         </div>
-        <div className="flex flex-col w-full h-full gap-4">
-          <h1 className="font-bold text-center text-7xl">Testimonios</h1>
-          <p className="text-xl text-center">
-            Descubre cómo PetMatch cambió la vida de estas mascotas y sus familias para siempre.
-          </p>
-          <div className="flex flex-row mt-10 gap-8 w-full items-center">
+        <div className="flex flex-col gap-8">
+          <h1 className="font-bold text-7xl text-center">Testimonios</h1>
+          <p className="text-xl text-center">Descubre cómo PetMatch cambió la vida de estas mascotas y sus familias para siempre.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {testimonies.map((testimony) => (
               <WitnessCard
                 key={testimony.id}
@@ -76,7 +68,11 @@ export default function Page() {
             ))}
           </div>
         </div>
-        <div className="flex flex-col mb-16">
+        <div className="flex flex-col gap-16">
+          <div className="flex flex-col gap-4">
+            <h1 className="text-7xl font-bold text-center">Noticias</h1>
+            <h2 className="text-xl text-center">Suscríbete para ser parte de nuestra familia.</h2>
+          </div>
           <NewsLetter />
         </div>
       </div>
@@ -84,3 +80,4 @@ export default function Page() {
     </div>
   );
 }
+
