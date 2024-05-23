@@ -14,8 +14,8 @@ datasource db {
 }
 
 model user {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
-  name         String @unique
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  name         String      @unique
   lastname     String
   email        String
   password     String
@@ -23,24 +23,30 @@ model user {
   instagramUrl String
   facebookUrl  String
   photoUrl     String
+  community    community[]
+  comments     comments[]
+  reports      reports[]
 }
 
 model animals {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  names        String
-  age          Int
-  size         sizes
-  origin       String
-  exotic       Boolean
-  speciesId    String?  @db.ObjectId
-  colorId      String[] @db.ObjectId
-  patronsId    String?  @db.ObjectId
-  tendenciesId String[] @db.ObjectId
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  names           String
+  age             Int
+  size            sizes
+  origin          String
+  exotic          Boolean
+  speciesId       String?  @db.ObjectId
+  colorId         String[] @db.ObjectId
+  patronsId       String?  @db.ObjectId
+  tendenciesId    String[] @db.ObjectId
+  personalitiesId String[] @db.ObjectId
 
-  animalTypes species?     @relation(fields: [speciesId], references: [id])
-  color       color[]      @relation(fields: [colorId], references: [id])
-  patrons     patrons?     @relation(fields: [patronsId], references: [id])
-  tendencies  tendencies[] @relation(fields: [tendenciesId], references: [id])
+  animalTypes   species?      @relation(fields: [speciesId], references: [id])
+  color         color[]       @relation(fields: [colorId], references: [id])
+  patrons       patrons?      @relation(fields: [patronsId], references: [id])
+  tendencies    tendencies[]  @relation(fields: [tendenciesId], references: [id])
+  personalities personality[] @relation(fields: [personalitiesId], references: [id])
+  posts         posts?
 }
 
 enum sizes {
@@ -70,11 +76,19 @@ model breeds {
 model habitad {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   habitad     String
-  space       spaces
+  spaceid     String?  @db.ObjectId
   weathersIds String[] @db.ObjectId
 
+  spaces   space?    @relation(fields: [spaceid], references: [id])
   breeds   breeds[]
   weathers weather[] @relation(fields: [weathersIds], references: [id])
+}
+
+model space {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  space spaces
+
+  habitads habitad[]
 }
 
 enum spaces {
@@ -109,8 +123,11 @@ model patrons {
 }
 
 model personality {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   personality String
+  animalId    String[] @db.ObjectId
+
+  animals animals[] @relation(fields: [animalId], references: [id])
 }
 
 model tendencies {
@@ -120,3 +137,216 @@ model tendencies {
 
   animals animals[] @relation(fields: [animalId], references: [id])
 }
+
+model community {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  text      String
+  createdAt DateTime
+  userId    String?  @db.ObjectId
+
+  user     user?      @relation(fields: [userId], references: [id])
+  comments comments[]
+}
+
+model comments {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  text        String
+  createdAt   DateTime
+  userId      String?  @db.ObjectId
+  communityId String?  @db.ObjectId
+
+  user      user?      @relation(fields: [userId], references: [id])
+  community community? @relation(fields: [communityId], references: [id])
+}
+
+model reports {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId String? @db.ObjectId
+  postId String? @db.ObjectId
+
+  user user?  @relation(fields: [userId], references: [id])
+  post posts? @relation(fields: [postId], references: [id])
+}
+
+model posts {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  adopted     Boolean @default(false)
+  description String
+  active      Boolean
+  craetedAt   Boolean
+  urlImagen   String?
+  animalId    String? @unique @db.ObjectId
+  userId      String? @db.ObjectId
+
+  animal       animals?       @relation(fields: [animalId], references: [id])
+  reports      reports[]
+  deletedPosts deletedPosts[]
+}
+
+model deletedPosts {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  postId  String? @db.ObjectId
+  adminId String? @db.ObjectId
+
+  posts posts?  @relation(fields: [postId], references: [id])
+  admin admins? @relation(fields: [adminId], references: [id])
+}
+
+model admins {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  username     String         @unique
+  password     String
+  deletedPosts deletedPosts[]
+}
+
+// model User {
+//   id           Int             @id @default(autoincrement())
+//   firstName    String
+//   lastName     String
+//   email        String          @unique
+//   password     String
+//   phone        String
+//   instagramUrl String
+//   facebookUrl  String
+//   imageUrl     String
+//   posts        Post[]
+//   communities  Community[]
+//   comments     Comment[]
+//   reports      Report[]
+// }
+
+// model Post {
+//   id            Int             @id @default(autoincrement())
+//   adopted       Boolean
+//   description   String
+//   active        Boolean
+//   createdAt     DateTime
+//   animalId      Int
+//   userId        Int
+//   imageUrl      String
+//   user          User            @relation(fields: [userId], references: [id])
+//   animal        Animal          @relation(fields: [animalId], references: [id])
+//   reports       Report[]
+//   deletedPosts  DeletedPost[]
+// }
+
+// model Community {
+//   id            Int             @id @default(autoincrement())
+//   text          String
+//   createdAt     DateTime
+//   userId        Int
+//   user          User            @relation(fields: [userId], references: [id])
+//   comments      Comment[]
+// }
+
+// model Comment {
+//   id            Int             @id @default(autoincrement())
+//   text          String
+//   createdAt     DateTime
+//   communityId   Int
+//   userId        Int
+//   community     Community       @relation(fields: [communityId], references: [id])
+//   user          User            @relation(fields: [userId], references: [id])
+// }
+
+// model Report {
+//   id            Int             @id @default(autoincrement())
+//   userId        Int
+//   postId        Int
+//   user          User            @relation(fields: [userId], references: [id])
+//   post          Post            @relation(fields: [postId], references: [id])
+// }
+
+// model Animal {
+//   id              Int              @id @default(autoincrement())
+//   name            String
+//   age             Int
+//   size            Float
+//   origin          String
+//   exotic          Boolean
+//   typeId          Int
+//   colorId         Int
+//   patternId       Int
+//   type            AnimalType       @relation(fields: [typeId], references: [id])
+//   color           Color            @relation(fields: [colorId], references: [id])
+//   pattern         Pattern          @relation(fields: [patternId], references: [id])
+//   personalities   AnimalPersonality[]
+//   tendencies      AnimalTendency[]
+// }
+
+// model AnimalType {
+//   id             Int              @id @default(autoincrement())
+//   type           String
+//   animals        Animal[]
+//   breeds         Breed[]
+// }
+
+// model Breed {
+//   id             Int              @id @default(autoincrement())
+//   breed          String
+//   typeId         Int
+//   habitatId      Int
+//   type           AnimalType       @relation(fields: [typeId], references: [id])
+//   habitat        Habitat          @relation(fields: [habitatId], references: [id])
+// }
+
+// model Habitat {
+//   id             Int              @id @default(autoincrement())
+//   habitat        String
+//   breeds         Breed[]
+// }
+
+// model Tendency {
+//   id             Int              @id @default(autoincrement())
+//   tendency       String
+//   animalTendencies AnimalTendency[]
+// }
+
+// model Personality {
+//   id             Int              @id @default(autoincrement())
+//   personality    String
+//   animalPersonalities AnimalPersonality[]
+// }
+
+// model Pattern {
+//   id             Int              @id @default(autoincrement())
+//   pattern        String
+//   animals        Animal[]
+// }
+
+// model AnimalPersonality {
+//   personalityId  Int
+//   animalId       Int
+//   personality    Personality       @relation(fields: [personalityId], references: [id])
+//   animal         Animal            @relation(fields: [animalId], references: [id])
+//   @@id([personalityId, animalId])
+// }
+
+// model AnimalTendency {
+//   tendencyId     Int
+//   animalId       Int
+//   tendency       Tendency          @relation(fields: [tendencyId], references: [id])
+//   animal         Animal            @relation(fields: [animalId], references: [id])
+//   @@id([tendencyId, animalId])
+// }
+
+// model Color {
+//   id             Int              @id @default(autoincrement())
+//   color          String
+//   animals        Animal[]
+// }
+
+// model Admin {
+//   id             Int              @id @default(autoincrement())
+//   username       String
+//   password       String
+//   deletedPosts   DeletedPost[]
+// }
+
+// model DeletedPost {
+//   id             Int              @id @default(autoincrement())
+//   adminId        Int
+//   postId         Int
+//   admin          Admin            @relation(fields: [adminId], references: [id])
+//   post           Post             @relation(fields: [postId], references: [id])
+// }
