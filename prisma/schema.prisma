@@ -26,10 +26,12 @@ model user {
   community    community[]
   comments     comments[]
   reports      reports[]
+  survey       survey?
 }
 
 model animals {
   id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  weight_animal   Float
   names           String
   age             Int
   size            sizes
@@ -56,28 +58,31 @@ enum sizes {
 }
 
 model species {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  specie String
+  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  weight_species Float
+  specie         String
 
   animals animals[]
   breeds  breeds[]
 }
 
 model breeds {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  breed     String
-  speciesId String? @db.ObjectId
-  habitadId String? @db.ObjectId
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  weight_breed Float
+  breed        String
+  speciesId    String? @db.ObjectId
+  habitadId    String? @db.ObjectId
 
   species species? @relation(fields: [speciesId], references: [id])
   habitad habitad? @relation(fields: [habitadId], references: [id])
 }
 
 model habitad {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  habitad     String
-  spaceid     String?  @db.ObjectId
-  weathersIds String[] @db.ObjectId
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  weight_habitad Float
+  habitad        String
+  spaceid        String?  @db.ObjectId
+  weathersIds    String[] @db.ObjectId
 
   spaces   space?    @relation(fields: [spaceid], references: [id])
   breeds   breeds[]
@@ -85,8 +90,9 @@ model habitad {
 }
 
 model space {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  space spaces
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  weight_space Float
+  space        spaces
 
   habitads habitad[]
 }
@@ -98,17 +104,19 @@ enum spaces {
 }
 
 model weather {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  weather     String
-  habitadsIds String[] @db.ObjectId
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  weight_weather Float
+  weather        String
+  habitadsIds    String[] @db.ObjectId
 
   habitads habitad[] @relation(fields: [habitadsIds], references: [id])
 }
 
 model color {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  color      String
-  animalsIds String[] @db.ObjectId
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  weight_color Float
+  color        String
+  animalsIds   String[] @db.ObjectId
 
   animals animals[] @relation(fields: [animalsIds], references: [id])
 }
@@ -116,24 +124,27 @@ model color {
 // Checar si en vez de hacer una relacion de muchos a muchos, hacer un atributo enum de colores
 
 model patrons {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  patron String
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  weight_patron Float
+  patron        String
 
   animals animals[]
 }
 
 model personality {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  personality String
-  animalId    String[] @db.ObjectId
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  weight_personality Float
+  personality        String
+  animalId           String[] @db.ObjectId
 
   animals animals[] @relation(fields: [animalId], references: [id])
 }
 
 model tendencies {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  tendency String
-  animalId String[] @db.ObjectId
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  weight_tendency Float
+  tendency        String
+  animalId        String[] @db.ObjectId
 
   animals animals[] @relation(fields: [animalId], references: [id])
 }
@@ -197,6 +208,29 @@ model admins {
   username     String         @unique
   password     String
   deletedPosts deletedPosts[]
+}
+
+model survey {
+  id             String  @id @default(auto()) @map("_id") @db.ObjectId
+  age            String
+  R_size         String
+  R_origin       String
+  R_exitoc       Boolean
+  R_species      Float
+  R_breed        Float
+  R_space        Float
+  R_weather      Float
+  R_color        Float
+  R_patron       Float
+  R_personality1 Float
+  R_personality2 Float
+  R_personality3 Float
+  R_tendency1    Float
+  R_tendency2    Float
+  R_tendency3    Float
+
+  userId String? @unique @db.ObjectId
+  user   user?   @relation(fields: [userId], references: [id])
 }
 
 // model User {
