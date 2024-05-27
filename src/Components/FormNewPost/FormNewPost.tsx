@@ -2,13 +2,14 @@
 
 import React, { useState, ChangeEvent } from "react";
 import { Card, CardBody, Divider, Select, SelectItem, Textarea, Input } from "@nextui-org/react";
+import { typeAnimals } from "@/data/typeAnimals";
+import { dogsBreeds, catsBreeds, rodentBreeds, birdBreeds } from "@/data/breeds";
+import { sizeAnimals } from "@/data/sizeAnimals";
+import { ageAnimals } from "@/data/ageAnimals";
 
-const animals = [
-  { value: "dog", label: "Perro" },
-  { value: "cat", label: "Gato" },
-  { value: "bird", label: "Ave" },
-  { value: "rodent", label: "Roedor" },
-];
+
+
+const animals = typeAnimals;
 
 const razas = [
   { value: "labrador", label: "Labrador" },
@@ -16,6 +17,12 @@ const razas = [
   { value: "beagle", label: "Beagle" },
   { value: "poodle", label: "Poodle" },
 ];
+
+interface Raza {
+  label: string;
+  value: string;
+  colores?: string[];
+}
 
 interface FormData {
   animalType?: string;
@@ -39,14 +46,55 @@ interface FormData {
 
 export default function FormNewPost() {
   const [formData, setFormData] = useState<FormData>({});
+  const [breeds, setBreeds] = useState<Raza[]>([]);
+  const [colors, setColors] = useState<string[]>([]);
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [selectedAge, setSelectedAge] = useState<string>("");
+
+
 
   const onChange = (e: ChangeEvent<HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement>) => {
     const { name, value } = e.target;
+
     setFormData(prevState => ({
       ...prevState,
       [name]: value
     }));
+
+    switch (name) {
+      case "animalType":
+        switch (value) {
+          case "Perro":
+            setBreeds(dogsBreeds);
+            break;
+          case "Gato":
+            setBreeds(catsBreeds);
+            break;
+          case "Roedor":
+            setBreeds(rodentBreeds);
+            break;
+          case "Ave":
+            setBreeds(birdBreeds);
+            break;
+          default:
+            setBreeds([]);
+            setColors([]);
+            break;
+        }
+        break;
+      case "breed":
+        const selectedBreed = breeds.find(breed => breed.value === value);
+        if (selectedBreed) {
+          setColors(selectedBreed.colores || []);
+        } else {
+          setColors([]);
+        }
+        break;
+      default:
+        break;
+    }
   };
+
 
   return (
     <Card>
@@ -61,7 +109,7 @@ export default function FormNewPost() {
             value={formData.animalType || ""}
             onChange={onChange}
           >
-            {animals.map((animal) => (
+            {typeAnimals.map((animal) => (
               <SelectItem key={animal.value} value={animal.value}>
                 {animal.label}
               </SelectItem>
@@ -79,9 +127,9 @@ export default function FormNewPost() {
                 value={formData.breed || ""}
                 onChange={onChange}
               >
-                {razas.map((raza) => (
-                  <SelectItem key={raza.value} value={raza.value}>
-                    {raza.label}
+                {breeds.map((breed) => (
+                  <SelectItem key={breed.value} value={breed.value}>
+                    {breed.label}
                   </SelectItem>
                 ))}
               </Select>
@@ -91,12 +139,12 @@ export default function FormNewPost() {
                 placeholder="Selecciona una edad"
                 className="w-full"
                 name="age"
-                value={formData.age || ""}
-                onChange={onChange}
+                value={selectedAge}
+                onChange={(e) => setSelectedAge(e.target.value)}
               >
-                {razas.map((raza) => (
-                  <SelectItem key={raza.value} value={raza.value}>
-                    {raza.label}
+                {ageAnimals.map((age) => (
+                  <SelectItem key={age.value} value={age.value}>
+                    {age.label}
                   </SelectItem>
                 ))}
               </Select>
@@ -106,12 +154,12 @@ export default function FormNewPost() {
                 placeholder="Selecciona un tamaño"
                 className="w-full"
                 name="size"
-                value={formData.size || ""}
-                onChange={onChange}
+                value={selectedSize}
+                onChange={(e) => setSelectedSize(e.target.value)}
               >
-                {razas.map((raza) => (
-                  <SelectItem key={raza.value} value={raza.value}>
-                    {raza.label}
+                {sizeAnimals.map((size) => (
+                  <SelectItem key={size.value} value={size.value}>
+                    {size.label}
                   </SelectItem>
                 ))}
               </Select>
@@ -154,9 +202,9 @@ export default function FormNewPost() {
                 value={formData.color || ""}
                 onChange={onChange}
               >
-                {razas.map((raza) => (
-                  <SelectItem key={raza.value} value={raza.value}>
-                    {raza.label}
+                {colors.map((color, index) => (
+                  <SelectItem key={index} value={color}>
+                    {color}
                   </SelectItem>
                 ))}
               </Select>
@@ -256,7 +304,7 @@ export default function FormNewPost() {
             </div>
           </div>
           <Divider className="my-4" />
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 w-full">
             <Textarea
               isRequired
               label="Descripción"
@@ -268,8 +316,8 @@ export default function FormNewPost() {
             />
             <Input
               isRequired
-              type="text"
               label="Instagram"
+              placeholder="Escribe el Instagram"
               className="w-full"
               name="instagram"
               value={formData.instagram || ""}
@@ -277,8 +325,8 @@ export default function FormNewPost() {
             />
             <Input
               isRequired
-              type="text"
               label="WhatsApp"
+              placeholder="Escribe el WhatsApp"
               className="w-full"
               name="whatsapp"
               value={formData.whatsapp || ""}
@@ -286,8 +334,8 @@ export default function FormNewPost() {
             />
             <Input
               isRequired
-              type="text"
               label="Facebook"
+              placeholder="Escribe el Facebook"
               className="w-full"
               name="facebook"
               value={formData.facebook || ""}

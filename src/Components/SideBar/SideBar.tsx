@@ -49,6 +49,8 @@ export default function Sidebar() {
             color="primary"
             radius="sm"
             isIconOnly
+            as={Link} // Enlace al catálogo
+            href="/user/Community"
           >
             <span className="material-symbols-outlined">groups</span>
           </Button>
