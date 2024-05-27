@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
 import PostCard from "@/Components/PostCard/PostCard";
 
 const PostProps = [
@@ -113,7 +113,12 @@ export default function PrincipalPage() {
             </p>
           </div>
           <div className="flex mx-auto mt-8">
-            <Button className="bg-success-300 font-bold text-xl" size="lg">
+            <Button
+              className="bg-success-300 font-bold text-xl"
+              size="lg"
+              as={Link} // Enlace al catálogo
+              href="/user/Questionnaire"
+            >
               Resolver Cuestionario
             </Button>
           </div>

@@ -16,18 +16,18 @@ export default function NavBar() {
             </NavbarBrand>
             <NavbarContent className="hidden sm:flex gap-4m justify-between" >
                 <NavbarItem isActive>
-                    <Link color="foreground" href="#">
+                    <Link color="foreground" href="#conoce-petmatch">
                         Inicio
                     </Link>
                 </NavbarItem>
                 <NavbarItem >
-                    <Link color="foreground" href="#">
-                        Adopta +
+                    <Link color="foreground" href="#testimonios">
+                        Testimonios
                     </Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Link color="foreground" href="#">
-                        Acerca de Nosotros
+                    <Link color="foreground" href="#noticias">
+                        Noticias
                     </Link>
                 </NavbarItem>
             </NavbarContent>

@@ -1,23 +1,9 @@
 'use client'
 
 import React from "react";
-import { useRouter } from "next/navigation";
-import { DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar } from "@nextui-org/react";
+import { DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Link } from "@nextui-org/react";
 
 export default function UserButton() {
-  const router = useRouter();
-
-  const handleQuestionnaireClick = () => {
-    router.push("/user/Questionnaire");
-  };
-
-  const handleSettingsClick = () => {
-    router.push("/user/UserSettings");
-  };
-
-  const handleProfileClick = () => {
-    router.push("/user/Profile");
-  };
 
   return (
     <Dropdown placement="bottom-end">
@@ -37,9 +23,9 @@ export default function UserButton() {
           <p className="font-semibold">A.Jesus.G</p>
           <p className="text-sm font-light">alanj.ajmg@outlook.com</p>
         </DropdownItem>
-        <DropdownItem key="settings" onClick={handleProfileClick}>Mi Perfil</DropdownItem>
-        <DropdownItem key="team_settings" onClick={handleSettingsClick}>Configuración</DropdownItem>
-        <DropdownItem key="analytics" onClick={handleQuestionnaireClick}>Realizar Cuestionario</DropdownItem>
+        <DropdownItem key="settings" as={Link} href="/user/Profile">Mi Perfil</DropdownItem>
+        <DropdownItem key="team_settings" as={Link} href="/user/UserSettings">Configuración</DropdownItem>
+        <DropdownItem key="analytics" as={Link} href="/user/Questionnaire">Realizar Cuestionario</DropdownItem>
         <DropdownItem key="logout" color="danger">
           Log Out
         </DropdownItem>
