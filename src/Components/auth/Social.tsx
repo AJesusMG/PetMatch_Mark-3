@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
 import { Button } from '@nextui-org/react';
@@ -6,19 +6,20 @@ import { signIn, useSession } from 'next-auth/react';
 
 export const Social = () => {
     const { data: session } = useSession();
-    // const router = useRouter();
+    const router = useRouter();
+
 
     const handleGoogleSignIn = async () => {
         await signIn('google');
-        // if (session && router) {
-        //     router.push('/user/PrincipalPage');
-        // }
+         if (session) {
+             router.push('/user/PrincipalPage');
+         }
     };
     const hancleFacebookSignIn = async () => {
         await signIn('facebook');
-        // if (session && router) {
-        //     router.push('/user/PrincipalPage');
-        // }
+         if (session) {
+             router.push('/user/PrincipalPage');
+         }
     }
 
     return (

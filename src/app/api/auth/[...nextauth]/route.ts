@@ -1,7 +1,7 @@
-import NextAuth, { NextAuthOptions, User } from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import Facebook from "next-auth/providers/facebook";
+import FacebookProvider from "next-auth/providers/facebook";
 import db from "@/libs/db";
 import bcrypt from "bcrypt";
 
@@ -11,7 +11,7 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
-    Facebook({
+    FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID as string,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET as string,
     }),
@@ -50,6 +50,13 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/auth",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
+  },
+  jwt: {
+    secret: process.env.NEXTAUTH_SECRET,
   },
 };
 
