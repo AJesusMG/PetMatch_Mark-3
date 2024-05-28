@@ -1,10 +1,20 @@
 import NextAuth, { NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import db from '@/libs/db';
-import bcrypt from 'bcrypt';
+import GoogleProvider from "next-auth/providers/google";
+import Facebook from "next-auth/providers/facebook";
+import db from "@/libs/db";
+import bcrypt from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
+    Facebook({
+      clientId: process.env.FACEBOOK_CLIENT_ID as string,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET as string,
+    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -12,7 +22,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password", placeholder: "*****" },
       },
       async authorize(credentials) {
-        if (!credentials) throw new Error('Credentials not provided');
+        if (!credentials) throw new Error("Credentials not provided");
 
         const userFound = await db.user.findUnique({
           where: {
@@ -20,11 +30,14 @@ export const authOptions: NextAuthOptions = {
           },
         });
 
-        if (!userFound) throw new Error('No user found');
+        if (!userFound) throw new Error("No user found");
 
-        const matchPassword = await bcrypt.compare(credentials.password, userFound.password);
+        const matchPassword = await bcrypt.compare(
+          credentials.password,
+          userFound.password
+        );
 
-        if (!matchPassword) throw new Error('Wrong password');
+        if (!matchPassword) throw new Error("Wrong password");
 
         return {
           id: userFound.id,
@@ -37,7 +50,7 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/auth",
-  }
+  },
 };
 
 const handler = NextAuth(authOptions);
