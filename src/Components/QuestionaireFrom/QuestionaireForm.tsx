@@ -8,10 +8,11 @@ import { sizeAnimals } from "@/data/sizeAnimals";
 import { ageAnimals } from "@/data/ageAnimals";
 import { trainAnimals } from "@/data/trainAnimal";
 import { temperAnimals } from "@/data/temperAnimals";
-import { vocalizationAnimals } from "@/data/vocalizationAnimals";
-import { intelligenceAnimals } from "@/data/intelligenceAnimals";
 import { costAnimals } from "@/data/costAnimals";
 import { timeAnimals } from "@/data/timeAnimals";
+import { Weather } from "@/data/weather";
+import { sizeHome } from "@/data/sizeHome";
+import { set } from "zod";
 
 
 export default function QuestionaireForm({ setFormValues }: { setFormValues: (values: any) => void }) {
@@ -23,10 +24,10 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
   const [age, setAge] = React.useState<Selection>(new Set([]));
   const [training, setTraining] = React.useState<Selection>(new Set([]));
   const [temperament, setTemperament] = React.useState<Selection>(new Set([]));
-  const [vocalization, setVocalization] = React.useState<Selection>(new Set([]));
-  const [intelligence, setIntelligence] = React.useState<Selection>(new Set([]));
   const [cost, setCost] = React.useState<Selection>(new Set([]));
   const [time, setTime] = React.useState<Selection>(new Set([]));
+  const [weather, setWeather] = React.useState<Selection>(new Set([]));
+  const [sizeH, setSizeH] = React.useState<Selection>(new Set([]));
 
 
 
@@ -84,10 +85,10 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
       age: Array.from(age),
       training: Array.from(training),
       temperament: Array.from(temperament),
-      vocalization: Array.from(vocalization),
-      intelligence: Array.from(intelligence),
       cost: Array.from(cost),
       time: Array.from(time),
+      weather: Array.from(weather),
+      sizeH : Array.from(sizeH)
     });
   }, [
     values,
@@ -97,10 +98,10 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
     age,
     training,
     temperament,
-    vocalization,
-    intelligence,
     cost,
     time,
+    weather,
+    sizeH
   ]);
 
 
@@ -230,41 +231,7 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
               )}
             </Select>
           </div>
-          <div className="mt-12">
-            <Select
-              items={vocalizationAnimals}
-              label="Nivel de ladridos o vocalización"
-              placeholder="Select an animal"
-              selectedKeys={vocalization}
-              className="m-4"
-              classNames={{ label: " text-2xl" }}
-              labelPlacement="outside"
-              required
-              onSelectionChange={setVocalization}
-            >
-              {(animal) => (
-                <SelectItem key={animal.value}>{animal.label}</SelectItem>
-              )}
-            </Select>
-          </div>
-          <div className="mt-12">
-            <Select
-              items={intelligenceAnimals}
-              label="Nivel de inteligencia"
-              selectionMode="multiple"
-              placeholder="Select an animal"
-              selectedKeys={intelligence}
-              className="m-4"
-              classNames={{ label: " text-2xl" }}
-              labelPlacement="outside"
-              required
-              onSelectionChange={setIntelligence}
-            >
-              {(animal) => (
-                <SelectItem key={animal.value}>{animal.label}</SelectItem>
-              )}
-            </Select>
-          </div>
+          
           <div className="mt-12">
             <Select
               items={costAnimals}
@@ -294,6 +261,40 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
               labelPlacement="outside"
               required
               onSelectionChange={setTime}
+            >
+              {(animal) => (
+                <SelectItem key={animal.value}>{animal.label}</SelectItem>
+              )}
+            </Select>
+          </div>
+          <div className="mt-12">
+            <Select
+              items={Weather}
+              label="En que clima vives"
+              placeholder="Select an animal"
+              selectedKeys={weather}
+              className="m-4"
+              classNames={{ label: " text-2xl" }}
+              labelPlacement="outside"
+              required
+              onSelectionChange={setWeather}
+            >
+              {(animal) => (
+                <SelectItem key={animal.value}>{animal.label}</SelectItem>
+              )}
+            </Select>
+          </div>
+          <div className="mt-12">
+            <Select
+              items={sizeHome}
+              label="¿Que tamaño de casa tienes?"
+              placeholder="Select an animal"
+              selectedKeys={sizeH}
+              className="m-4"
+              classNames={{ label: " text-2xl" }}
+              labelPlacement="outside"
+              required
+              onSelectionChange={setSizeH}
             >
               {(animal) => (
                 <SelectItem key={animal.value}>{animal.label}</SelectItem>
