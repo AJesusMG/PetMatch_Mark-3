@@ -1,6 +1,7 @@
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/react";
 import { Social } from "@/Components/auth/Social";
+
 import { useState } from "react";
 
 export default function LoginForm() {
@@ -38,6 +39,11 @@ export default function LoginForm() {
     }
   };
 
+
+
+export default function LoginForm() {
+
+  
   return (
     <>
       <form
