@@ -1,8 +1,14 @@
 "use client";
 
-import React from "react";
-import { Avatar, Chip } from "@nextui-org/react";
+import React, { useState }from "react";
+import { Avatar, Chip, user } from "@nextui-org/react";
 import PostCard from "@/Components/PostCard/PostCard";
+import { useSession } from 'next-auth/react';
+
+interface UserData{
+  name : String;
+  image : String;
+}
 
 const PostProps = [
     {
@@ -138,6 +144,14 @@ const PostProps = [
   ];
 
 export default function Profile() {
+  const { data: session } = useSession();
+  console.log(session);
+
+  const [userData, setUserData] = useState<UserData>({
+    name: session?.user?.name || "No definido",
+    image: session?.user?.image ?? ""
+  });
+
   return (
     <div className="flex flex-col gap-8 w-full">
       <div className="flex flex-row w-full">
@@ -148,10 +162,10 @@ export default function Profile() {
       <div className="flex flex-col w-full h-full gap-8">
         <div className="flex flex-col w-full h-full gap-8 items-center">
           <Avatar
-            src="https://i.pravatar.cc/150?u=a04258114e29026708c"
+            src={session?.user?.image as string}
             className="w-48 h-48"
           />
-          <h1 className="text-4xl font-bold">A.Jesus.G</h1>
+          <h1 className="text-4xl font-bold">{session?.user?.name}</h1>
           <Chip size="md" className="bg-success-300 p-4 text-md">Mis publicaciones</Chip>
         </div>
         <div className="flex flex-col gap-8">
