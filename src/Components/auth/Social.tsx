@@ -10,17 +10,8 @@ export const Social = () => {
 
 
     const handleGoogleSignIn = async () => {
-        await signIn('google');
-         if (session) {
-             router.push('/user/PrincipalPage');
-         }
+        await signIn('google', {callbackUrl: "http://localhost:3000/user/PrincipalPage"});
     };
-    const hancleFacebookSignIn = async () => {
-        await signIn('facebook');
-         if (session) {
-             router.push('/user/PrincipalPage');
-         }
-    }
 
     return (
         <div className="flex items-center w-full gap-x-2">
@@ -30,13 +21,6 @@ export const Social = () => {
                 onClick={handleGoogleSignIn}
             >
                 <FcGoogle className="h-5 w-5" />
-            </Button>
-            <Button
-                size="lg"
-                className="w-full bg-transparent border-2"
-                onClick={hancleFacebookSignIn}
-            >
-                <FaFacebook color="#3b5998" className="h-5 w-5" />
             </Button>
         </div>
     );
