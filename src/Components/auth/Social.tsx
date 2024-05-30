@@ -1,6 +1,5 @@
 import { useRouter } from 'next/navigation';
 import { FcGoogle } from 'react-icons/fc';
-import { FaFacebook } from 'react-icons/fa';
 import { Button } from '@nextui-org/react';
 import { signIn, useSession } from 'next-auth/react';
 
