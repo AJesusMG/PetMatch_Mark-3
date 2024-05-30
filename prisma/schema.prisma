@@ -44,7 +44,8 @@ model animals {
   timeNeeded    Float  
   space_Needed  Float
   weather       Float
-  
+  total_plus    Float
+
   posts        posts?
 }
 
