@@ -1,10 +1,10 @@
 interface trainAnimal {
     label: string;
-    value: string;
+    value: number;
 }
 
 export const trainAnimals: trainAnimal[] = [
-    { label: "Si", value: "si" },
-    { label: "No", value: "no" },
-    { label: "No importa", value: "no_importa"}
+    { label: "Si", value: 0.33 },
+    { label: "No", value: 0.66 },
+    { label: "No importa", value: 1}
 ]

@@ -1,12 +1,12 @@
 interface vocalizationAnimal {
     label: string;
-    value: string;
+    value: number;
 }
 
 export const vocalizationAnimals: vocalizationAnimal[] = [
-    { label: "Silencioso", value: "silencioso" },
-    { label: "Moderado", value: "moderado" },
-    { label: "Ruidoso", value: "ruidoso"},
-    { label: "No importa", value: "no_importa"}
+    { label: "Silencioso", value: 0.25 },
+    { label: "Moderado", value: 0.5 },
+    { label: "Ruidoso", value: 0.75},
+    { label: "No importa", value: 1}
 
 ]

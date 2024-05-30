@@ -1,6 +1,8 @@
+"use client"
 import React from "react";
 import { Button, Link } from "@nextui-org/react";
 import PostCard from "@/Components/PostCard/PostCard";
+import { useSession } from "next-auth/react";
 
 const PostProps = [
   {
@@ -97,6 +99,10 @@ const PostProps = [
 ];
 
 export default function PrincipalPage() {
+
+  const { data: session } = useSession();
+  console.log(session);
+
   return (
     <div className="flex flex-col gap-16 w-full h-full">
       <div className="flex w-full">

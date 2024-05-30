@@ -17,7 +17,7 @@ import { set } from "zod";
 
 export default function QuestionaireForm({ setFormValues }: { setFormValues: (values: any) => void }) {
   const [values, setValues] = React.useState<Selection>(new Set([]));
-  const [breeds, setBreeds] = React.useState<{ label: string; value: string; colores: string[] }[]>([]);
+  const [breeds, setBreeds] = React.useState<{ label: string; value: number; colores: string[] }[]>([]);
   const [colors, setColors] = React.useState<{ label: string; value: string }[]>([]);
   const [selectedBreeds, setSelectedBreeds] = React.useState<string[]>([]);
   const [size, setSize] = React.useState<Selection>(new Set([]));
@@ -40,7 +40,7 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
   React.useEffect(() => {
 
     const selectedTypes = Array.from(values);
-    let updatedBreeds: { label: string; value: string; colores: string[] }[] = [];
+    let updatedBreeds: { label: string; value: number; colores: string[] }[] = [];
 
     if (selectedTypes.includes("Perro")) {
       updatedBreeds = updatedBreeds.concat(dogsBreeds.map(breed => ({ ...breed, colores: breed.colores ?? [] })));
@@ -61,7 +61,7 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
 
   React.useEffect(() => {
     // Recopilar razas seleccionadas
-    const selected = breeds.filter((breed) => selectedBreeds.includes(breed.value));
+    const selected = breeds.filter((breed) => selectedBreeds.includes(breed.label));
 
     // Obtener todos los colores de las razas seleccionadas en el formato "Labrador Retriever - Negro"
     const colors: { label: string; value: string }[] = selected.flatMap((breed) =>
@@ -120,7 +120,7 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
             required
             onSelectionChange={handleSelectionChange}
           >
-            {(animal) => <SelectItem key={animal.value}>{animal.label}</SelectItem>}
+            {(animal) => <SelectItem key={animal.label}>{animal.label}</SelectItem>}
           </Select>
         </div>
         <div className="mt-12">
@@ -135,7 +135,7 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
             required
             onSelectionChange={handleBreedsChange}
           >
-            {(animal) => <SelectItem key={animal.value}>{animal.label}</SelectItem>}
+            {(animal) => <SelectItem key={animal.label}>{animal.label}</SelectItem>}
           </Select>
         </div>
 
