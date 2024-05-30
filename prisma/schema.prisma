@@ -33,18 +33,18 @@ model user {
 model animals {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   names         String
-  age           String
-  size          String
-  training      String
-  specie        String
-  breed         String
-  color         String 
-  temperament   String 
-  maintenance   String  
-  timeNeeded    String  
-  space_Needed  String
-  weather       String
-
+  age           Float
+  size          Float
+  training      Float
+  specie        Float
+  breed         Float
+  color         Float 
+  temperament   Float 
+  maintenance   Float  
+  timeNeeded    Float  
+  space_Needed  Float
+  weather       Float
+  
   posts        posts?
 }
 
