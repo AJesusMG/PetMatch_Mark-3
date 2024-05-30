@@ -116,17 +116,18 @@ model admins {
 
 model survey {
   id            String @id @default(auto()) @map("_id") @db.ObjectId
-  R_age         String
-  R_size        String
+  R_age         Float
+  R_size        Float
   R_species     String
   R_breed       String
-  R_space       String
-  R_weather     String
+  R_space       Float
+  R_weather     Float
   R_color       String
-  R_temperament String
-  R_cost        String
-  R_time        String
-  R_training    String
+  R_temperament Float
+  R_cost        Float
+  R_time        Float
+  R_training    Float
+  R_total_plus  Float
 
   userId String? @unique @db.ObjectId
   user   user?   @relation(fields: [userId], references: [id])
