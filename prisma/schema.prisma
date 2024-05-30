@@ -36,9 +36,9 @@ model animals {
   age           Float
   size          Float
   training      Float
-  specie        Float
-  breed         Float
-  color         Float 
+  specie        String
+  breed         String
+  color         String? 
   temperament   Float 
   maintenance   Float  
   timeNeeded    Float  

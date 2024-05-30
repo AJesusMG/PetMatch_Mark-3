@@ -1,26 +1,26 @@
 interface Weather {
     label: string;
-    value: string;
+    value: number;
 }
 
 export const Weather: Weather[] = [
-    { label: "Soleado", value: "sunny" },
-    { label: "Lluvioso", value: "rainy" },
-    { label: "Nublado", value: "cloudy" },
-    { label: "Nevado", value: "snowy" },
-    { label: "Ventoso", value: "windy" },
-    { label: "Tormentoso", value: "stormy" },
-    { label: "Neblina", value: "foggy" },
-    { label: "Brumoso", value: "hazy" },
-    { label: "Cubierto", value: "overcast" },
-    { label: "Llovizna", value: "drizzle" },
-    { label: "Tormenta eléctrica", value: "thunderstorm" },
-    { label: "Ventisca", value: "blizzard" },
-    { label: "Granizo", value: "hail" },
-    { label: "Aguanieve", value: "sleet" },
-    { label: "Lluvia helada", value: "freezing_rain" },
-    { label: "Tornado", value: "tornado" },
-    { label: "Huracán", value: "hurricane" },
-    { label: "Tormenta de polvo", value: "dust_storm" },
-    { label: "Tormenta de arena", value: "sandstorm" }
+    { label: "Soleado", value: 0.05 },
+    { label: "Lluvioso", value: 0.1 },
+    { label: "Nublado", value: 0.15 },
+    { label: "Nevado", value: 0.20 },
+    { label: "Ventoso", value: 0.25 },
+    { label: "Tormentoso", value: 0.30 },
+    { label: "Neblina", value: 0.35 },
+    { label: "Brumoso", value: 0.40 },
+    { label: "Cubierto", value: 0.45 },
+    { label: "Llovizna", value: 0.50 },
+    { label: "Tormenta eléctrica", value: 0.55 },
+    { label: "Ventisca", value: 0.60 },
+    { label: "Granizo", value: 0.65 },
+    { label: "Aguanieve", value: 0.70 },
+    { label: "Lluvia helada", value: 0.75 },
+    { label: "Tornado", value: 0.80 },
+    { label: "Huracán", value: 0.85 },
+    { label: "Tormenta de polvo", value: 0.90 },
+    { label: "Tormenta de arena", value: 0.95 }
 ];

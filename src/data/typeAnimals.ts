@@ -1,12 +1,12 @@
 interface typeAnimals {
     label: string;
-    value: string;
+    value: number;
 
   }
   
   export const typeAnimals: typeAnimals[] = [
-    { label: "Perro", value: "Perro" },
-    { label: "Gato", value: "Gato" },
-    { label: "Roedor", value: "Roedor" },
-    { label: "Ave", value: "Ave" },
+    { label: "Perro", value: 0.25 },
+    { label: "Gato", value: 0.5 },
+    { label: "Roedor", value: 0.75 },
+    { label: "Ave", value: 1 },
   ];
