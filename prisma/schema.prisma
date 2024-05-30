@@ -32,104 +32,25 @@ model user {
 
 model animals {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  weight_animal Float
   names         String
-  age           Int
-  size          sizes
-  training      Boolean
-  speciesId     String?  @db.ObjectId
-  colorId       String[] @db.ObjectId
-  temperamentId String[] @db.ObjectId
-  maintenanceId String?  @db.ObjectId
-  timeNeededId  String?  @db.ObjectId
+  age           String
+  size          String
+  training      String
+  specie        String
+  breed         String
+  color         String 
+  temperament   String 
+  maintenance   String  
+  timeNeeded    String  
+  space_Needed  String
+  weather       String
 
-  animalTypes  species?      @relation(fields: [speciesId], references: [id])
-  color        color[]       @relation(fields: [colorId], references: [id])
-  temperaments temperament[] @relation(fields: [temperamentId], references: [id])
-  maintenance  maintenance?  @relation(fields: [maintenanceId], references: [id])
   posts        posts?
-  timeNeeded   timeNeeded?   @relation(fields: [timeNeededId], references: [id])
 }
 
-enum sizes {
-  small
-  medium
-  big
-}
-
-model species {
-  id             String @id @default(auto()) @map("_id") @db.ObjectId
-  weight_species Float
-  specie         String
-
-  animals animals[]
-  breeds  breeds[]
-}
-
-model breeds {
-  id           String  @id @default(auto()) @map("_id") @db.ObjectId
-  weight_breed Float
-  breed        String
-  speciesId    String? @db.ObjectId
-  habitadId    String? @db.ObjectId
-
-  species species? @relation(fields: [speciesId], references: [id])
-  habitad habitad? @relation(fields: [habitadId], references: [id])
-}
-
-model habitad {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  weight_habitad Float
-  spaceid        String?  @db.ObjectId
-  weathersIds    String[] @db.ObjectId
-
-  spaces   space?    @relation(fields: [spaceid], references: [id])
-  breeds   breeds[]
-  weathers weather[] @relation(fields: [weathersIds], references: [id])
-}
-
-model space {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
-  weight_space Float
-  space        spaces
-
-  habitads habitad[]
-}
-
-enum spaces {
-  small
-  medium
-  big
-}
-
-model weather {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  weight_weather Float
-  weather        String
-  habitadsIds    String[] @db.ObjectId
-
-  habitads habitad[] @relation(fields: [habitadsIds], references: [id])
-}
-
-model color {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  weight_color Float
-  color        String
-  animalsIds   String[] @db.ObjectId
-
-  animals animals[] @relation(fields: [animalsIds], references: [id])
-}
 
 // Checar si en vez de hacer una relacion de muchos a muchos, hacer un atributo enum de colores
 
-model temperament {
-  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
-  weight_temperament Float
-  temperament        String
-  animalId           String[] @db.ObjectId
-
-  animals animals[] @relation(fields: [animalId], references: [id])
-}
 
 model community {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -208,18 +129,6 @@ model survey {
 
   userId String? @unique @db.ObjectId
   user   user?   @relation(fields: [userId], references: [id])
-}
-
-model maintenance {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  maintenance String
-  animals     animals[]
-}
-
-model timeNeeded {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  timeNeeded String
-  animals    animals[]
 }
 
 // model User {
