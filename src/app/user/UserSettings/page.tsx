@@ -2,12 +2,11 @@
 
 import React, { useState, ChangeEvent } from "react";
 import { Avatar, Button, Input, Tooltip } from "@nextui-org/react";
+import { useSession } from 'next-auth/react';
 
 interface UserData {
-  firstName: string;
-  lastName: string;
+  Name: string;
   email: string;
-  password: string;
   phone: string;
   instagramUrl: string;
   facebookUrl: string;
@@ -15,11 +14,11 @@ interface UserData {
 }
 
 export default function UserSettings() {
+  const { data: session } = useSession();
+
   const [userData, setUserData] = useState<UserData>({
-    firstName: "Alan Jesus",
-    lastName: "Alan Jesus",
-    email: "alanjesus@example.com",
-    password: "password123",
+    Name: session?.user?.name || "Sin nombre",
+    email: session?.user?.email || "Sin correo",
     phone: "1234567890",
     instagramUrl: "https://instagram.com/alanjesus",
     facebookUrl: "https://facebook.com/alanjesus",
@@ -85,10 +84,7 @@ export default function UserSettings() {
         <div className="flex flex-col w-1/2 h-full gap-6 items-center">
           <Tooltip content="Cambiar foto de perfil">
             <div onClick={handleAvatarClick} className="relative cursor-pointer">
-              <Avatar
-                src={userData.photoUrl}
-                className="w-42 h-42"
-              />
+            <Avatar src={session?.user?.image ?? ""} className="w-42 h-42 text-tiny"  /> 
               <input
                 id="fileInput"
                 type="file"
@@ -104,15 +100,7 @@ export default function UserSettings() {
             label="Nombre/s"
             labelPlacement="outside"
             name="firstName"
-            value={userData.firstName}
-            onChange={handleChange}
-          />
-          <Input
-            type="text"
-            label="Apellido/s"
-            labelPlacement="outside"
-            name="lastName"
-            value={userData.lastName}
+            value={session?.user?.name as string}
             onChange={handleChange}
           />
           <Input
@@ -120,15 +108,7 @@ export default function UserSettings() {
             label="Correo Electrónico"
             labelPlacement="outside"
             name="email"
-            value={userData.email}
-            onChange={handleChange}
-          />
-          <Input
-            type="password"
-            label="Contraseña"
-            labelPlacement="outside"
-            name="password"
-            value={userData.password}
+            value={session?.user?.email as string}
             onChange={handleChange}
           />
           <Input
@@ -141,7 +121,7 @@ export default function UserSettings() {
           />
           <Input
             type="url"
-            label="Instagram URL"
+            label="Username Instagram"
             labelPlacement="outside"
             name="instagramUrl"
             value={userData.instagramUrl}
@@ -149,7 +129,7 @@ export default function UserSettings() {
           />
           <Input
             type="url"
-            label="Facebook URL"
+            label="Username Facebook"
             labelPlacement="outside"
             name="facebookUrl"
             value={userData.facebookUrl}

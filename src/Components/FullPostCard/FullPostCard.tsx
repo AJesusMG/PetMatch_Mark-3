@@ -1,5 +1,6 @@
 import React from "react";
-import { Card, Image, Avatar, Button, Chip } from "@nextui-org/react";
+import { Card, Avatar, Button, Chip, Image } from "@nextui-org/react";
+import NextImage from "next/image";
 
 interface FullPostCardProps {
   id: number;
@@ -17,9 +18,9 @@ interface FullPostCardProps {
 
 export default function FullPostCard({ id, imageUrl, avatar, user, content, race, size, age, instagram, whatsapp, facebook }: FullPostCardProps) {
   return (
-    <Card className="min-h-[640px] flex flex-row" key={id}>
-      <div className="w-1/2 h-[640px]">
-        <Image radius="none" alt="Post image" src={imageUrl} />
+    <Card className="min-h-[640px] items-stretch flex flex-row " key={id}>
+      <div className="flex flex-col  gap-8 w-1/2 bg-gray-300">
+        <NextImage  alt="Post image" width={1000} height={0} src={imageUrl || "/Lomito.jpg"} className="h-full w-auto object-cover" />
       </div>
       <div className="flex flex-col p-4 gap-8 w-1/2">
         <header className="flex flex-row items-center justify-between">

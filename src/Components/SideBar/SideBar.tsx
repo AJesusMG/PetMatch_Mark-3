@@ -5,10 +5,49 @@ import Image from "next/image";
 import { Button, Tooltip, Modal, ModalContent, useDisclosure, Tabs, Tab, CardBody, Card, Link, CardFooter, CardHeader } from "@nextui-org/react";
 import FormNewPost from "../FormNewPost/FormNewPost";
 
+interface FormData {
+  types?: string[];
+  breeds?: string[];
+  colors?: string[];
+  size?: string[];
+  age?: string[];
+  training?: string[];
+  temperament?: string[];
+  cost?: string[];
+  time?: string[];
+  weather?: string[];
+  sizeH?: string[];
+  description?: string;
+  instagram?: string;
+  whatsapp?: string;
+  facebook?: string;
+}
+
+const initialFormData: FormData = {
+  types: [],
+  breeds: [],
+  colors: [],
+  size: [],
+  age: [],
+  training: [],
+  temperament: [],
+  cost: [],
+  time: [],
+  weather: [],
+  sizeH: [],
+  description: "",
+  instagram: "",
+  whatsapp: "",
+  facebook: "",
+};
+
+
 export default function Sidebar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const imageIptRef = useRef<HTMLInputElement>(null);
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+
 
   const handleShowImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -17,12 +56,41 @@ export default function Sidebar() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Aquí iría la lógica para manejar el envío del formulario, incluyendo la subida de la imagen a la base de datos.
-    console.log("Formulario enviado");
+  const handleFormDataChange = (data: FormData) => {
+    setFormData(data);
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  
+    try {
+      if (imageUrl) {
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+  
+        const formData = new FormData();
+        formData.append("image", blob, "image.jpg"); // Puedes establecer el nombre del archivo aquí
+  
+        const uploadResponse = await fetch("/api/testimage", {
+          method: "POST",
+          body: formData
+        });
+  
+        if (uploadResponse.ok) {
+          const data = await uploadResponse.json();
+          console.log("Image uploaded successfully. URL:", data.url);
+        } else {
+          console.error("Failed to upload image. Status:", uploadResponse.status);
+        }
+      } else {
+        console.error("Image URL is null. Unable to upload.");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
+  
+  
   return (
     <nav className="xl:h-screen shadow-xl xl:w-fit w-full flex lg:flex-col p-4">
       <div className="flex xl:flex-col xl:gap-6 w-full justify-between flex-row">
@@ -74,7 +142,7 @@ export default function Sidebar() {
             <form onSubmit={handleSubmit} className="flex flex-col h-full">
               <Tabs aria-label="Options">
                 <Tab key="formulario" title="Formulario" >
-                  <FormNewPost/>
+                  <FormNewPost onFormDataChange={handleFormDataChange}/>
                 </Tab>
                 <Tab key="imagen" title="Subir Imagen">
                   <Card>

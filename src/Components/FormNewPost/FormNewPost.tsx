@@ -1,22 +1,25 @@
 "use client";
 
-import React, { useState, ChangeEvent } from "react";
-import { Card, CardBody, Divider, Select, SelectItem, Textarea, Input } from "@nextui-org/react";
+import React, { useState, ChangeEvent, useEffect } from "react";
+import {
+  Card,
+  CardBody,
+  Divider,
+  Select,
+  SelectItem,
+  Textarea,
+  Input,
+} from "@nextui-org/react";
 import { typeAnimals } from "@/data/typeAnimals";
 import { dogsBreeds, catsBreeds, rodentBreeds, birdBreeds } from "@/data/breeds";
 import { sizeAnimals } from "@/data/sizeAnimals";
 import { ageAnimals } from "@/data/ageAnimals";
-
-
-
-const animals = typeAnimals;
-
-const razas = [
-  { value: "labrador", label: "Labrador" },
-  { value: "bulldog", label: "Bulldog" },
-  { value: "beagle", label: "Beagle" },
-  { value: "poodle", label: "Poodle" },
-];
+import { trainAnimals } from "@/data/trainAnimal";
+import { temperAnimals } from "@/data/temperAnimals";
+import { costAnimals } from "@/data/costAnimals";
+import { timeAnimals } from "@/data/timeAnimals";
+import { Weather } from "@/data/weather";
+import { sizeHome } from "@/data/sizeHome"; // Asegúrate de importar correctamente tus datos
 
 interface Raza {
   label: string;
@@ -25,79 +28,70 @@ interface Raza {
 }
 
 interface FormData {
-  animalType?: string;
-  breed?: string;
-  age?: string;
-  size?: string;
-  origin?: string;
-  exotic?: string;
-  color?: string;
-  pattern?: string;
-  personality?: string;
-  tendency?: string;
-  habitat?: string;
-  space?: string;
-  climate?: string;
+  types?: string[];
+  breeds?: string[];
+  colors?: string[];
+  size?: string[];
+  age?: string[];
+  training?: string[];
+  temperament?: string[];
+  cost?: string[];
+  time?: string[];
+  weather?: string[];
+  sizeH?: string[];
   description?: string;
   instagram?: string;
   whatsapp?: string;
   facebook?: string;
 }
 
-export default function FormNewPost() {
+interface FormNewPostProps {
+  onFormDataChange: (data: FormData) => void;
+}
+
+
+export default function FormNewPost({ onFormDataChange }: FormNewPostProps) {
   const [formData, setFormData] = useState<FormData>({});
   const [breeds, setBreeds] = useState<Raza[]>([]);
-  const [colors, setColors] = useState<string[]>([]);
-  const [selectedSize, setSelectedSize] = useState<string>("");
-  const [selectedAge, setSelectedAge] = useState<string>("");
-  const [selectedOrigin, setSelectedOrigin] = useState<string>("");
-  const [selectedExotic, setSelectedExotic] = useState<string>("");
-  const [selectedColor, setSelectedColor] = useState<string>("");
-  const [selectedPattern, setSelectedPattern] = useState<string>("");
-  const [selectedPersonality, setSelectedPersonality] = useState<string>("");
-  const [selectedTendency, setSelectedTendency] = useState<string>("");
-  const [selectedHabitat, setSelectedHabitat] = useState<string>("");
-  const [selectedSpace, setSelectedSpace] = useState<string>("");
-  const [selectedClimate, setSelectedClimate] = useState<string>("");
+  const [colors, setColors] = useState<{ label: string; value: string }[]>([]);
+  const [selectedBreeds, setSelectedBreeds] = useState<string[]>([]);
+  const [values, setValues] = useState<string[]>([]);
+  const [selectedSize, setSelectedSize] = useState<string[]>([]);
+  const [selectedAge, setSelectedAge] = useState<string[]>([]);
+  const [training, setTraining] = useState<string[]>([]);
+  const [temperament, setTemperament] = useState<string[]>([]);
+  const [cost, setCost] = useState<string[]>([]);
+  const [time, setTime] = useState<string[]>([]);
+  const [weather, setWeather] = useState<string[]>([]);
+  const [sizeH, setSizeH] = useState<string[]>([]);
 
-  const [description, setDescription] = useState<string>("");
-  const [instagram, setInstagram] = useState<string>("");
-  const [whatsapp, setWhatsapp] = useState<string>("");
-  const [facebook, setFacebook] = useState<string>("");
+  useEffect(() => {
+    onFormDataChange(formData);
+  }, [formData, onFormDataChange]);
 
-  const onChange = (e: ChangeEvent<HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement>) => {
+  const onChange = (
+    e: ChangeEvent<HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     const { name, value } = e.target;
 
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
 
     switch (name) {
       case "animalType":
-        switch (value) {
-          case "Perro":
-            setBreeds(dogsBreeds);
-            break;
-          case "Gato":
-            setBreeds(catsBreeds);
-            break;
-          case "Roedor":
-            setBreeds(rodentBreeds);
-            break;
-          case "Ave":
-            setBreeds(birdBreeds);
-            break;
-          default:
-            setBreeds([]);
-            setColors([]);
-            break;
-        }
+        setValues([value]);
         break;
       case "breed":
-        const selectedBreed = breeds.find(breed => breed.value === value);
+        const selectedBreed = breeds.find((breed) => breed.value === value);
         if (selectedBreed) {
-          setColors(selectedBreed.colores || []);
+          setColors(
+            selectedBreed.colores?.map((color) => ({
+              label: `${selectedBreed.label} - ${color}`,
+              value: color,
+            })) || []
+          );
         } else {
           setColors([]);
         }
@@ -107,6 +101,85 @@ export default function FormNewPost() {
     }
   };
 
+  const handleSelectionChange = (selectedKeys: string[]) => {
+    setValues(selectedKeys);
+  };
+
+  const handleBreedsChange = (selectedKeys: string[]) => {
+    setSelectedBreeds(selectedKeys);
+  };
+
+  React.useEffect(() => {
+    const selectedTypes = values;
+    let updatedBreeds: Raza[] = [];
+
+    if (selectedTypes.includes("Perro")) {
+      updatedBreeds = updatedBreeds.concat(
+        dogsBreeds.map((breed) => ({ ...breed, colores: breed.colores || [] }))
+      );
+    }
+    if (selectedTypes.includes("Gato")) {
+      updatedBreeds = updatedBreeds.concat(
+        catsBreeds.map((breed) => ({ ...breed, colores: breed.colores || [] }))
+      );
+    }
+    if (selectedTypes.includes("Roedor")) {
+      updatedBreeds = updatedBreeds.concat(
+        rodentBreeds.map((breed) => ({ ...breed, colores: breed.colores || [] }))
+      );
+    }
+    if (selectedTypes.includes("Ave")) {
+      updatedBreeds = updatedBreeds.concat(
+        birdBreeds.map((breed) => ({ ...breed, colores: breed.colores || [] }))
+      );
+    }
+
+    setBreeds(updatedBreeds);
+  }, [values]);
+
+  React.useEffect(() => {
+    const selected = breeds.filter((breed) =>
+      selectedBreeds.includes(breed.value)
+    );
+
+    const colors = selected.flatMap((breed) =>
+      breed.colores?.map((color) => ({
+        label: `${breed.label} - ${color}`,
+        value: color,
+      })) || []
+    );
+
+    setColors(colors);
+  }, [selectedBreeds]);
+
+  React.useEffect(() => {
+    setFormData({
+      ...formData,
+      types: values,
+      breeds: selectedBreeds,
+      colors: colors.map((color) => color.value),
+      size: selectedSize,
+      age: selectedAge,
+      training,
+      temperament,
+      cost,
+      time,
+      weather,
+      sizeH,
+    });
+  }, [
+    values,
+    selectedBreeds,
+    colors,
+    selectedSize,
+    selectedAge,
+    training,
+    temperament,
+    cost,
+    time,
+    weather,
+    sizeH,
+  ]);
 
   return (
     <Card>
@@ -118,7 +191,7 @@ export default function FormNewPost() {
             placeholder="Selecciona un tipo"
             className="w-full"
             name="animalType"
-            value={formData.animalType || ""}
+            value={formData.types || ""}
             onChange={onChange}
           >
             {typeAnimals.map((animal) => (
@@ -136,7 +209,7 @@ export default function FormNewPost() {
                 placeholder="Selecciona la raza"
                 className="w-full"
                 name="breed"
-                value={formData.breed || ""}
+                value={formData.breeds || ""}
                 onChange={onChange}
               >
                 {breeds.map((breed) => (
@@ -147,16 +220,16 @@ export default function FormNewPost() {
               </Select>
               <Select
                 isRequired
-                label="Edad"
-                placeholder="Selecciona una edad"
+                label="Color"
+                placeholder="Selecciona un color"
                 className="w-full"
-                name="age"
-                value={selectedAge}
-                onChange={(e) => setSelectedAge(e.target.value)}
+                name="color"
+                value={formData.colors || ""}
+                onChange={onChange}
               >
-                {ageAnimals.map((age) => (
-                  <SelectItem key={age.value} value={age.value}>
-                    {age.label}
+                {colors.map((color, index) => (
+                  <SelectItem key={index} value={color.value}> 
+                    {color.label}
                   </SelectItem>
                 ))}
               </Select>
@@ -167,7 +240,7 @@ export default function FormNewPost() {
                 className="w-full"
                 name="size"
                 value={selectedSize}
-                onChange={(e) => setSelectedSize(e.target.value)}
+                onChange={(e) => setSelectedSize([e.target.value])} // Update setSelectedSize to accept a string array
               >
                 {sizeAnimals.map((size) => (
                   <SelectItem key={size.value} value={size.value}>
@@ -177,46 +250,16 @@ export default function FormNewPost() {
               </Select>
               <Select
                 isRequired
-                label="Origen"
-                placeholder="Selecciona un origen"
+                label="Edad"
+                placeholder="Selecciona una edad"
                 className="w-full"
-                name="origin"
-                value={formData.origin || ""}
-                onChange={onChange}
+                name="age"
+                value={selectedAge}
+                onChange={(e) => setSelectedAge([e.target.value])} // Update setSelectedAge to accept a string array
               >
-                {razas.map((raza) => (
-                  <SelectItem key={raza.value} value={raza.value}>
-                    {raza.label}
-                  </SelectItem>
-                ))}
-              </Select>
-              <Select
-                isRequired
-                label="Es exótico?"
-                placeholder="Selecciona si es exótico"
-                className="w-full"
-                name="exotic"
-                value={formData.exotic || ""}
-                onChange={onChange}
-              >
-                {razas.map((raza) => (
-                  <SelectItem key={raza.value} value={raza.value}>
-                    {raza.label}
-                  </SelectItem>
-                ))}
-              </Select>
-              <Select
-                isRequired
-                label="Color"
-                placeholder="Selecciona un color"
-                className="w-full"
-                name="color"
-                value={formData.color || ""}
-                onChange={onChange}
-              >
-                {colors.map((color, index) => (
-                  <SelectItem key={index} value={color}>
-                    {color}
+                {ageAnimals.map((age) => (
+                  <SelectItem key={age.value} value={age.value}>
+                    {age.label}
                   </SelectItem>
                 ))}
               </Select>
@@ -225,135 +268,109 @@ export default function FormNewPost() {
             <div className="flex flex-col gap-4 w-full">
               <Select
                 isRequired
-                label="Patrón"
-                placeholder="Selecciona un patrón"
+                label="Entrenamiento"
+                placeholder="Selecciona nivel de entrenamiento"
                 className="w-full"
-                name="pattern"
-                value={formData.pattern || ""}
-                onChange={onChange}
+                name="training"
+                value={training.join(",")}
+                onChange={(e) => setTraining(e.target.value.split(","))}
               >
-                {razas.map((raza) => (
-                  <SelectItem key={raza.value} value={raza.value}>
-                    {raza.label}
+                {trainAnimals.map((train) => (
+                  <SelectItem key={train.value} value={train.value}>
+                    {train.label}
                   </SelectItem>
                 ))}
               </Select>
               <Select
                 isRequired
-                label="Personalidad"
-                placeholder="Selecciona su personalidad"
+                label="Temperamento"
+                placeholder="Selecciona temperamento"
                 className="w-full"
-                name="personality"
-                value={formData.personality || ""}
-                onChange={onChange}
+                name="temperament"
+                value={temperament.join(",")}
+                onChange={(e) => setTemperament(e.target.value.split(","))}
               >
-                {razas.map((raza) => (
-                  <SelectItem key={raza.value} value={raza.value}>
-                    {raza.label}
+                {temperAnimals.map((temper) => (
+                  <SelectItem key={temper.value} value={temper.value}>
+                    {temper.label}
                   </SelectItem>
                 ))}
               </Select>
               <Select
                 isRequired
-                label="Tendencia"
-                placeholder="Selecciona una tendencia"
+                label="Costo de Mantenimiento"
+                placeholder="Selecciona el costo"
                 className="w-full"
-                name="tendency"
-                value={formData.tendency || ""}
-                onChange={onChange}
+                name="cost"
+                value={cost.join(",")}
+                onChange={(e) => setCost(e.target.value.split(","))}
               >
-                {razas.map((raza) => (
-                  <SelectItem key={raza.value} value={raza.value}>
-                    {raza.label}
+                {costAnimals.map((cost) => (
+                  <SelectItem key={cost.value} value={cost.value}>
+                    {cost.label}
                   </SelectItem>
                 ))}
               </Select>
               <Select
                 isRequired
-                label="Hábitat"
-                placeholder="Selecciona su hábitat"
+                label="Tiempo Dedicado"
+                placeholder="Selecciona el tiempo"
                 className="w-full"
-                name="habitat"
-                value={formData.habitat || ""}
-                onChange={onChange}
+                name="time"
+                value={time.join(",")}
+                onChange={(e) => setTime(e.target.value.split(","))}
               >
-                {razas.map((raza) => (
-                  <SelectItem key={raza.value} value={raza.value}>
-                    {raza.label}
-                  </SelectItem>
-                ))}
-              </Select>
-              <Select
-                isRequired
-                label="Espacio"
-                placeholder="Selecciona un espacio"
-                className="w-full"
-                name="space"
-                value={formData.space || ""}
-                onChange={onChange}
-              >
-                {razas.map((raza) => (
-                  <SelectItem key={raza.value} value={raza.value}>
-                    {raza.label}
-                  </SelectItem>
-                ))}
-              </Select>
-              <Select
-                isRequired
-                label="Clima"
-                placeholder="Selecciona un clima"
-                className="w-full"
-                name="climate"
-                value={formData.climate || ""}
-                onChange={onChange}
-              >
-                {razas.map((raza) => (
-                  <SelectItem key={raza.value} value={raza.value}>
-                    {raza.label}
+                {timeAnimals.map((time) => (
+                  <SelectItem key={time.value} value={time.value}>
+                    {time.label}
                   </SelectItem>
                 ))}
               </Select>
             </div>
           </div>
           <Divider className="my-4" />
-          <div className="flex flex-col gap-4 w-full">
-            <Textarea
+          <div className="flex flex-col gap-4">
+            <Select
               isRequired
-              label="Descripción"
-              placeholder="Escribe una descripción"
+              label="Clima Preferido"
+              placeholder="Selecciona el clima"
               className="w-full"
-              name="description"
-              value={formData.description || ""}
-              onChange={onChange}
-            />
-            <Input
+              name="weather"
+              value={weather.join(",")}
+              onChange={(e) => setWeather(e.target.value.split(","))}
+            >
+              {Weather.map((weather) => (
+                <SelectItem key={weather.value} value={weather.value}>
+                  {weather.label}
+                </SelectItem>
+              ))}
+            </Select>
+            <Select
               isRequired
-              label="Instagram"
-              placeholder="Escribe el Instagram"
+              label="Tamaño del Hogar recomendado"
+              placeholder="Selecciona el tamaño"
               className="w-full"
-              name="instagram"
-              value={formData.instagram || ""}
-              onChange={onChange}
-            />
-            <Input
-              isRequired
-              label="WhatsApp"
-              placeholder="Escribe el WhatsApp"
-              className="w-full"
-              name="whatsapp"
-              value={formData.whatsapp || ""}
-              onChange={onChange}
-            />
-            <Input
-              isRequired
-              label="Facebook"
-              placeholder="Escribe el Facebook"
-              className="w-full"
-              name="facebook"
-              value={formData.facebook || ""}
-              onChange={onChange}
-            />
+              name="sizeH"
+              value={sizeH.join(",")}
+              onChange={(e) => setSizeH(e.target.value.split(","))}
+            >
+              {sizeHome.map((sizeH) => (
+                <SelectItem key={sizeH.value} value={sizeH.value}>
+                  {sizeH.label}
+                </SelectItem>
+              ))}
+            </Select>
           </div>
+          <Divider className="my-4" />
+          <Textarea
+            label="Descripción"
+            placeholder="Escribe una descripción"
+            name="description"
+            value={formData.description || ""}
+            onChange={onChange}
+            className="w-full"
+            rows={4}
+          />
         </div>
       </CardBody>
     </Card>

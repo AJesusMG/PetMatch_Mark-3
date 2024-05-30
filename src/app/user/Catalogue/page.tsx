@@ -18,7 +18,7 @@ const PostProps = [
   },
   {
     id: 2,
-    image: "https://nextui.org/images/album-cover.png",
+    image: "https://petmatchbucketcd.s3.amazonaws.com/1717092339021_632",
     avatar: "https://i.pravatar.cc/150?u=a04258a2462d826712d",
     user: "Usuario 2",
     content: "Contenido del post 2",
