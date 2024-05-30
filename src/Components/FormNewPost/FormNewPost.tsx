@@ -50,8 +50,20 @@ export default function FormNewPost() {
   const [colors, setColors] = useState<string[]>([]);
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [selectedAge, setSelectedAge] = useState<string>("");
+  const [selectedOrigin, setSelectedOrigin] = useState<string>("");
+  const [selectedExotic, setSelectedExotic] = useState<string>("");
+  const [selectedColor, setSelectedColor] = useState<string>("");
+  const [selectedPattern, setSelectedPattern] = useState<string>("");
+  const [selectedPersonality, setSelectedPersonality] = useState<string>("");
+  const [selectedTendency, setSelectedTendency] = useState<string>("");
+  const [selectedHabitat, setSelectedHabitat] = useState<string>("");
+  const [selectedSpace, setSelectedSpace] = useState<string>("");
+  const [selectedClimate, setSelectedClimate] = useState<string>("");
 
-
+  const [description, setDescription] = useState<string>("");
+  const [instagram, setInstagram] = useState<string>("");
+  const [whatsapp, setWhatsapp] = useState<string>("");
+  const [facebook, setFacebook] = useState<string>("");
 
   const onChange = (e: ChangeEvent<HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement>) => {
     const { name, value } = e.target;
