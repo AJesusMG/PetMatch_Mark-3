@@ -18,7 +18,7 @@ model user {
   name         String      @unique
   lastname     String?   
   isAdmin      Boolean     @default(false)
-  email        String      @unique
+  email        String      @unique @db.String
   password     String
   phoneNumber  String?
   instagramUrl String?
@@ -36,9 +36,9 @@ model animals {
   age           Float
   size          Float
   training      Float
-  specie        Float
-  breed         Float
-  color         Float 
+  specie        String
+  breed         String
+  color         String 
   temperament   Float 
   maintenance   Float  
   timeNeeded    Float  
@@ -57,9 +57,9 @@ model community {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   text      String
   createdAt DateTime
-  userId    String?  @db.ObjectId
+  userEmail String?  @db.String
 
-  user     user?      @relation(fields: [userId], references: [id])
+  user   user?   @relation(fields: [userEmail], references: [email])
   comments comments[]
 }
 
@@ -67,19 +67,19 @@ model comments {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   text        String
   createdAt   DateTime
-  userId      String?  @db.ObjectId
+  userEmail   String?  @db.String @map("_userEmail")
   communityId String?  @db.ObjectId
 
-  user      user?      @relation(fields: [userId], references: [id])
+  user      user?      @relation(fields: [userEmail], references: [email])
   community community? @relation(fields: [communityId], references: [id])
 }
 
 model reports {
   id     String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId String? @db.ObjectId
+  userEmail String? @db.String @map("_userEmail")
   postId String? @db.ObjectId
 
-  user user?  @relation(fields: [userId], references: [id])
+  user user?  @relation(fields: [userEmail], references: [email])
   post posts? @relation(fields: [postId], references: [id])
 }
 
@@ -91,7 +91,7 @@ model posts {
   craetedAt   Boolean
   urlImagen   String?
   animalId    String? @unique @db.ObjectId
-  userId      String? @db.ObjectId
+  userEmail   String? @db.String @map("_userEmail")
 
   animal       animals?       @relation(fields: [animalId], references: [id])
   reports      reports[]
@@ -116,20 +116,21 @@ model admins {
 
 model survey {
   id            String @id @default(auto()) @map("_id") @db.ObjectId
-  R_age         String
-  R_size        String
-  R_species     String
-  R_breed       String
-  R_space       String
-  R_weather     String
-  R_color       String
-  R_temperament String
-  R_cost        String
-  R_time        String
-  R_training    String
+  R_age         Float
+  R_size        Float
+  R_species     String[]
+  R_breed       String[]
+  R_space       Float
+  R_weather     Float
+  R_color       String[]
+  R_temperament Float
+  R_cost        Float
+  R_time        Float
+  R_training    Float
+  R_total_plus  Float
 
-  userId String? @unique @db.ObjectId
-  user   user?   @relation(fields: [userId], references: [id])
+  userEmail String? @unique @db.String
+  user   user?   @relation(fields: [userEmail], references: [email])
 }
 
 // model User {
