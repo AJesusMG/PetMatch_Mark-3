@@ -59,7 +59,7 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
   }, [values]);
 
 
-  React.useEffect(() => {
+  React.useEffect(() => {22
     // Recopilar razas seleccionadas
     const selected = breeds.filter((breed) => selectedBreeds.includes(breed.label));
 
@@ -78,17 +78,17 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
 
   React.useEffect(() => {
     setFormValues({
-      types: Array.from(values),
-      breeds: selectedBreeds,
-      colors: colors.map((color) => color.value),
-      size: Array.from(size),
-      age: Array.from(age),
-      training: Array.from(training),
-      temperament: Array.from(temperament),
-      cost: Array.from(cost),
-      time: Array.from(time),
-      weather: Array.from(weather),
-      sizeH : Array.from(sizeH)
+      R_species: Array.from(values),
+      R_breed: selectedBreeds,
+      R_color: colors.map((color) => color.value),
+      R_size: Array.from(size),
+      R_age: Array.from(age),
+      R_training: Array.from(training),
+      R_temperament: Array.from(temperament),
+      R_cost: Array.from(cost),
+      R_time: Array.from(time),
+      R_weather: Array.from(weather),
+      R_space : Array.from(sizeH)
     });
   }, [
     values,

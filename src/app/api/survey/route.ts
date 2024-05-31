@@ -4,16 +4,17 @@ import db from "@/libs/db";
 interface ReqBody {
   R_age: string;
   R_size: string;
-  R_species: string;
-  R_breed: string;
+  R_species: string[];
+  R_breed: string[];
   R_space: string;
   R_weather: string;
-  R_color: string;
+  R_color: string[];
   R_temperament: string;
   R_cost: string;
   R_time: string;
   R_training: string;
-  email : string;
+  email: string;
+  total_plus: number;
 }
 
 export async function POST(request: NextRequest) {
@@ -23,27 +24,40 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ code: 400, message: "No data provided" });
     }
     if (!formData.R_age || !formData.R_size || !formData.R_species || !formData.R_breed || !formData.R_space || !formData.R_weather || !formData.R_color || !formData.R_temperament || !formData.R_cost || !formData.R_time || !formData.R_training || !formData.email) {
-        return NextResponse.json({ code: 400, message: "Missing fields" });
-      }
+      return NextResponse.json({ code: 400, message: "Missing fields" });
+    }
+
+    // Asegúrate de que total_plus se haya calculado correctamente
+    const age = parseFloat(formData.R_age);
+    const size = parseFloat(formData.R_size);
+    const training = parseFloat(formData.R_training);
+    const temperament = parseFloat(formData.R_temperament);
+    const maintenance = parseFloat(formData.R_cost);
+    const timeNeeded = parseFloat(formData.R_time);
+    const spaceNeeded = parseFloat(formData.R_space);
+    const weather = parseFloat(formData.R_weather);
+
+    const total_plus = age + size + training + temperament + maintenance + timeNeeded + spaceNeeded + weather;
+
     const newSurvey = await db.survey.create({
       data: {
-        R_age: formData.R_age,
-        R_size: formData.R_size,
+        R_age: age,
+        R_size: size,
         R_species: formData.R_species,
-        R_breed: formData.R_breed,
-        R_space: formData.R_space,
-        R_weather: formData.R_weather,
+        R_breed: formData.R_breed, // Change the type from 'string' to 'string[]'
+        R_space: spaceNeeded,
+        R_weather: weather,
         R_color: formData.R_color,
-        R_temperament: formData.R_temperament,
-        R_cost: formData.R_cost,
-        R_time: formData.R_time,
-        R_training: formData.R_training,
-        userEmail: formData.email
+        R_temperament: temperament,
+        R_cost: maintenance,
+        R_time: timeNeeded,
+        R_training: training,
+        userEmail: formData.email,
+        total_plus: total_plus
       }
     });
 
-    return NextResponse.json({ code: 201, message: "Survey created" });
-
+    return NextResponse.json({ code: 201, message: "Survey created", newSurvey });
 
   } catch (error) {
     console.log(error);
@@ -52,12 +66,11 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-   try {
-      const surveys = await db.survey.findMany();
-      return NextResponse.json(surveys);
-    } catch (error) {
-      console.log(error);
-      return NextResponse.json({ code: 500, message: "ERROR" });
-    }
-  }  
-
+  try {
+    const surveys = await db.survey.findMany();
+    return NextResponse.json(surveys);
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ code: 500, message: "ERROR" });
+  }
+}
