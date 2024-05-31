@@ -23,7 +23,7 @@ import { sizeHome } from "@/data/sizeHome"; // Asegúrate de importar correctame
 
 interface Raza {
   label: string;
-  value: string;
+  value: number;
   colores?: string[];
 }
 
@@ -67,7 +67,10 @@ export default function FormNewPost({ onFormDataChange }: FormNewPostProps) {
 
   useEffect(() => {
     onFormDataChange(formData);
+    console.log(formData)
   }, [formData, onFormDataChange]);
+
+  
 
   const onChange = (
     e: ChangeEvent<HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement>
@@ -84,7 +87,7 @@ export default function FormNewPost({ onFormDataChange }: FormNewPostProps) {
         setValues([value]);
         break;
       case "breed":
-        const selectedBreed = breeds.find((breed) => breed.value === value);
+        const selectedBreed = breeds.find((breed) => breed.label === value);
         if (selectedBreed) {
           setColors(
             selectedBreed.colores?.map((color) => ({
@@ -139,7 +142,7 @@ export default function FormNewPost({ onFormDataChange }: FormNewPostProps) {
 
   React.useEffect(() => {
     const selected = breeds.filter((breed) =>
-      selectedBreeds.includes(breed.value)
+      selectedBreeds.includes(breed.label)
     );
 
     const colors = selected.flatMap((breed) =>
@@ -195,7 +198,7 @@ export default function FormNewPost({ onFormDataChange }: FormNewPostProps) {
             onChange={onChange}
           >
             {typeAnimals.map((animal) => (
-              <SelectItem key={animal.value} value={animal.value}>
+              <SelectItem key={animal.label} value={animal.label}>
                 {animal.label}
               </SelectItem>
             ))}
@@ -213,7 +216,7 @@ export default function FormNewPost({ onFormDataChange }: FormNewPostProps) {
                 onChange={onChange}
               >
                 {breeds.map((breed) => (
-                  <SelectItem key={breed.value} value={breed.value}>
+                  <SelectItem key={breed.label} value={breed.label}>
                     {breed.label}
                   </SelectItem>
                 ))}

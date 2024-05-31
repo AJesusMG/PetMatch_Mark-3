@@ -26,19 +26,18 @@ model user {
 
 model animals {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  names         String
-  age           Float
-  size          Float
-  training      Float
-  specie        String
-  breed         String
-  color         String? 
-  temperament   Float 
-  maintenance   Float  
-  timeNeeded    Float  
-  space_Needed  Float
-  weather       Float
-  total_plus    Float
+  age           Float// age
+  size          Float//size
+  training      Float//training
+  specie        String//animalType
+  breed         String//Breed
+  color         String? //Color
+  temperament   Float //Temperament
+  maintenance   Float  //cost
+  timeNeeded    Float  //time
+  space_Needed  Float//sizeH
+  weather       Float//weather
+  total_plus    Float//sum all floats
 
   posts        posts?
 }
@@ -80,9 +79,9 @@ model reports {
 model posts {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
   adopted     Boolean @default(false)
-  description String
+  description String//Description
   active      Boolean
-  craetedAt   Boolean
+  craetedAt   DateTime
   urlImagen   String?
   animalId    String? @unique @db.ObjectId
   userEmail   String? @db.String @map("_userEmail")

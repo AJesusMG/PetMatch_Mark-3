@@ -2,8 +2,9 @@
 
 import React, { useRef, useState } from "react";
 import Image from "next/image";
-import { Button, Tooltip, Modal, ModalContent, useDisclosure, Tabs, Tab, CardBody, Card, Link, CardFooter, CardHeader } from "@nextui-org/react";
+import { Button, Tooltip, Modal, ModalContent, useDisclosure, Tabs, Tab, CardBody, Card, Link, CardFooter, CardHeader, CircularProgress } from "@nextui-org/react";
 import FormNewPost from "../FormNewPost/FormNewPost";
+import { useSession } from "next-auth/react";
 
 interface FormData {
   types?: string[];
@@ -47,7 +48,9 @@ export default function Sidebar() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const imageIptRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState<FormData>(initialFormData);
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { data: session } = useSession();
+  console.log(session);
 
   const handleShowImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -62,33 +65,57 @@ export default function Sidebar() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
-    try {
-      if (imageUrl) {
-        const response = await fetch(imageUrl);
-        const blob = await response.blob();
-  
-        const formData = new FormData();
-        formData.append("image", blob, "image.jpg"); // Puedes establecer el nombre del archivo aquí
-  
-        const uploadResponse = await fetch("/api/testimage", {
+    setIsLoading(true);
+
+  try {
+    if (imageUrl) {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+
+      const imageFormData = new FormData();
+      imageFormData.append("image", blob, "image.jpg");
+      //First Fetch to Insert into AWS Bucket
+      const uploadResponse = await fetch("/api/testimage", {
+        method: "POST",
+        body: imageFormData,
+      });
+
+      if (uploadResponse.ok) {
+        const data = await uploadResponse.json();
+        console.log("Image uploaded successfully. URL:", data.url);
+
+        // Second Fetch to Insert into DB
+        const postFormData = {
+          ...formData,
+          imageUrl: data.url,
+          userEmail: session?.user?.email || '' 
+        };
+
+        const postResponse = await fetch("/api/posts", {
           method: "POST",
-          body: formData
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postFormData),
         });
-  
-        if (uploadResponse.ok) {
-          const data = await uploadResponse.json();
-          console.log("Image uploaded successfully. URL:", data.url);
+
+        if (postResponse.ok) {
+          console.log("Form submitted successfully.");
         } else {
-          console.error("Failed to upload image. Status:", uploadResponse.status);
+          console.error("Failed to submit data. Status:", postResponse.status);
         }
       } else {
-        console.error("Image URL is null. Unable to upload.");
+        console.error("Failed to upload image. Status:", uploadResponse.status);
       }
-    } catch (error) {
-      console.error("Error uploading image:", error);
+    } else {
+      console.error("Image URL is null. Unable to upload.");
     }
-  };
+  } catch (error) {
+    console.error("Error uploading image:", error);
+  } finally {
+    setIsLoading(false);
+  }
+};
   
   
   return (
@@ -176,14 +203,18 @@ export default function Sidebar() {
                           onChange={handleShowImage}
                         />
                       </div>
-                      <CardFooter>
-                        <Button
-                          type="submit"
-                          size="lg"
-                          className="text-black w-full bg-success-300"
-                        >
-                          Publicar
-                        </Button>
+                      <CardFooter className="flex justify-center">
+                            {isLoading ? (
+                           <CircularProgress aria-label="Loading..."/>
+                        ) : (
+                          <Button
+                            type="submit"
+                            size="lg"
+                            className="text-black w-full bg-success-300"
+                          >
+                            Publicar
+                          </Button>
+                        )}
                       </CardFooter>
                     </CardBody>
                   </Card>

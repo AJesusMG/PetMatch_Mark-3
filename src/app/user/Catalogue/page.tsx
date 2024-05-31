@@ -5,7 +5,7 @@ import PostCard from "@/Components/PostCard/PostCard";
 const PostProps = [
   {
     id: 1,
-    image: "https://nextui.org/images/hero-card.jpeg",
+    image: "https://petmatchbucketcd.s3.amazonaws.com/1717105742271_48",
     avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
     user: "Usuario 1",
     content: "Contenido del post 1",

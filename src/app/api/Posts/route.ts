@@ -1,46 +1,42 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {
     const {
-      animalType,
+      types,
       breed,
-      age,
+      colors,
       size,
-      origin,
-      exotic,
-      color,
-      pattern,
-      personality,
-      tendency,
-      habitat,
-      space,
-      climate,
+      age,
+      training,
+      temperament,
+      cost,
+      time,
+      weather,
+      sizeH,
       description,
-      instagram,
-      whatsapp,
-      facebook
+      imageUrl,
+      userEmail, 
     } = await request.json();
 
-    // Verifica que todos los campos necesarios estén presentes
     if (
-      !animalType ||
+      !types ||
       !breed ||
-      !age ||
+      !colors ||
       !size ||
-      !origin ||
-      exotic === undefined ||
-      !color ||
-      !pattern ||
-      !personality ||
-      !tendency ||
-      !habitat ||
-      !space ||
-      !climate ||
+      !age ||
+      !training ||
+      !temperament ||
+      !cost ||
+      !time ||
+      !weather ||
+      !sizeH ||
       !description ||
-      !instagram ||
-      !whatsapp ||
-      !facebook
+      !imageUrl ||
+      !userEmail 
     ) {
       return NextResponse.json({
         code: 400,
@@ -48,35 +44,47 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Crea un objeto con todos los labels
-    const formData = {
-      animalType,
-      breed,
-      age,
-      size,
-      origin,
-      exotic,
-      color,
-      pattern,
-      personality,
-      tendency,
-      habitat,
-      space,
-      climate,
-      description,
-      instagram,
-      whatsapp,
-      facebook,
-    };
+    // Suma
+    const total_plus = parseFloat(size[0]) + parseFloat(age[0]) + parseFloat(training[0]) + parseFloat(temperament[0]) + parseFloat(cost[0]) + parseFloat(time[0]) + parseFloat(weather[0]) + parseFloat(sizeH[0]);
 
-    // Imprime el objeto en la consola
-    console.log(formData);
+    // Insertar en la tabla animals
+    const animal = await prisma.animals.create({
+      data: {
+        age: parseFloat(age[0]),
+        size: parseFloat(size[0]),
+        training: parseFloat(training[0]),
+        specie: types[0],
+        breed: breed || '',
+        color: colors.join(', '),
+        temperament: parseFloat(temperament[0]),
+        maintenance: parseFloat(cost[0]),
+        timeNeeded: parseFloat(time[0]),
+        space_Needed: parseFloat(sizeH[0]),
+        weather: parseFloat(weather[0]),
+        total_plus,
+      },
+    });
 
-    // Devuelve una respuesta de éxito
+    // Insertar en la tabla posts
+    const post = await prisma.posts.create({
+      data: {
+        adopted: false,
+        description,
+        active: true,
+        craetedAt: new Date().toISOString(),
+        urlImagen: imageUrl,
+        animalId: animal.id,
+        userEmail: userEmail, 
+      },
+    });
+
     return NextResponse.json({
       code: 201,
       message: "Datos recibidos correctamente.",
-      data: formData,
+      data: {
+        animal,
+        post,
+      },
     });
   } catch (error) {
     console.error(error);
