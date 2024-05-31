@@ -1,10 +1,10 @@
 interface intelligenceAnimal {
     label: string;
-    value: string;
+    value: number;
 }
 export const intelligenceAnimals: intelligenceAnimal[] = [
-    { label: "Baja", value: "baja" },
-    { label: "Media", value: "media" },
-    { label: "Alta", value: "alta" },
-    { label: "Muy Alta", value: "muy_alta" },
+    { label: "Baja", value: 0.25 },
+    { label: "Media", value: 0.50 },
+    { label: "Alta", value: 0.75 },
+    { label: "Muy Alta", value: 1 },
 ]

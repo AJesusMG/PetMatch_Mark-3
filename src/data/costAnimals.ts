@@ -1,11 +1,11 @@
 interface costAnimal {
     label: string;
-    value: string;
+    value: number;
 }
 
 export const costAnimals: costAnimal[] = [
-    { label: "Bajo", value: "bajo" },
-    { label: "Medio", value: "medio" },
-    { label: "Alto", value: "alto" },
-    { label: "Muy Alto", value: "muy_alto" },
+    { label: "Bajo", value: 0.25 },
+    { label: "Medio", value: 0.50 },
+    { label: "Alto", value: 0.75 },
+    { label: "Muy Alto", value: 1 },
 ]

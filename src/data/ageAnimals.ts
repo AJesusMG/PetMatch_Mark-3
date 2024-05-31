@@ -1,11 +1,11 @@
 interface ageAnimal{
     label: string;
-    value: string;
+    value: number;
 }
 
 export const ageAnimals: ageAnimal[] = [
-    { label: "Bebé", value: "bebe" },
-    { label: "Joven", value: "joven" },
-    { label: "Adulto", value: "adulto" },
-    { label: "Viejo", value: "viejo" },
+    { label: "Bebé", value: 0.25 },
+    { label: "Joven", value: 0.5 },
+    { label: "Adulto", value: 0.75 },
+    { label: "Viejo", value: 1 },
 ]

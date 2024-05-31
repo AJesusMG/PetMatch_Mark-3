@@ -30,30 +30,15 @@ export default function LoginForm() {
   const [error, setError] = useState<string | null>(null);
 
   const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
-    try {
-      const response = await fetch(`http://localhost:3000/api/auth/admin/${name}`);
-      const data = await response.json();
-      const result = await signIn("credentials", {
-        redirect: false,
-        name: name,
-        password: password,
+      const response = await signIn("credentials", {
+        name: data.name,
+        password: data.password,
+        callbackUrl: "http://localhost:3000/user/PrincipalPage"
       });
-
-      if (result?.error) {
-        setError(result.error);
-      } else if (result?.ok) {
-        const user = result as { user?: { isAdmin: boolean } };
-        if (isAdmin && data.isAdmin) {
-          router.push("/dashboardAdmin");
-        } else if (!isAdmin && !user.user?.isAdmin) {
-          router.push("/user/PrincipalPage");
-        } else {
-          setError("No tienes los privilegios");
-        }
+      if (response && response.error) {
+        setError(response.error);
       }
-    } catch (error) {
-      setError("Hubo un error al iniciar sesión.");
-    }
+    
   };
 
   return (
@@ -82,16 +67,7 @@ export default function LoginForm() {
           isRequired
         />
         {errors.password && <span className="text-red-500 text-xs">{errors.password.message}</span>}
-        <div className="mt-2 mb-2">
-          <Switch
-            color="danger"
-            className="text-success-300"
-            isSelected={isAdmin} 
-            onValueChange={setIsAdmin}
-          >
-            ¿Eres administrador?
-          </Switch>
-        </div>
+        
         <Button color="success" className="w-full bg-success-300 font-bold" type="submit">
           Iniciar Sesión
         </Button>

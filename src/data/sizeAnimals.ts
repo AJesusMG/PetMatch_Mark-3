@@ -1,11 +1,11 @@
 interface sizeAnimal{
     label: string;
-    value: string;
+    value: number;
 }
 
 export const sizeAnimals: sizeAnimal[] = [
-    { label: "Pequeño", value: "pequeño" },
-    { label: "Mediano", value: "mediano" },
-    { label: "Grande", value: "grande" },
-    { label: "Gigante", value: "gigante" },
+    { label: "Pequeño", value: 0.25 },
+    { label: "Mediano", value: 0.50 },
+    { label: "Grande", value: 0.75 },
+    { label: "Gigante", value: 1 },
 ]
