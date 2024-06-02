@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
         description,
         active: true,
         craetedAt: new Date().toISOString(),
-        urlImagen: imageUrl,
+        urlImage: imageUrl,
         animalId: animal.id,
         userEmail: userEmail, 
       },
@@ -94,3 +94,52 @@ export async function POST(request: NextRequest) {
     });
   }
 }
+
+export async function GET(request: NextRequest) {
+  try {
+    const posts = await prisma.posts.findMany({
+      select: {
+        urlImage: true,
+        description: true,
+        animal: {
+          select: {
+            breed: true,
+            size: true,
+            age: true,
+          }
+        },
+        user: {
+          select: {
+            name: true,
+          }
+        },
+      },
+      where: {
+        userEmail: {
+          not: '' 
+        }
+      }
+    });
+
+    const postsWithMessages = posts.map((post) => {
+      return {
+        message: "Publicación:",
+        ...post,
+      };
+    });
+
+    return NextResponse.json({
+      code: 200,
+      message: "Datos recuperados correctamente.",
+      data: postsWithMessages,
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({
+      code: 500,
+      message: "Ocurrió un error en el servidor.",
+    });
+  }
+}
+
+

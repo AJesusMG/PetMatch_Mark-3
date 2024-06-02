@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect,useRef, useState } from "react";
 import Image from "next/image";
 import { Button, Tooltip, Modal, ModalContent, useDisclosure, Tabs, Tab, CardBody, Card, Link, CardFooter, CardHeader, CircularProgress } from "@nextui-org/react";
 import FormNewPost from "../FormNewPost/FormNewPost";
@@ -64,60 +64,65 @@ export default function Sidebar() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
+      e.preventDefault();
+      setIsLoading(true);
 
-  try {
-    if (imageUrl) {
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
+    try {
+      if (imageUrl) {
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
 
-      const imageFormData = new FormData();
-      imageFormData.append("image", blob, "image.jpg");
-      //First Fetch to Insert into AWS Bucket
-      const uploadResponse = await fetch("/api/testimage", {
-        method: "POST",
-        body: imageFormData,
-      });
-
-      if (uploadResponse.ok) {
-        const data = await uploadResponse.json();
-        console.log("Image uploaded successfully. URL:", data.url);
-
-        // Second Fetch to Insert into DB
-        const postFormData = {
-          ...formData,
-          imageUrl: data.url,
-          userEmail: session?.user?.email || '' 
-        };
-
-        const postResponse = await fetch("/api/posts", {
+        const imageFormData = new FormData();
+        imageFormData.append("image", blob, "image.jpg");
+        //First Fetch to Insert into AWS Bucket
+        const uploadResponse = await fetch("/api/testimage", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(postFormData),
+          body: imageFormData,
         });
 
-        if (postResponse.ok) {
-          console.log("Form submitted successfully.");
+        if (uploadResponse.ok) {
+          const data = await uploadResponse.json();
+          console.log("Image uploaded successfully. URL:", data.url);
+
+          // Second Fetch to Insert into DB
+          const postFormData = {
+            ...formData,
+            imageUrl: data.url,
+            userEmail: session?.user?.email || '' 
+          };
+
+          const postResponse = await fetch("/api/posts", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(postFormData),
+          });
+
+          if (postResponse.ok) {
+            console.log("Form submitted successfully.");
+          } else {
+            console.error("Failed to submit data. Status:", postResponse.status);
+          }
         } else {
-          console.error("Failed to submit data. Status:", postResponse.status);
+          console.error("Failed to upload image. Status:", uploadResponse.status);
         }
       } else {
-        console.error("Failed to upload image. Status:", uploadResponse.status);
+        console.error("Image URL is null. Unable to upload.");
       }
-    } else {
-      console.error("Image URL is null. Unable to upload.");
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error) {
-    console.error("Error uploading image:", error);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
   
-  
+  useEffect(() => {
+    if (!isLoading) {
+      onClose();
+    }
+  }, [isLoading, onClose]);
+
   return (
     <nav className="xl:h-screen shadow-xl xl:w-fit w-full flex lg:flex-col p-4">
       <div className="flex xl:flex-col xl:gap-6 w-full justify-between flex-row">
@@ -168,7 +173,7 @@ export default function Sidebar() {
           <ModalContent className="max-h-[90vh] overflow-auto">
             <form onSubmit={handleSubmit} className="flex flex-col h-full">
               <Tabs aria-label="Options">
-                <Tab key="formulario" title="Formulario" >
+                <Tab key="formulario" title="Formulario">
                   <FormNewPost onFormDataChange={handleFormDataChange}/>
                 </Tab>
                 <Tab key="imagen" title="Subir Imagen">
@@ -204,8 +209,8 @@ export default function Sidebar() {
                         />
                       </div>
                       <CardFooter className="flex justify-center">
-                            {isLoading ? (
-                           <CircularProgress aria-label="Loading..."/>
+                        {isLoading ? (
+                          <CircularProgress aria-label="Loading..."/>
                         ) : (
                           <Button
                             type="submit"

@@ -22,23 +22,23 @@ model user {
   comments     comments[]
   reports      reports[]
   survey       survey?
+  posts        posts[]      
 }
 
 model animals {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  age           Float// age
-  size          Float//size
-  training      Float//training
-  specie        String//animalType
-  breed         String//Breed
-  color         String? //Color
-  temperament   Float //Temperament
-  maintenance   Float  //cost
-  timeNeeded    Float  //time
-  space_Needed  Float//sizeH
-  weather       Float//weather
-  total_plus    Float//sum all floats
-
+  age           Float
+  size          Float
+  training      Float
+  specie        String
+  breed         String
+  color         String? 
+  temperament   Float 
+  maintenance   Float  
+  timeNeeded    Float  
+  space_Needed  Float
+  weather       Float
+  total_plus    Float
   posts        posts?
 }
 
@@ -77,19 +77,20 @@ model reports {
 }
 
 model posts {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  adopted     Boolean @default(false)
-  description String//Description
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  adopted     Boolean     @default(false)
+  description String      
   active      Boolean
   craetedAt   DateTime
-  urlImagen   String?
-  animalId    String? @unique @db.ObjectId
-  userEmail   String? @db.String @map("_userEmail")
-
-  animal       animals?       @relation(fields: [animalId], references: [id])
-  reports      reports[]
+  urlImage   String?
+  animalId    String?     @unique @db.ObjectId
+  userEmail   String      @db.String @map("_userEmail") // Hacer obligatorio
+  user        user        @relation(fields: [userEmail], references: [email])
+  animal      animals?    @relation(fields: [animalId], references: [id])
+  reports     reports[]
   deletedPosts deletedPosts[]
 }
+
 
 model deletedPosts {
   id      String  @id @default(auto()) @map("_id") @db.ObjectId
@@ -109,17 +110,18 @@ model admins {
 
 model survey {
   id            String @id @default(auto()) @map("_id") @db.ObjectId
-  R_age         String
-  R_size        String
+  R_age         Float
+  R_size        Float
   R_species     String
   R_breed       String
-  R_space       String
-  R_weather     String
+  R_space       Float
+  R_weather     Float
   R_color       String
-  R_temperament String
-  R_cost        String
-  R_time        String
-  R_training    String
+  R_temperament Float
+  R_cost        Float
+  R_time        Float
+  R_training    Float
+  R_total_plus  Float
 
   userEmail String? @unique @db.String
   user   user?   @relation(fields: [userEmail], references: [email])
