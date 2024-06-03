@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import  db from "@/libs/db";
 
-export async function POST(request : NextRequest, { params } : { params : { email : string } }) {
+export async function PATCH(request : NextRequest, { params } : { params : { email : string } }) {
     const email = params.email;
     interface ReqBody { name : string, email : string, phoneNumber : string, instagramUrl : string, facebookURL : string }
 
@@ -11,14 +11,6 @@ export async function POST(request : NextRequest, { params } : { params : { emai
     if(!email) {
         return NextResponse.json({
             message: "Email is required",
-        }, {
-            status: 400,
-        });
-    }
-
-    if(data.name === "" || data.email === "" || data.phoneNumber === "" || data.instagramUrl === "" || data.facebookURL === "") {
-        return NextResponse.json({
-            message: "Missing fields",
         }, {
             status: 400,
         });
@@ -44,17 +36,6 @@ export async function POST(request : NextRequest, { params } : { params : { emai
                     },
                 }
             )
-        }
-        if(!user){
-            const userCreated = await db.user.create({
-                data: {
-                    name: data.name,
-                    email: email,
-                    phoneNumber: data.phoneNumber,
-                    instagramUrl: data.instagramUrl,
-                    facebookUrl: data.facebookURL,
-                },
-            });
         }
 
     }catch(error) {

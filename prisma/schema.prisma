@@ -13,7 +13,7 @@ model user {
   lastname     String?   
   isAdmin      Boolean     @default(false)
   email        String      @unique @db.String
-  password     String
+  password     String?
   phoneNumber  String?
   instagramUrl String?
   facebookUrl  String?
@@ -121,7 +121,7 @@ model survey {
   R_cost        Float
   R_time        Float
   R_training    Float
-  total_plus  Float
+  total_plus    Float
 
   userEmail String? @unique @db.String
   user   user?   @relation(fields: [userEmail], references: [email])
