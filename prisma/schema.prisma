@@ -112,21 +112,20 @@ model survey {
   id            String @id @default(auto()) @map("_id") @db.ObjectId
   R_age         Float
   R_size        Float
-  R_species     String
-  R_breed       String
+  R_species     String[]
+  R_breed       String[]
   R_space       Float
   R_weather     Float
-  R_color       String
+  R_color       String[]
   R_temperament Float
   R_cost        Float
   R_time        Float
   R_training    Float
-  R_total_plus  Float
+  total_plus  Float
 
   userEmail String? @unique @db.String
   user   user?   @relation(fields: [userEmail], references: [email])
 }
-
 
 // model User {
 //   id           Int             @id @default(autoincrement())
