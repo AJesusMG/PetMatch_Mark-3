@@ -1,8 +1,8 @@
 import React from "react";
-import { Card, Image, Modal, ModalContent, useDisclosure } from "@nextui-org/react";
+import { Card, Modal, ModalContent, useDisclosure } from "@nextui-org/react";
 import FullPostCard from "../FullPostCard/FullPostCard";
+import NextImage from "next/image";
 
-// PostData.ts
 export interface User {
   name: string;
 }
@@ -50,12 +50,13 @@ export default function PostCard({
         isPressable
         onPress={onOpen}
       >
-        <Image
+        <NextImage
           alt="Post image"
-          className="object-cover"
+          className="h-full w-full object-cover"
           height={300}
           width={300}
-          src={urlImage}
+          src={urlImage || "/Lomito.jpg"}
+          
         />
       </Card>
       <Modal isOpen={isOpen} onClose={onClose} size="5xl">

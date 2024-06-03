@@ -18,7 +18,7 @@ interface FullPostCardProps {
 
 export default function FullPostCard({ id, urlImage, avatar, user, content, race, size, age, instagram, whatsapp, facebook }: FullPostCardProps) {
   return (
-    <Card className="min-h-[640px] items-stretch flex flex-row " key={id}>
+    <Card className="h-[640px] items-stretch flex flex-row " key={id}>
       <div className="flex flex-col  gap-8 w-1/2 bg-gray-300">
         <NextImage  alt="Post image" width={1000} height={0} src={urlImage || "/Lomito.jpg"} className="h-full w-auto object-cover" />
       </div>

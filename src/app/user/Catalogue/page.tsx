@@ -4,6 +4,18 @@ import UserButton from "@/Components/UserButton/UserButton";
 import PostCard from "@/Components/PostCard/PostCard";
 import { PostCardProps } from "@/Components/PostCard/PostCard";  
 import { PostData } from "@/Components/PostCard/PostCard";
+import { sizeAnimals } from "@/data/sizeAnimals";
+import { ageAnimals } from "@/data/ageAnimals";
+
+export const getSizeLabel = (sizeValue: number): string => {
+  const sizeAnimal = sizeAnimals.find((sizeAnimal) => sizeAnimal.value === sizeValue);
+  return sizeAnimal ? sizeAnimal.label : 'Desconocido';
+};
+
+export const getAgeLabel = (ageValue: number): string => {
+  const ageAnimal = ageAnimals.find((ageAnimal) => ageAnimal.value === ageValue);
+  return ageAnimal ? ageAnimal.label : 'Desconocido';
+};
 
 export default function Catalogue() {
   const [posts, setPosts] = useState<PostCardProps[]>([]);
@@ -16,7 +28,8 @@ export default function Catalogue() {
           throw new Error("Failed to fetch data");
         }
         const data = await response.json();
-        console.log(data)
+        console.log(data);
+
         const formattedPosts = data.data.map((post: PostData, index: number) => ({
           id: index,
           urlImage: post.urlImage,
@@ -24,8 +37,8 @@ export default function Catalogue() {
           user: post.user.name,
           content: post.description,
           race: post.animal.breed,
-          size: post.animal.size.toString(),
-          age: post.animal.age.toString(),
+          size: getSizeLabel(post.animal.size),
+          age: getAgeLabel(post.animal.age),
           instagram: "",
           whatsapp: "",
           facebook: ""
