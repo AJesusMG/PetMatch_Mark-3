@@ -54,6 +54,7 @@ export default function QuestionaireForm({ setFormValues }: { setFormValues: (va
   }, [values]);
 
   React.useEffect(() => {
+
     // Recopilar razas seleccionadas
     const selected = breeds.filter((breed) => selectedBreeds.includes(breed.label));
 

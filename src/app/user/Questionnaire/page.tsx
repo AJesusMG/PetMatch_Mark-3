@@ -15,7 +15,6 @@ export default function Questionaire() {
     // Agrega la propiedad email a formValues
     const formData = { ...formValues, email: session?.user?.email };
 
-
     try {
       const response = await fetch('/api/survey', {
         method: 'POST',
