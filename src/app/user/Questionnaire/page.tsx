@@ -10,11 +10,11 @@ export default function Questionaire() {
   const { data: session } = useSession();
   const [formValues, setFormValues] = useState({});
 
-  console.log("Sesión:", session);
 
   const handleSubmit = async () => {
     // Agrega la propiedad email a formValues
     const formData = { ...formValues, email: session?.user?.email };
+
 
     try {
       const response = await fetch('/api/survey', {
