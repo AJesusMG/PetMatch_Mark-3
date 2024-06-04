@@ -1,8 +1,10 @@
 import React from "react";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@nextui-org/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function NavBar() {
+    const navigate = useRouter()
     return (
         <Navbar isBordered>
             <NavbarBrand>
@@ -33,12 +35,12 @@ export default function NavBar() {
             </NavbarContent>
             <NavbarContent justify="end">
                 <NavbarItem>
-                    <Button as={Link} href="#" variant="bordered" className="border-primary-500 text-md">
+                    <Button onClick={() => navigate.push('/auth')} href="#" variant="bordered" className="border-primary-500 text-md">
                         Iniciar Sesión
                     </Button>
                 </NavbarItem>
                 <NavbarItem>
-                    <Button as={Link} href="#" variant="solid" className="bg-success-300 font-bold text-md">
+                    <Button onClick={() => navigate.push('/auth')} href="#" variant="solid" className="bg-success-300 font-bold text-md">
                         Registrate
                     </Button>
                 </NavbarItem>

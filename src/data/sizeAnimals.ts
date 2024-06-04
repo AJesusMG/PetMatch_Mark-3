@@ -9,3 +9,10 @@ export const sizeAnimals: sizeAnimal[] = [
     { label: "Grande", value: 0.75 },
     { label: "Gigante", value: 1 },
 ]
+
+// Define the getSizeLabel function
+export const getSizeLabel = (sizeValue?: number): string => {
+    const sizeAnimal = sizeAnimals.find((sizeAnimal) => sizeAnimal.value === sizeValue);
+    return sizeAnimal ? sizeAnimal.label : 'Desconocido';
+  };
+  

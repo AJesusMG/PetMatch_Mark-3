@@ -1,22 +1,16 @@
+// page.ts
 'use client'
 import React, { useState, useEffect } from "react";
 import UserButton from "@/Components/UserButton/UserButton";
 import PostCard from "@/Components/PostCard/PostCard";
 import { PostCardProps } from "@/Components/PostCard/PostCard";  
 import { PostData } from "@/Components/PostCard/PostCard";
-import { sizeAnimals } from "@/data/sizeAnimals";
-import { ageAnimals } from "@/data/ageAnimals";
+import { getSizeLabel, sizeAnimals } from "@/data/sizeAnimals";
+import { ageAnimals, getAgeLabel } from "@/data/ageAnimals";
 
-export const getSizeLabel = (sizeValue: number): string => {
-  const sizeAnimal = sizeAnimals.find((sizeAnimal) => sizeAnimal.value === sizeValue);
-  return sizeAnimal ? sizeAnimal.label : 'Desconocido';
-};
 
-export const getAgeLabel = (ageValue: number): string => {
-  const ageAnimal = ageAnimals.find((ageAnimal) => ageAnimal.value === ageValue);
-  return ageAnimal ? ageAnimal.label : 'Desconocido';
-};
 
+// Default export function Catalogue
 export default function Catalogue() {
   const [posts, setPosts] = useState<PostCardProps[]>([]);
 
@@ -28,7 +22,7 @@ export default function Catalogue() {
           throw new Error("Failed to fetch data");
         }
         const data = await response.json();
-        console.log(data);
+        console.log(data.data);
 
         const formattedPosts = data.data.map((post: PostData, index: number) => ({
           id: index,

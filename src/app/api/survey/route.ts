@@ -27,6 +27,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ code: 400, message: "Missing fields" });
     }
 
+    
+
     // Asegúrate de que total_plus se haya calculado correctamente
     const age = parseFloat(formData.R_age);
     const size = parseFloat(formData.R_size);
@@ -38,6 +40,36 @@ export async function POST(request: NextRequest) {
     const weather = parseFloat(formData.R_weather);
 
     const total_plus = age + size + training + temperament + maintenance + timeNeeded + spaceNeeded + weather;
+
+    const check = await db.survey.findFirst({
+      where: {
+        userEmail: formData.email
+      }
+    })
+
+    if (check) {
+      const updatedSurvey = await db.survey.update({
+        where: {
+          userEmail: formData.email
+        },
+        data: {
+          R_age: age,
+          R_size: size,
+          R_species: formData.R_species,
+          R_breed: formData.R_breed, // Change the type from 'string' to 'string[]'
+          R_space: spaceNeeded,
+          R_weather: weather,
+          R_color: formData.R_color,
+          R_temperament: temperament,
+          R_cost: maintenance,
+          R_time: timeNeeded,
+          R_training: training,
+          total_plus: total_plus
+        }
+      })
+
+      return NextResponse.json({ code: 201, message: "Survey updated", updatedSurvey });
+    }
 
     const newSurvey = await db.survey.create({
       data: {

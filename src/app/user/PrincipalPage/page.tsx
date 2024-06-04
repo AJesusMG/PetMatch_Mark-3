@@ -1,108 +1,126 @@
 "use client"
-import React, { useEffect} from "react";
+import React, { useEffect, useState} from "react";
 import { Button, Link } from "@nextui-org/react";
 import PostCard from "@/Components/PostCard/PostCard";
 import { useSession } from "next-auth/react";
 
-const PostProps = [
+// const PostProps = [
 
-  {
-    id: 1,
-    image: "https://nextui.org/images/hero-card.jpeg",
-    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-    user: "Usuario 1",
-    content: "Contenido del post 1",
-    race: "Raza 1",
-    size: "Tamaño 1",
-    age: "Edad 1",
-    instagram: "@usuario1",
-    whatsapp: "+123456789",
-    facebook: "/usuario1",
-  },
-  {
-    id: 2,
-    image: "https://nextui.org/images/album-cover.png",
-    avatar: "https://i.pravatar.cc/150?u=a04258a2462d826712d",
-    user: "Usuario 2",
-    content: "Contenido del post 2",
-    race: "Raza 2",
-    size: "Tamaño 2",
-    age: "Edad 2",
-    instagram: "@usuario2",
-    whatsapp: "+987654321",
-    facebook: "/usuario2",
-  },
-  {
-    id: 3,
-    image: "https://nextui-docs-v2.vercel.app/images/fruit-1.jpeg",
-    avatar: "https://i.pravatar.cc/150?u=a04258a2462d826712d",
-    user: "Usuario 3",
-    content: "Contenido del post 3",
-    race: "Raza 3",
-    size: "Tamaño 3",
-    age: "Edad 3",
-    instagram: "@usuario3",
-    whatsapp: "+2342342323",
-    facebook: "/usuario3",
-  },
-  {
-    id: 4,
-    image: "https://nextui-docs-v2.vercel.app/images/fruit-2.jpeg",
-    avatar: "https://i.pravatar.cc/150?u=a04258a2462d826712d",
-    user: "Usuario 3",
-    content: "Contenido del post 3",
-    race: "Raza 3",
-    size: "Tamaño 3",
-    age: "Edad 3",
-    instagram: "@usuario3",
-    whatsapp: "+2342342323",
-    facebook: "/usuario3",
-  },
-  {
-    id: 5,
-    image: "https://nextui-docs-v2.vercel.app/images/fruit-3.jpeg",
-    avatar: "https://i.pravatar.cc/150?u=a04258a2462d826712d",
-    user: "Usuario 3",
-    content: "Contenido del post 3",
-    race: "Raza 3",
-    size: "Tamaño 3",
-    age: "Edad 3",
-    instagram: "@usuario3",
-    whatsapp: "+2342342323",
-    facebook: "/usuario3",
-  },
-  {
-    id: 6,
-    image: "https://nextui-docs-v2.vercel.app/images/fruit-7.jpeg",
-    avatar: "https://i.pravatar.cc/150?u=a04258a2462d826712d",
-    user: "Usuario 3",
-    content: "Contenido del post 3",
-    race: "Raza 3",
-    size: "Tamaño 3",
-    age: "Edad 3",
-    instagram: "@usuario3",
-    whatsapp: "+2342342323",
-    facebook: "/usuario3",
-  },
-  {
-    id: 7,
-    image: "https://nextui-docs-v2.vercel.app/images/fruit-8.jpeg",
-    avatar: "https://i.pravatar.cc/150?u=a04258a2462d826712d",
-    user: "Usuario 3",
-    content: "Contenido del post 3",
-    race: "Raza 3",
-    size: "Tamaño 3",
-    age: "Edad 3",
-    instagram: "@usuario3",
-    whatsapp: "+2342342323",
-    facebook: "/usuario3",
-  },
-];
+//   {
+//     id: 1,
+//     urlImage: "https://nextui.org/images/hero-card.jpeg",
+//     avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+//     user: "Usuario 1",
+//     content: "Contenido del post 1",
+//     race: "Raza 1",
+//     size: "Tamaño 1",
+//     age: "Edad 1",
+//     instagram: "@usuario1",
+//     whatsapp: "+123456789",
+//     facebook: "/usuario1",
+//   },
+//   {
+//     id: 2,
+//     urlImage: "https://nextui.org/images/album-cover.png",
+//     avatar: "https://i.pravatar.cc/150?u=a04258a2462d826712d",
+//     user: "Usuario 2",
+//     content: "Contenido del post 2",
+//     race: "Raza 2",
+//     size: "Tamaño 2",
+//     age: "Edad 2",
+//     instagram: "@usuario2",
+//     whatsapp: "+987654321",
+//     facebook: "/usuario2",
+//   },
+//   {
+//     id: 3,
+//     urlImage: "https://nextui-docs-v2.vercel.app/images/fruit-1.jpeg",
+//     avatar: "https://i.pravatar.cc/150?u=a04258a2462d826712d",
+//     user: "Usuario 3",
+//     content: "Contenido del post 3",
+//     race: "Raza 3",
+//     size: "Tamaño 3",
+//     age: "Edad 3",
+//     instagram: "@usuario3",
+//     whatsapp: "+2342342323",
+//     facebook: "/usuario3",
+//   },
+//   {
+//     id: 4,
+//     urlImage: "https://nextui-docs-v2.vercel.app/images/fruit-2.jpeg",
+//     avatar: "https://i.pravatar.cc/150?u=a04258a2462d826712d",
+//     user: "Usuario 3",
+//     content: "Contenido del post 3",
+//     race: "Raza 3",
+//     size: "Tamaño 3",
+//     age: "Edad 3",
+//     instagram: "@usuario3",
+//     whatsapp: "+2342342323",
+//     facebook: "/usuario3",
+//   },
+//   {
+//     id: 5,
+//     urlImage: "https://nextui-docs-v2.vercel.app/images/fruit-3.jpeg",
+//     avatar: "https://i.pravatar.cc/150?u=a04258a2462d826712d",
+//     user: "Usuario 3",
+//     content: "Contenido del post 3",
+//     race: "Raza 3",
+//     size: "Tamaño 3",
+//     age: "Edad 3",
+//     instagram: "@usuario3",
+//     whatsapp: "+2342342323",
+//     facebook: "/usuario3",
+//   },
+//   {
+//     id: 6,
+//     urlImage: "https://nextui-docs-v2.vercel.app/images/fruit-7.jpeg",
+//     avatar: "https://i.pravatar.cc/150?u=a04258a2462d826712d",
+//     user: "Usuario 3",
+//     content: "Contenido del post 3",
+//     race: "Raza 3",
+//     size: "Tamaño 3",
+//     age: "Edad 3",
+//     instagram: "@usuario3",
+//     whatsapp: "+2342342323",
+//     facebook: "/usuario3",
+//   },
+//   {
+//     id: 7,
+//     urlImage: "https://nextui-docs-v2.vercel.app/images/fruit-8.jpeg",
+//     avatar: "https://i.pravatar.cc/150?u=a04258a2462d826712d",
+//     user: "Usuario 3",
+//     content: "Contenido del post 3",
+//     race: "Raza 3",
+//     size: "Tamaño 3",
+//     age: "Edad 3",
+//     instagram: "@usuario3",
+//     whatsapp: "+2342342323",
+//     facebook: "/usuario3",
+//   },
+// ];
 
 export default function PrincipalPage() {
 
   const { data: session } = useSession();
   const email = session?.user?.email;
+
+
+
+  const [PostProps, setPostProps] = useState([
+    {
+    id: 1,
+    urlImage: "https://petmatchbucketcd.s3.amazonaws.com/1717172384010_582",
+    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+    user: "Usuario 1",
+    content: "Contenido del post 1",
+    breed: "Raza 1",
+    size: "Tamaño 1",
+    age: "Edad 1",
+    instagram: "@usuario1",
+    whatsapp: "+123456789",
+    facebook: "/usuario1",
+    }
+  ])
 
   useEffect(() => {
     const checkUser = async () => {
@@ -140,6 +158,50 @@ export default function PrincipalPage() {
     }
   }, [session]);
 
+  useEffect(() => {
+
+    const getPostsId = async () => {
+      try {
+
+        if (!email) return;
+        
+        const postsIds = await fetch(`https://v4utf4qdjgpkumci6ogti5psdu0urtem.lambda-url.us-east-1.on.aws/surveys/${email}`)
+
+        const result = await postsIds.json()
+
+        console.log(result);
+
+        const list = {
+          list: result
+        }
+
+        const posts = await fetch(`/api/posts/getMany`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(list),
+        })
+
+        const finalResult = await posts.json()
+
+        console.log(finalResult.data);
+        if (finalResult.data) {
+          setPostProps(finalResult.data)
+        }
+        
+        
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+    getPostsId();
+  
+    
+  }, [session])
+  
+
   
 
   return (
@@ -176,11 +238,12 @@ export default function PrincipalPage() {
             <PostCard
               key={post.id}
               id={post.id}
-              image={post.image}
+              // image={post.image}
+              urlImage={post.urlImage}
               avatar={post.avatar}
               user={post.user}
               content={post.content}
-              race={post.race}
+              race={post.breed}
               size={post.size}
               age={post.age}
               instagram={post.instagram}

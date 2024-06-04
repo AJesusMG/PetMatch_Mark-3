@@ -5,13 +5,17 @@ import { Divider } from "@nextui-org/divider";
 import { Image, user } from "@nextui-org/react";
 import { Button } from "@nextui-org/button";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Questionaire() {
   const { data: session } = useSession();
   const [formValues, setFormValues] = useState({});
+  const navigate = useRouter();
 
 
   const handleSubmit = async () => {
+
+
     // Agrega la propiedad email a formValues
     const formData = { ...formValues, email: session?.user?.email };
 
@@ -32,9 +36,19 @@ export default function Questionaire() {
       const data = await response.json();
       console.log('Respuesta del servidor:', data);
       // Puedes manejar la respuesta del servidor aquí, por ejemplo, mostrando un mensaje de éxito
+
+      if (data.code == 201) {
+        alert(data.message);
+        navigate.push('/user/PrincipalPage')
+      }
+
+      if (data.code == 500) {
+        alert("Error al enviar el cuestionario");
+      }
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
       // Puedes manejar el error aquí, por ejemplo, mostrando un mensaje de error
+      alert("Error al enviar el formulario");
     }
   };
 
