@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import UserButton from "@/Components/UserButton/UserButton";
 import { Avatar, Button, Card, CardFooter, CardHeader, CardBody, Input, Image } from "@nextui-org/react";
 
 // Datos inventados para las cards
@@ -41,7 +40,6 @@ export default function Community() {
     <div className="flex flex-col gap-8 w-full">
       <header className="flex flex-row w-full justify-between items-center sticky top-0 bg-white rounded-md p-4">
         <h1 className="text-4xl font-bold">Comunidad</h1>
-        <UserButton />
       </header>
       <div className="flex flex-col w-full h-full items-center">
         <div className="flex flex-col w-1/2">

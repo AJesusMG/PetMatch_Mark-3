@@ -1,12 +1,13 @@
 'use client'
 
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Link } from "@nextui-org/react";
 import { useSession } from 'next-auth/react';
-interface UserData{
-  name : String;
+
+interface UserData {
+  name: String;
   email: String;
-  image : String;
+  image: String;
 }
 
 export default function UserButton() {

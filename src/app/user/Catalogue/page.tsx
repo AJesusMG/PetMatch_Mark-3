@@ -51,7 +51,7 @@ export default function Catalogue() {
       <div className="flex flex-row w-full">
         <header className="flex flex-row w-full items-center justify-between">
           <h1 className="text-4xl font-bold">Mascotas en Adopción</h1>
-          <UserButton />
+          {/* <UserButton /> */}
         </header>
       </div>
       <div className="flex flex-col gap-8">

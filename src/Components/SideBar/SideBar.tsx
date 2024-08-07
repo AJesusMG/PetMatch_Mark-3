@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useEffect,useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Button, Tooltip, Modal, ModalContent, useDisclosure, Tabs, Tab, CardBody, Card, Link, CardFooter, CardHeader, CircularProgress } from "@nextui-org/react";
 import FormNewPost from "../FormNewPost/FormNewPost";
 import { useSession } from "next-auth/react";
+import UserButton from "../UserButton/UserButton";
 
 interface FormData {
   types?: string[];
@@ -42,7 +43,6 @@ const initialFormData: FormData = {
   facebook: "",
 };
 
-
 export default function Sidebar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -64,8 +64,8 @@ export default function Sidebar() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      setIsLoading(true);
+    e.preventDefault();
+    setIsLoading(true);
 
     try {
       if (imageUrl) {
@@ -74,7 +74,7 @@ export default function Sidebar() {
 
         const imageFormData = new FormData();
         imageFormData.append("image", blob, "image.jpg");
-        //First Fetch to Insert into AWS Bucket
+        // First Fetch to Insert into AWS Bucket
         const uploadResponse = await fetch("/api/testimage", {
           method: "POST",
           body: imageFormData,
@@ -88,7 +88,7 @@ export default function Sidebar() {
           const postFormData = {
             ...formData,
             imageUrl: data.url,
-            userEmail: session?.user?.email || '' 
+            userEmail: session?.user?.email || ''
           };
 
           const postResponse = await fetch("/api/posts", {
@@ -116,7 +116,7 @@ export default function Sidebar() {
       setIsLoading(false);
     }
   };
-  
+
   useEffect(() => {
     if (!isLoading) {
       onClose();
@@ -125,72 +125,81 @@ export default function Sidebar() {
 
   return (
     <nav className="xl:h-screen shadow-xl xl:w-fit w-full flex lg:flex-col p-4">
-      <div className="flex xl:flex-col xl:gap-6 w-full justify-between flex-row">
-        <Image src="/Logo.svg" width={50} height={50} alt="Logo" />
+      <div className="flex flex-col justify-between h-full w-full">
+        <div className="flex xl:flex-col xl:gap-6 w-full justify-between flex-row items-center">
+          <Image
+            src="/Logo.svg"
+            width={50}
+            height={50}
+            alt="Logo"
+            className="hidden xl:block" // Ocultar en móviles, mostrar en pantallas grandes
+          />
 
-        <Tooltip content="Catálogo Personal" placement="right" size="sm">
-          <Button
-            variant="light"
-            className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
-            color="primary"
-            radius="sm"
-            isIconOnly
-            as={Link} // Enlace al catálogo
-            href="/user/PrincipalPage"
-          >
-            <span className="material-symbols-outlined">
-              local_library
-            </span>
-          </Button>
-        </Tooltip>
-        
-        <Tooltip content="Catálogo" placement="right" size="sm">
-          <Button
-            variant="light"
-            className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
-            color="primary"
-            radius="sm"
-            isIconOnly
-            as={Link} // Enlace al catálogo
-            href="/user/Catalogue"
-          >
-            <span className="material-symbols-outlined">auto_stories</span>
-          </Button>
-        </Tooltip>
+          <div className="flex flex-row gap-4 w-full justify-between xl:flex-col">
+            <Tooltip content="Catálogo Personal" placement="right" size="sm">
+              <Button
+                variant="light"
+                className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
+                color="primary"
+                radius="sm"
+                isIconOnly
+                as={Link} // Enlace al catálogo
+                href="/user/PrincipalPage"
+              >
+                <span className="material-symbols-outlined">local_library</span>
+              </Button>
+            </Tooltip>
 
-        <Tooltip content="Comunidad" placement="right" size="sm">
-          <Button
-            variant="light"
-            className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
-            color="primary"
-            radius="sm"
-            isIconOnly
-            as={Link} // Enlace al catálogo
-            href="/user/Community"
-          >
-            <span className="material-symbols-outlined">groups</span>
-          </Button>
-        </Tooltip>
+            <Tooltip content="Catálogo" placement="right" size="sm">
+              <Button
+                variant="light"
+                className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
+                color="primary"
+                radius="sm"
+                isIconOnly
+                as={Link} // Enlace al catálogo
+                href="/user/Catalogue"
+              >
+                <span className="material-symbols-outlined">auto_stories</span>
+              </Button>
+            </Tooltip>
 
-        <Tooltip content="Subir" placement="right" size="sm">
-          <Button
-            variant="light"
-            className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
-            color="primary"
-            radius="sm"
-            isIconOnly
-            onPress={onOpen}
-          >
-            <span className="material-symbols-outlined">add_a_photo</span>
-          </Button>
-        </Tooltip>
+            <Tooltip content="Comunidad" placement="right" size="sm">
+              <Button
+                variant="light"
+                className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
+                color="primary"
+                radius="sm"
+                isIconOnly
+                as={Link} // Enlace al catálogo
+                href="/user/Community"
+              >
+                <span className="material-symbols-outlined">groups</span>
+              </Button>
+            </Tooltip>
 
+            <Tooltip content="Subir" placement="right" size="sm">
+              <Button
+                variant="light"
+                className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
+                color="primary"
+                radius="sm"
+                isIconOnly
+                onPress={onOpen}
+              >
+                <span className="material-symbols-outlined">add_a_photo</span>
+              </Button>
+            </Tooltip>
+            
+            <UserButton />
+          </div>
+        </div>
         <Modal isOpen={isOpen} onClose={onClose} className="p-2" size="2xl">
           <ModalContent className="max-h-[90vh] overflow-auto">
             <form onSubmit={handleSubmit} className="flex flex-col h-full">
               <Tabs aria-label="Options">
                 <Tab key="formulario" title="Formulario">
-                  <FormNewPost onFormDataChange={handleFormDataChange}/>
+                  <FormNewPost onFormDataChange={handleFormDataChange} />
                 </Tab>
                 <Tab key="imagen" title="Subir Imagen">
                   <Card>
@@ -226,7 +235,7 @@ export default function Sidebar() {
                       </div>
                       <CardFooter className="flex justify-center">
                         {isLoading ? (
-                          <CircularProgress aria-label="Loading..."/>
+                          <CircularProgress aria-label="Loading..." />
                         ) : (
                           <Button
                             type="submit"
