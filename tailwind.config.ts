@@ -23,6 +23,7 @@ const config: Config = {
           700: "#b36900",
           800: "#804500",
           900: "#4d2700",
+          
         },
         secondary: {
           50: "#fff8e6",
@@ -61,6 +62,9 @@ const config: Config = {
           900: "#4d1114",
         },
       },
+      light:{
+        500: "#FEAE21", // Tu color personalizado
+      }
     },
   },
   darkMode: "class",

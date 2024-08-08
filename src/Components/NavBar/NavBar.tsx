@@ -35,12 +35,12 @@ export default function NavBar() {
             </NavbarContent>
             <NavbarContent justify="end">
                 <NavbarItem>
-                    <Button onClick={() => navigate.push('/auth')} href="#" variant="bordered" className="border-primary-500 text-md">
+                    <Button onClick={() => navigate.push('/sign-in')} href="#" variant="bordered" className="border-primary-500 text-md">
                         Iniciar Sesión
                     </Button>
                 </NavbarItem>
                 <NavbarItem>
-                    <Button onClick={() => navigate.push('/auth')} href="#" variant="solid" className="bg-success-300 font-bold text-md">
+                    <Button onClick={() => navigate.push('/sign-up')} href="#" variant="solid" className="bg-success-300 font-bold text-md">
                         Registrate
                     </Button>
                 </NavbarItem>

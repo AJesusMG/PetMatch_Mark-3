@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Providers from "@/app/Providers";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,15 +16,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <head>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
-      </head>
-      <body className={inter.className}>
-        <Providers>
-        {children}
-        </Providers>
+      <ClerkProvider
+        appearance={{
+            layout:{
+                logoImageUrl:"/img/logo.svg",
+            },
+            variables:{
+            
+                colorText:'#010101',
+                colorPrimary:'#99E550',
+                colorBackground:'#fff',
+                colorInputBackground:'#fff',
+                colorInputText:'#010101',
+                colorTextOnPrimaryBackground:'#010101',
+                colorTextSecondary:"#010101"
+              }
+        }}
+      > 
+      <html lang="es">
+        <head>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
+        </head>
+        <body className={inter.className}>
+          {children}
         </body>
-    </html>
+      </html>
+    </ClerkProvider>
   );
 }

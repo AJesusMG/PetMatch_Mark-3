@@ -7,3 +7,41 @@ html, body, :root{
     height: 100%;
 }
 
+.cl-dividerLine {
+  background: #010101;
+}
+
+.cl-socialButtonsIconButton{
+    border: 3px solid #565761;
+    background: #fff
+}
+
+.cl-socialButtonsIconButton:hover {
+    background: #f5f5f5;
+}
+
+.cl-internal-wkkub3 {
+    color: white;
+  }
+
+.cl-footerActionLink{
+    color: #010101
+}
+
+.cl-logoBox {
+    height: 60px;
+}
+
+.cl-userButtonAvatarBox {
+    width: 40px;
+    height: 40px;
+}
+
+.cl-userButtonAvatarImage{
+    width: 40px;
+    height: 40px;
+}
+
+.cl-userButtonPopoverActionButton{
+    color: #010101
+}
