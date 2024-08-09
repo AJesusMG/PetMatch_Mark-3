@@ -4,8 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Button, Tooltip, Modal, ModalContent, useDisclosure, Tabs, Tab, CardBody, Card, Link, CardFooter, CardHeader, CircularProgress } from "@nextui-org/react";
 import FormNewPost from "../FormNewPost/FormNewPost";
-import { useSession } from "next-auth/react";
-import UserButton from "../UserButton/UserButton";
+import { SignedIn, SignedOut, SignInButton, SignOutButton, UserButton } from "@clerk/nextjs";
 
 interface FormData {
   types?: string[];
@@ -43,14 +42,17 @@ const initialFormData: FormData = {
   facebook: "",
 };
 
+// Datos de usuario estáticos
+const staticUser = {
+  email: "user@example.com"
+};
+
 export default function Sidebar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const imageIptRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { data: session } = useSession();
-  console.log(session);
 
   const handleShowImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -74,7 +76,8 @@ export default function Sidebar() {
 
         const imageFormData = new FormData();
         imageFormData.append("image", blob, "image.jpg");
-        // First Fetch to Insert into AWS Bucket
+
+        // Primera solicitud para insertar en el bucket de AWS
         const uploadResponse = await fetch("/api/testimage", {
           method: "POST",
           body: imageFormData,
@@ -82,13 +85,13 @@ export default function Sidebar() {
 
         if (uploadResponse.ok) {
           const data = await uploadResponse.json();
-          console.log("Image uploaded successfully. URL:", data.url);
+          console.log("Imagen subida correctamente. URL:", data.url);
 
-          // Second Fetch to Insert into DB
+          // Segunda solicitud para insertar en la base de datos
           const postFormData = {
             ...formData,
             imageUrl: data.url,
-            userEmail: session?.user?.email || ''
+            userEmail: staticUser.email 
           };
 
           const postResponse = await fetch("/api/posts", {
@@ -100,18 +103,18 @@ export default function Sidebar() {
           });
 
           if (postResponse.ok) {
-            console.log("Form submitted successfully.");
+            console.log("Formulario enviado correctamente.");
           } else {
-            console.error("Failed to submit data. Status:", postResponse.status);
+            console.error("Error al enviar los datos. Estado:", postResponse.status);
           }
         } else {
-          console.error("Failed to upload image. Status:", uploadResponse.status);
+          console.error("Error al subir la imagen. Estado:", uploadResponse.status);
         }
       } else {
-        console.error("Image URL is null. Unable to upload.");
+        console.error("La URL de la imagen es nula. No se puede subir.");
       }
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error("Error al subir la imagen:", error);
     } finally {
       setIsLoading(false);
     }
@@ -125,74 +128,75 @@ export default function Sidebar() {
 
   return (
     <nav className="xl:h-screen shadow-xl xl:w-fit w-full flex lg:flex-col p-4">
-      <div className="flex flex-col justify-between h-full w-full">
-        <div className="flex xl:flex-col xl:gap-6 w-full justify-between flex-row items-center">
-          <Image
-            src="/Logo.svg"
-            width={50}
-            height={50}
-            alt="Logo"
-            className="hidden xl:block" // Ocultar en móviles, mostrar en pantallas grandes
-          />
+  <div className="flex flex-col h-full justify-between w-full">
+    <div className="flex flex-col gap-6">
+      <Image src="/Logo.svg" width={50} height={50} alt="Logo" />
 
-          <div className="flex flex-row gap-4 w-full justify-between xl:flex-col">
-            <Tooltip content="Catálogo Personal" placement="right" size="sm">
-              <Button
-                variant="light"
-                className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
-                color="primary"
-                radius="sm"
-                isIconOnly
-                as={Link} // Enlace al catálogo
-                href="/user/PrincipalPage"
-              >
-                <span className="material-symbols-outlined">local_library</span>
-              </Button>
-            </Tooltip>
+      <Tooltip content="Catálogo Personal" placement="right" size="sm">
+        <Button
+          variant="light"
+          className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
+          color="primary"
+          radius="sm"
+          isIconOnly
+          as={Link}
+          href="/user/PrincipalPage"
+        >
+          <span className="material-symbols-outlined">local_library</span>
+        </Button>
+      </Tooltip>
 
-            <Tooltip content="Catálogo" placement="right" size="sm">
-              <Button
-                variant="light"
-                className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
-                color="primary"
-                radius="sm"
-                isIconOnly
-                as={Link} // Enlace al catálogo
-                href="/user/Catalogue"
-              >
-                <span className="material-symbols-outlined">auto_stories</span>
-              </Button>
-            </Tooltip>
+      <Tooltip content="Catálogo" placement="right" size="sm">
+        <Button
+          variant="light"
+          className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
+          color="primary"
+          radius="sm"
+          isIconOnly
+          as={Link}
+          href="/user/Catalogue"
+        >
+          <span className="material-symbols-outlined">auto_stories</span>
+        </Button>
+      </Tooltip>
 
-            <Tooltip content="Comunidad" placement="right" size="sm">
-              <Button
-                variant="light"
-                className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
-                color="primary"
-                radius="sm"
-                isIconOnly
-                as={Link} // Enlace al catálogo
-                href="/user/Community"
-              >
-                <span className="material-symbols-outlined">groups</span>
-              </Button>
-            </Tooltip>
-            <Tooltip content="Subir" placement="right" size="sm">
-              <Button
-                variant="light"
-                className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
-                color="primary"
-                radius="sm"
-                isIconOnly
-                onPress={onOpen}
-              >
-                <span className="material-symbols-outlined">add_a_photo</span>
-              </Button>
-            </Tooltip>
-            
-            <UserButton />
-          </div>
-        </div>
+      <Tooltip content="Comunidad" placement="right" size="sm">
+        <Button
+          variant="light"
+          className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
+          color="primary"
+          radius="sm"
+          isIconOnly
+          as={Link}
+          href="/user/Community"
+        >
+          <span className="material-symbols-outlined">groups</span>
+        </Button>
+      </Tooltip>
+
+      <Tooltip content="Subir" placement="right" size="sm">
+        <Button
+          variant="light"
+          className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
+          color="primary"
+          radius="sm"
+          isIconOnly
+          onPress={onOpen}
+        >
+          <span className="material-symbols-outlined">add_a_photo</span>
+        </Button>
+      </Tooltip>
+    </div>
+
+    <div className="p-2 mt-auto">
+      <SignedIn>
+        <UserButton/>
+      </SignedIn>
+      <SignedOut>
+        <SignInButton/>
+      </SignedOut>
+    </div>
+
         <Modal isOpen={isOpen} onClose={onClose} className="p-2" size="2xl">
           <ModalContent className="max-h-[90vh] overflow-auto">
             <form onSubmit={handleSubmit} className="flex flex-col h-full">

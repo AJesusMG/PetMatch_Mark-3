@@ -1,17 +1,18 @@
 import { useRouter } from 'next/navigation';
 import { FcGoogle } from 'react-icons/fc';
 import { Button } from '@nextui-org/react';
-import { signIn, useSession } from 'next-auth/react';
 
 export const Social = () => {
-    const { data: session } = useSession();
-
-
     const handleGoogleSignIn = async () => {
-        await signIn('google', {callbackUrl: "http://juanpagod.com/user/PrincipalPage"});
+        // Lógica de signIn con Google
+        try {
+            // Simulación de la redirección después de iniciar sesión con Google
+            const callbackUrl = "http://juanpagod.com/user/PrincipalPage";
+            window.location.href = callbackUrl;
+        } catch (error) {
+            console.error("Error al iniciar sesión con Google:", error);
+        }
     };
-
-    
 
     return (
         <div className="flex items-center w-full gap-x-2">
