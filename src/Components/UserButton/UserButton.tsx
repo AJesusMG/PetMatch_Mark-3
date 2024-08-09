@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Link } from "@nextui-org/react";
 
 interface UserData {
