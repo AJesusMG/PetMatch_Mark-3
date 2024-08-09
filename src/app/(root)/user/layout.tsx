@@ -1,6 +1,7 @@
 
 import { ReactNode } from "react";
 import Sidebar from "@/Components/SideBar/SideBar";
+import RightSidebar from "@/Components/RightSideBar/RightSideBar";
 
 export default function LayoutUser({ children }: { children: ReactNode }) {
 
@@ -10,6 +11,7 @@ export default function LayoutUser({ children }: { children: ReactNode }) {
       <div className="p-6 pb-20 lg:h-screen overflow-auto w-full">
         {children}
       </div>
+        <RightSidebar/>
     </div>
   );
 }

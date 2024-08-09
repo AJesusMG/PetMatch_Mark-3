@@ -7,6 +7,37 @@ html, body, :root{
     height: 100%;
 }
 
+@layer components{
+    .rightsidebar {
+        @apply sticky right-0 top-0 z-20 flex h-screen w-96 flex-col justify-between gap-12 overflow-auto border-l px-10 pb-6 pt-28 max-xl:hidden;
+    }      
+}
+
+@layer utilities{
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 3px;
+        height: 3px;
+        border-radius: 2px;
+      }
+    
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #09090a;
+      }
+    
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #5c5c7b;
+        border-radius: 50px;
+      }
+    
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #7878a3;
+      }
+}
+
+.thread-card_bar {
+    @apply relative mt-2 w-0.5 grow rounded-full bg-neutral-400;
+}
+
 .cl-dividerLine {
   background: #010101;
 }
