@@ -91,7 +91,7 @@ export default function Sidebar() {
           const postFormData = {
             ...formData,
             imageUrl: data.url,
-            userEmail: staticUser.email 
+            userEmail: staticUser.email
           };
 
           const postResponse = await fetch("/api/posts", {
@@ -140,7 +140,7 @@ export default function Sidebar() {
           />
 
           <div className="flex flex-row gap-4 w-full justify-between xl:flex-col">
-            <Tooltip content="Catálogo Personal" placement="right" size="sm">
+            <Tooltip content="Recomendaciones" placement="right" size="sm">
               <Button
                 variant="light"
                 className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
@@ -197,10 +197,10 @@ export default function Sidebar() {
         </div>
         <div className="p-2 mt-auto">
           <SignedIn>
-            <UserButton/>
+            <UserButton />
           </SignedIn>
           <SignedOut>
-            <SignInButton/>
+            <SignInButton />
           </SignedOut>
         </div>
         <Modal isOpen={isOpen} onClose={onClose} className="p-2" size="2xl">

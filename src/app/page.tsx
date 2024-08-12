@@ -39,7 +39,6 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <NavBar />
-      <Hero3DComponent />
       <div id="conoce-petmatch" className="flex flex-col px-24 mt-32 space-y-32 mb-32">
         <div className="flex justify-between">
 

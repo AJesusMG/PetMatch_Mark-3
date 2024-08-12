@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import CommunityCard from "@/Components/CommunityCard/CommunityCard";
 import AddComment from "@/Components/AddComment/AddComment";
+import RightSidebar from "@/Components/RightSideBar/RightSideBar";
 
 const Community = () => {
   const [posts, setPosts] = useState([
@@ -31,30 +32,35 @@ const Community = () => {
     },
   ]);
 
-  const handleFavorite = (id:any) => {
+  const handleFavorite = (id: any) => {
     console.log(`Post ${id} marcado como favorito`);
   };
 
-  const handleAddComment = (id:any) => {
+  const handleAddComment = (id: any) => {
     console.log(`Agregar comentario en post ${id}`);
   };
 
-  const handleReply = (id:any) => {
+  const handleReply = (id: any) => {
     console.log(`Responder al post ${id}`);
   };
 
   return (
-    <div>
+    <div className="flex flex-row gap-4">
+      <div className="flex flex-col w-full">
       <header className="flex flex-row w-full justify-between items-center top-0 bg-white rounded-md p-4">
         <h1 className="text-4xl font-bold">Comunidad</h1>
       </header>
-      <AddComment/>
-      <CommunityCard
-        posts={posts}
-        handleFavorite={handleFavorite}
-        handleAddComment={handleAddComment}
-        handleReply={handleReply}
-      />
+        <AddComment />
+        <CommunityCard
+          posts={posts}
+          handleFavorite={handleFavorite}
+          handleAddComment={handleAddComment}
+          handleReply={handleReply}
+        />
+      </div>
+      <div>
+        <RightSidebar />
+      </div>
     </div>
   );
 };

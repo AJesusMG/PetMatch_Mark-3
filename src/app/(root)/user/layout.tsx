@@ -11,7 +11,6 @@ export default function LayoutUser({ children }: { children: ReactNode }) {
       <div className="p-6 pb-20 lg:h-screen overflow-auto w-full">
         {children}
       </div>
-        <RightSidebar/>
     </div>
   );
 }

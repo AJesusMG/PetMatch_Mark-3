@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Avatar, Card, CardFooter, CardHeader, Image } from "@nextui-org/react";
 
 interface Post {
@@ -17,6 +18,17 @@ interface CommunityCardProps {
 }
 
 const CommunityCard: React.FC<CommunityCardProps> = ({ posts, handleFavorite, handleAddComment, handleReply }) => {
+  const [favorites, setFavorites] = useState<number[]>([]);
+
+  const toggleFavorite = (id: number) => {
+    if (favorites.includes(id)) {
+      setFavorites(favorites.filter(favId => favId !== id));
+    } else {
+      setFavorites([...favorites, id]);
+    }
+    handleFavorite(id);
+  };
+
   return (
     <>
       {posts.map((post) => (
@@ -35,7 +47,11 @@ const CommunityCard: React.FC<CommunityCardProps> = ({ posts, handleFavorite, ha
             </div>
           </CardHeader>
           <CardFooter className="flex flex-row items-center gap-10 ml-5">
-            <button onClick={() => handleFavorite(post.id)} className="material-symbols-outlined">
+            <button
+              onClick={() => toggleFavorite(post.id)}
+              className="material-symbols-outlined"
+              style={{ color: favorites.includes(post.id) ? 'red' : 'black' }}
+            >
               favorite
             </button>
             <button onClick={() => handleAddComment(post.id)} className="material-symbols-outlined">
