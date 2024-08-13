@@ -170,7 +170,7 @@ export const Navbar1Defaults: Navbar1Props = {
   },
   navLinks: [
     { title: "Home", url: "#Home" },
-    { title: "Plataforma", url: "#" },
+    { title: "Plataforma", url: "#Plataforma" },
     { title: "Red Social", url: "#" },
     {
       title: "Planes",
