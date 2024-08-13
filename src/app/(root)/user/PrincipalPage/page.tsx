@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Link } from "@nextui-org/react";
 import PostCard from "@/Components/PostCard/PostCard";
 
@@ -16,6 +16,7 @@ const staticUser = {
   image: "/path/to/default/avatar.jpg" // Cambia esto a la ruta de tu imagen por defecto
 };
 
+// Datos de posts estáticos
 const staticPosts = [
   {
     id: 1,
@@ -35,13 +36,20 @@ const staticPosts = [
 export default function PrincipalPage() {
   const email = staticUser.email;
 
+  // Estado para almacenar los posts
   const [PostProps, setPostProps] = useState(staticPosts);
+  
+  // Estado para controlar si el cuestionario ha sido resuelto
+  const [questionnaireResolved, setQuestionnaireResolved] = useState(true);
 
+  // Comprobación inicial del usuario
   useEffect(() => {
     const checkUser = async () => {
       try {
+        // Petición para comprobar si el usuario existe
         const response = await fetch(`/api/user/${email}`);
         if (!response.ok) {
+          // Si no existe, se registra el usuario
           const requestBody = {
             name: staticUser.name,
             email: staticUser.email,
@@ -68,8 +76,9 @@ export default function PrincipalPage() {
     };
 
     checkUser();
-  }, []);
+  }, [email]);
 
+  // Petición para obtener los IDs de los posts y los datos completos de los posts
   useEffect(() => {
     const getPostsId = async () => {
       try {
@@ -104,37 +113,47 @@ export default function PrincipalPage() {
     };
 
     getPostsId();
-  }, []);
+  }, [email]);
+
+  // Función para manejar el click en el botón de cuestionario
+  const handleQuestionnaireClick = () => {
+    setQuestionnaireResolved(true);
+  };
 
   return (
     <div className="flex flex-col gap-16 w-full h-full">
-      <div className="flex w-full">
-        <div className="flex flex-col">
-          <h1 className="text-center text-7xl">
-            Bienvenidos a{" "}
-            <p className="text-6xl text-primary-500 font-bold">PetMatch</p>
-          </h1>
-          <div className="flex w-1/2 mx-auto mt-8">
-            <p className="text-center text-xl">
-              ¿Buscas a tu compañero perfecto de cuatro patas? ¡No busques más!
-              En nuestra plataforma, te conectamos con los animales en adopción
-              que están ansiosos por encontrar un hogar amoroso.
-            </p>
-          </div>
-          <div className="flex mx-auto mt-8">
-            <Button
-              className="bg-success-300 font-bold text-xl"
-              size="lg"
-              as={Link} // Enlace al catálogo
-              href="/user/Questionnaire"
-            >
-              Resolver Cuestionario
-            </Button>
+      {/* Renderiza el contenido de bienvenida solo si el cuestionario no ha sido resuelto */}
+      {!questionnaireResolved && (
+        <div className="flex w-full">
+          <div className="flex flex-col">
+            <h1 className="text-center text-7xl">
+              Bienvenidos a{" "}
+              <p className="text-6xl text-primary-500 font-bold">PetMatch</p>
+            </h1>
+            <div className="flex w-1/2 mx-auto mt-8">
+              <p className="text-center text-xl">
+                ¿Buscas a tu compañero perfecto de cuatro patas? ¡No busques más!
+                En nuestra plataforma, te conectamos con los animales en adopción
+                que están ansiosos por encontrar un hogar amoroso.
+              </p>
+            </div>
+            <div className="flex mx-auto mt-8">
+              <Button
+                className="bg-success-300 font-bold text-xl"
+                size="lg"
+                as={Link} // Enlace al catálogo
+                href="/user/Questionnaire"
+                onClick={handleQuestionnaireClick} // Maneja el click para actualizar el estado
+              >
+                Resolver Cuestionario
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
+      {/* Renderiza la lista de mascotas en adopción */}
       <div className="flex flex-col gap-8">
-        <h1 className="text-2xl font-bold">Mascotas en adopción</h1>
+        <h1 className="text-4xl font-bold">Tus Recomendaciones</h1>
         <div className="grid grid-cols-5 gap-4">
           {PostProps.map((post) => (
             <PostCard
