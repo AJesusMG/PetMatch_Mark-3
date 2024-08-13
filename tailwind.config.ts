@@ -8,6 +8,7 @@ const config: Config = {
     "./src/contexts/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@relume_io/relume-ui/dist/*/.{js,ts,jsx,tsx}"
   ],
   theme: {
     extend: {
@@ -193,7 +194,11 @@ const config: Config = {
         },
       },
     }),
+    require('@tailwindcss/typography')
   ],
+  presets: [
+    require("@relume_io/relume-tailwind")
+  ]
 };
 
 export default config;
