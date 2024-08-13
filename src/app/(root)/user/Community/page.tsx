@@ -25,7 +25,7 @@ const Community = () => {
       id: 3,
       user: "Usuario3",
       message: "¿Cuál es la mejor manera de introducir un nuevo ave en casa?",
-      avatar: "https://i.pravatar.cc/150?u=a04258114e29026304d",
+      avatar: "https://i.pravatar.cc/150?u=a04258114e29026303d",
       image: "/Ave.jpg",
       comments: 12,
     },
