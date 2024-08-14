@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
         const result = posts.map((post) => ({
             ...post,
             avatar: post.user.photoUrl,
-            user: post.user.name,
+            user: post.user.username,
             breed: post.animal?.breed,
             size: post.animal?.size,
             age: post.animal?.age,

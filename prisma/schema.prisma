@@ -65,8 +65,9 @@ model comment {
   id               String    @id @default(auto()) @map("_id") @db.ObjectId
   text             String
   createdAt        DateTime  @default(now())
+  imgUrl           String?
   communityId      String?   @db.ObjectId
-  userId           String?   @db.ObjectId
+  userId           String   @db.ObjectId
   parentId         String?   @db.ObjectId
 
   user             user?     @relation("UserComments", fields: [userId], references: [id])

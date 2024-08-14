@@ -87,3 +87,41 @@ export async function PATCH() {
       await prisma.$disconnect();
     }
   }
+
+  export async function DELETE(request: NextRequest) {
+    // Obtén el userId desde los parámetros de la URL
+    const userId = request.nextUrl.searchParams.get("userId");
+  
+    // Verifica si el userId está presente en los parámetros
+    if (!userId) {
+      return NextResponse.json({
+        code: 400,
+        message: "La URL no contiene un parámetro 'userId'.",
+      });
+    }
+  
+    try {
+      // Intenta eliminar el usuario por su ID
+      const deleteResult = await prisma.user.delete({
+        where: {
+          id: userId,
+        },
+      });
+  
+      return NextResponse.json({
+        code: 200,
+        message: "Usuario eliminado correctamente.",
+        data: deleteResult,
+      });
+    } catch (error) {
+      console.error("Error al eliminar el usuario:", error);
+  
+      // Manejo de errores cuando el usuario no se encuentra o cualquier otro error
+      return NextResponse.json({
+        code: 500,
+        message: "Ocurrió un error al intentar eliminar el usuario.",
+      });
+    } finally {
+      await prisma.$disconnect();
+    }
+  }
