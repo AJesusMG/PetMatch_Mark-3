@@ -1,4 +1,5 @@
 "use client"
+
 import React, { useEffect, useState } from "react";
 import CommunityCard from "@/Components/CommunityCard/CommunityCard";
 import AddComment from "@/Components/AddComment/AddComment";
@@ -66,7 +67,7 @@ const Community = () => {
     console.log(`Agregar comentario en post ${id}`);
   };
 
-  const handleReply = (id: string) => {
+  const handleReply = (id: any) => {
     console.log(`Responder al post ${id}`);
   };
 
@@ -82,6 +83,22 @@ const Community = () => {
         handleAddComment={handleAddComment}
         handleReply={handleReply}
       />
+    <div className="flex flex-row gap-4">
+      <div className="flex flex-col w-full">
+      <header className="flex flex-row w-full justify-between items-center top-0 bg-white rounded-md p-4">
+        <h1 className="text-4xl font-bold">Comunidad</h1>
+      </header>
+        <AddComment />
+        <CommunityCard
+          posts={posts}
+          handleFavorite={handleFavorite}
+          handleAddComment={handleAddComment}
+          handleReply={handleReply}
+        />
+      </div>
+      <div>
+        <RightSidebar />
+      </div>
     </div>
   );
 };
