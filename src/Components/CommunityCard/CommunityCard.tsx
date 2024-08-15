@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Avatar, Card, CardFooter, CardHeader, Image } from "@nextui-org/react";
 
 interface Post {
-  id: number;
+  id: string;
   user: string;
   message: string;
   avatar: string;
@@ -10,11 +10,11 @@ interface Post {
   comments: number;
 }
 
-interface CommunityCardProps {
-  posts: Post[];
-  handleFavorite: (id: number) => void;
-  handleAddComment: (id: number) => void;
-  handleReply: (id: number) => void;
+
+const CommunityCard: React.FC<CommunityCardProps> = ({ posts, handleFavorite, handleAddComment, handleReply }) => {
+  handleFavorite: (id: string) => void;
+  handleAddComment: (id: string) => void;
+  handleReply: (id: string) => void;
 }
 
 const CommunityCard: React.FC<CommunityCardProps> = ({ posts, handleFavorite, handleAddComment, handleReply }) => {
@@ -28,7 +28,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({ posts, handleFavorite, ha
     }
     handleFavorite(id);
   };
-
+  
   return (
     <>
       {posts.map((post) => (

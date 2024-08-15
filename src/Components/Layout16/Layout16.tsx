@@ -10,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 import type { ButtonProps } from "@relume_io/relume-ui";
 import { Button } from "@nextui-org/react";
 
+
 type ImageProps = {
   src: string;
   alt?: string;
@@ -99,7 +100,6 @@ export const Layout16 = (props: Layout16Props) => {
       });
     }
   }, []);
-
   return (
     <section id="#Plataforma" className="px-[5%] py-16 md:py-24 lg:py-28">
       <div className="container">
@@ -153,3 +153,4 @@ export const Layout16Defaults: Layout16Props = {
     alt: "Placeholder image",
   },
 };
+
