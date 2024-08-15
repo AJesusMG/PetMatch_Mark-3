@@ -144,7 +144,7 @@ const SubMenu = ({ navLink, isMobile }: { navLink: NavLink; isMobile: boolean })
             initial="close"
             exit="close"
             transition={{ duration: 0.2 }}
-            className="bg-background-primary lg:absolute lg:z-50 lg:border lg:border-border-primary lg:p-2 lg:[--y-close:25%]"
+            className="bg-background-primary lg:absolute lg:z-50 lg:border lg:border-border-primary rounded-md shadow-xsmall lg:p-2 lg:[--y-close:25%]"
           >
             {navLink.subMenuLinks?.map((navLink, index) => (
               <a
