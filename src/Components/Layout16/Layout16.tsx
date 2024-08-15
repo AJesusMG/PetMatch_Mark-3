@@ -1,5 +1,14 @@
+import { useEffect } from "react";
+import SplitType from "split-type";
+import { gsap } from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import MotionPathPlugin from "gsap/MotionPathPlugin";
+
+// Registrar los plugins de GSAP
+gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+
 import type { ButtonProps } from "@relume_io/relume-ui";
-import { Button } from "@nextui-org/react"
+import { Button } from "@nextui-org/react";
 
 type ImageProps = {
   src: string;
@@ -27,6 +36,70 @@ export const Layout16 = (props: Layout16Props) => {
     ...Layout16Defaults,
     ...props,
   } as Props;
+
+  useEffect(() => {
+    setupDefaultTextAnimations();
+
+    function queryElementsWithExclusion(selectors: string[]): NodeListOf<HTMLElement> {
+      return document.querySelectorAll(
+        selectors.map(selector => `${selector}:not(.exclude)`).join(', ')
+      );
+    }
+
+    function setupDefaultTextAnimations() {
+      const elements = queryElementsWithExclusion([
+        "p",
+        ".u-text-medium",
+        ".u-text-label-small",
+        ".u-text-label-large",
+        ".u-text-h5",
+        ".u-text-large",
+        ".footer-link",
+        ".title-small",
+        ".default-text",
+        ".u-text-link",
+        "h1",
+        "h2",
+        "h3",
+        "li",
+      ]);
+
+      console.log('Found elements:', elements.length);
+
+      if (elements.length === 0) {
+        console.warn('No elements found for the provided selectors.');
+        return;
+      }
+
+      elements.forEach((element) => {
+        try {
+          // Split text into spans using SplitType
+          const splitText = new SplitType(element, { types: 'words' });
+
+          if (splitText.words && splitText.words.length > 0) {
+            gsap.from(splitText.words, {
+              opacity: 0,
+              y: 20,
+              duration: 1,
+              ease: "power3.out",
+              stagger: 0.015,
+              scrollTrigger: {
+                trigger: element,
+                start: "top bottom",
+                end: "bottom 45%",
+                toggleActions: "play none none reverse",
+              },
+            });
+          } else {
+            console.warn('No words found in element:', element);
+          }
+        } catch (error) {
+          console.error('Error animating element:', element, error);
+        }
+      });
+    }
+  }, []);
+
   return (
     <section id="#Plataforma" className="px-[5%] py-16 md:py-24 lg:py-28">
       <div className="container">
@@ -64,7 +137,6 @@ export const Layout16Defaults: Layout16Props = {
   features: [
     {
       icon: { src: "https://relume-assets.s3.amazonaws.com/relume-icon.svg", alt: "Relume logo 1" },
-
       paragraph: " Recomendaciones basadas en IA según tu estilo de vida.",
     },
     {
@@ -73,7 +145,7 @@ export const Layout16Defaults: Layout16Props = {
     },
     {
       icon: { src: "https://relume-assets.s3.amazonaws.com/relume-icon.svg", alt: "Relume logo 3" },
-      paragraph: "Participa en discusiones y eventos exclusivos.  ",
+      paragraph: "Participa en discusiones y eventos exclusivos.",
     },
   ],
   image: {
