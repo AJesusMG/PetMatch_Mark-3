@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export async function POST(request: NextRequest) {
   try {
     // Obtiene los datos del cuerpo de la solicitud
-    const { text, communityId, userId, parentId } = await request.json();
+    const { text, communityId, userId, parentId, imgUrl } = await request.json();
 
     // Verifica que el campo 'text' no esté vacío
     if (!text) {
@@ -22,7 +22,8 @@ export async function POST(request: NextRequest) {
         text,
         communityId: communityId || null, 
         userId: userId || null,          
-        parentId: parentId || null,       
+        parentId: parentId || null,    
+        imgUrl: imgUrl || null
       },
     });
 

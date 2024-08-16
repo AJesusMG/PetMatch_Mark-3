@@ -62,3 +62,54 @@ export async function POST(request: NextRequest) {
   }
 }
 
+export async function GET(request: NextRequest) {
+  try {
+    // Obtener el parámetro de email de la URL
+    const emailParam = request.nextUrl.searchParams.get("email");
+
+    if (!emailParam) {
+      return NextResponse.json({
+        code: 400,
+        message: "La URL no contiene un parámetro 'email'.",
+      });
+    }
+
+    // Asegúrate de que el emailParam es un string válido
+    if (typeof emailParam !== 'string') {
+      return NextResponse.json({
+        code: 400,
+        message: "El valor de 'email' no es válido.",
+      });
+    }
+
+    // Buscar el usuario en la base de datos por email
+    const user = await prisma.user.findUnique({
+      where: {
+        email: emailParam,
+      },
+    });
+
+    if (!user) {
+      return NextResponse.json({
+        code: 404,
+        message: "Usuario no encontrado.",
+      });
+    }
+
+    // Retornar el userId
+    return NextResponse.json({
+      code: 200,
+      message: "Usuario encontrado.",
+      data: {
+        userId: user.id,
+      },
+    });
+  } catch (error) {
+    console.error("Error al procesar la solicitud GET:", error);
+    return NextResponse.json({
+      code: 500,
+      message: "Ocurrió un error en el servidor.",
+    });
+  }
+}
+

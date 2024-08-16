@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import CommunityCard from "@/Components/CommunityCard/CommunityCard";
-import AddComment from "@/Components/AddComment/AddComment";
+import AddPost from "@/Components/AddPost/AddPost";
 import { useUser } from "@clerk/nextjs";
 import RightSidebar from "@/Components/RightSideBar/RightSideBar";
 import { Button, Divider } from "@nextui-org/react";
@@ -80,7 +80,7 @@ const Community = () => {
             <Button variant="ghost" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Inicio</Button>
           </div>
         </header> */}
-        <AddComment />
+        <AddPost />
         <Divider/>
         <CommunityCard
           posts={posts}
