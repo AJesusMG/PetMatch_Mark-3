@@ -5,10 +5,7 @@ const AddComment = () => {
   const { user } = useUser();
 
   return (
-    <Card className="p-4">
-      <CardHeader className="flex flex-row justify-between items-center gap-4">
-        {/* Puedes agregar contenido al header aquí */}
-      </CardHeader>
+    <Card className="p-4" radius="none" shadow="none">
       <CardBody>
         <div className="flex flex-row gap-4 items-center">
           <Avatar src={user?.imageUrl} size="lg" />
