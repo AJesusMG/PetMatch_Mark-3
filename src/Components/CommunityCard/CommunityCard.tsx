@@ -6,7 +6,7 @@ interface Post {
   user: string;
   message: string;
   avatar: string;
-  image: string;
+  image?: string;  // Hacer que la imagen sea opcional
   comments: number;
 }
 
@@ -32,7 +32,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({ posts, handleFavorite, ha
   return (
     <>
       {posts.map((post) => (
-        <Card key={post.id} className="p-4 mt-4 w-full">
+        <Card key={post.id} className="p-4 w-full" radius='none' shadow='none'>
           <CardHeader className="flex flex-col gap-4">
             <div className="flex flex-row gap-4 w-full">
               <div className="flex flex-col items-center">
@@ -42,7 +42,16 @@ const CommunityCard: React.FC<CommunityCardProps> = ({ posts, handleFavorite, ha
               <div className="flex flex-col flex-grow">
                 <span className="font-bold">{post.user}</span>
                 <span className="text-gray-500">{post.message}</span>
-                <Image src={post.image} alt="Imagen del usuario" width={600} height={300} className="rounded-md mt-4" />
+                {post.image && (
+                  <Image 
+                    src={post.image} 
+                    alt="Imagen del usuario" 
+                    width={600} 
+                    height={300} 
+                    className="rounded-md mt-4 mx-auto" 
+                    style={{ maxHeight: '300px' }} 
+                  />
+                )}
               </div>
             </div>
           </CardHeader>
