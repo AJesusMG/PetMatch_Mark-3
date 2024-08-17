@@ -93,17 +93,6 @@ const PricingPlan = ({ plan, billing }: { plan: PricingPlan; billing: Billing })
                     <h5 className="mb-2 text-xl font-bold md:text-2xl">{plan.planName}</h5>
                     <p>{plan.description}</p>
                 </div>
-                <div className="text-right">
-                    <h1 className="text-6xl font-bold md:text-9xl lg:text-10xl">
-                        ${plan.price}
-                        <span className="text-2xl font-bold md:text-3xl lg:text-4xl">
-                            {billing === "monthly" ? "/mo" : "/yr"}
-                        </span>
-                    </h1>
-                    {billing === "yearly" && "discount" in plan && (
-                        <p className="mt-2 font-medium">{plan.discount}</p>
-                    )}
-                </div>
             </div>
             <div className="my-8 h-px w-full shrink-0 bg-border" />
             <p>Includes:</p>
@@ -120,7 +109,7 @@ const PricingPlan = ({ plan, billing }: { plan: PricingPlan; billing: Billing })
         </div>
         <div>
             <Button className="border-1 border-primary-500 bg-transparent hover:bg-primary-500 hover:text-white w-full p-6 text-xl font-bold">
-                Suscribirme
+                Más Información
             </Button>
         </div>
     </div>
@@ -137,7 +126,7 @@ export const Pricing17Defaults: Pricing17Props = {
             plans: [
                 {
                     icon: {
-                        src: "/Logo.svg",
+                        src: "/ZORRO1.svg",
                         alt: "Relume icon 1",
                     },
                     planName: "Plan Gratuito",
@@ -155,7 +144,7 @@ export const Pricing17Defaults: Pricing17Props = {
                 },
                 {
                     icon: {
-                        src: "/LogoGold.svg",
+                        src: "/ZORRO_DORADO1.svg",
                         alt: "Relume icon 2",
                     },
                     planName: "Business plan",

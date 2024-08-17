@@ -130,7 +130,7 @@ export default function Sidebar() {
       <div className="flex flex-col justify-between h-full w-full">
         <div className="flex xl:flex-col xl:gap-6 w-full justify-between flex-row items-center">
           <Image
-            src="/Logo.svg"
+            src="/ZORRO1.svg"
             width={50}
             height={50}
             alt="Logo"

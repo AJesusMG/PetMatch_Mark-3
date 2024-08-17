@@ -62,7 +62,7 @@ type ImageProps = {
           alt: "Webflow logo 1",
         },
         quote:
-          'PetMatch hizo que encontrar a mi perro ideal fuera una experiencia increíble. La plataforma es intuitiva y las recomendaciones fueron exactas. Me encanta compartir ¡No podría estar más feliz!',
+          '"PetMatch hizo que encontrar a mi perro ideal fuera una experiencia increíble. La plataforma es intuitiva y las recomendaciones fueron exactas. Me encanta compartir ¡No podría estar más feliz!"',
         avatar: {
           src: "/Avatar 1.svg",
           alt: "Testimonial avatar 1",

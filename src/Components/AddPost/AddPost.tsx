@@ -3,7 +3,11 @@ import { Avatar, Button, Card, CardBody, CardFooter, CircularProgress } from "@n
 import { useUser } from "@clerk/nextjs";
 import getUserId from "@/libs/actions/user.actions";
 
-const AddPost = () => {
+interface AddPostProps {
+  onPostAdded: () => void;
+}
+
+const AddPost: React.FC<AddPostProps> = ({ onPostAdded }) => {
   const { user } = useUser();
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
@@ -44,45 +48,55 @@ const AddPost = () => {
       // Obtenemos el userId basado en el email
       const userId = await getUserId(user?.primaryEmailAddress?.emailAddress || "");
 
-      if (image && userId) {
-        const formData = new FormData();
-        formData.append("image", image);
+      if (userId) {
+        let imgUrl = "";
 
-        // Primera solicitud para subir la imagen al bucket de AWS
-        const uploadResponse = await fetch("/api/uploadImage", {
-          method: "POST",
-          body: formData,
-        });
+        if (image) {
+          const formData = new FormData();
+          formData.append("image", image);
 
-        if (uploadResponse.ok) {
-          const { url } = await uploadResponse.json();
-          console.log("Imagen subida correctamente. URL:", url);
-
-          // Segunda solicitud para enviar el comentario
-          const postFormData = {
-            text: commentText,
-            imgUrl: url,
-            userId,
-          };
-
-          const postResponse = await fetch("/api/comments", {
+          // Primera solicitud para subir la imagen al bucket de AWS
+          const uploadResponse = await fetch("/api/uploadImage", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(postFormData),
+            body: formData,
           });
 
-          if (postResponse.ok) {
-            console.log("Comentario enviado correctamente.");
+          if (uploadResponse.ok) {
+            const { url } = await uploadResponse.json();
+            imgUrl = url;
+            console.log("Imagen subida correctamente. URL:", url);
           } else {
-            console.error("Error al enviar el comentario. Estado:", postResponse.status);
+            console.error("Error al subir la imagen. Estado:", uploadResponse.status);
           }
+        }
+
+        // Segunda solicitud para enviar el comentario
+        const postFormData = {
+          text: commentText,
+          imgUrl,
+          userId,
+        };
+
+        const postResponse = await fetch("/api/comments", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postFormData),
+        });
+
+        if (postResponse.ok) {
+          console.log("Comentario enviado correctamente.");
+          // Limpiar los estados del formulario
+          setCommentText("");
+          setImage(null);
+          setImageUrl(null);
+          onPostAdded(); // Llama a la función para actualizar los posts
         } else {
-          console.error("Error al subir la imagen. Estado:", uploadResponse.status);
+          console.error("Error al enviar el comentario. Estado:", postResponse.status);
         }
       } else {
-        console.error("No se pudo obtener el userId o la imagen es nula.");
+        console.error("No se pudo obtener el userId.");
       }
     } catch (error) {
       console.error("Error al enviar el comentario:", error);
@@ -133,7 +147,11 @@ const AddPost = () => {
               onChange={handleImageUpload}
             />
           </Button>
-          <Button className="bg-success-300 text-md" radius="lg" type="submit" disabled={loading}>
+          <Button
+            className={`bg-primary-500 text-md radius-lg font-bold text-white rounded-full ${!commentText ? 'opacity-50 cursor-not-allowed' : ''}`}
+            type="submit"
+            disabled={loading || !commentText}
+          >
             Post
           </Button>
         </CardFooter>
