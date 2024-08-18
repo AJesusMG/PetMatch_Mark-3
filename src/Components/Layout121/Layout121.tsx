@@ -75,7 +75,7 @@ export const Layout121Defaults: Layout121Props = {
   features: [
     {
       icon: {
-        src: "/Logo.svg",
+        src: "/ZORRO1.svg",
         alt: "Relume icon 1",
       },
       heading: "Conexiones Reales",

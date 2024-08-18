@@ -1,14 +1,22 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Avatar, Button, Card, CardBody, CardFooter, CircularProgress } from "@nextui-org/react";
 import { useUser } from "@clerk/nextjs";
-import getUserId from "@/libs/actions/user.actions";
+import { sendComment } from "@/libs/actions/comment.actions";
+import { getUserStatus } from "@/libs/actions/user.actions";
 
-const AddPost = () => {
+interface AddPostProps {
+  onPostAdded: () => void;
+  parentId?: string; // Añade esta prop opcional
+}
+
+const AddPost: React.FC<AddPostProps> = ({ onPostAdded, parentId }) => {
   const { user } = useUser();
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null); 
+  const [userId, setUserId] = useState<string | null>(null); 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const adjustTextareaHeight = () => {
@@ -21,6 +29,20 @@ const AddPost = () => {
   useEffect(() => {
     adjustTextareaHeight();
   }, []);
+
+  useEffect(() => {
+    const fetchUserStatus = async () => {
+      if (user?.primaryEmailAddress?.emailAddress) {
+        const userStatus = await getUserStatus(user.primaryEmailAddress.emailAddress);
+        if (userStatus) {
+          setUserId(userStatus.userId);
+          setPhotoUrl(userStatus.photoUrl || null);
+        }
+      }
+    };
+
+    fetchUserStatus();
+  }, [user]);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -41,48 +63,17 @@ const AddPost = () => {
     setLoading(true);
 
     try {
-      // Obtenemos el userId basado en el email
-      const userId = await getUserId(user?.primaryEmailAddress?.emailAddress || "");
+      if (userId) {
+        const success = await sendComment(commentText, image, userId, parentId);
 
-      if (image && userId) {
-        const formData = new FormData();
-        formData.append("image", image);
-
-        // Primera solicitud para subir la imagen al bucket de AWS
-        const uploadResponse = await fetch("/api/uploadImage", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (uploadResponse.ok) {
-          const { url } = await uploadResponse.json();
-          console.log("Imagen subida correctamente. URL:", url);
-
-          // Segunda solicitud para enviar el comentario
-          const postFormData = {
-            text: commentText,
-            imgUrl: url,
-            userId,
-          };
-
-          const postResponse = await fetch("/api/comments", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(postFormData),
-          });
-
-          if (postResponse.ok) {
-            console.log("Comentario enviado correctamente.");
-          } else {
-            console.error("Error al enviar el comentario. Estado:", postResponse.status);
-          }
-        } else {
-          console.error("Error al subir la imagen. Estado:", uploadResponse.status);
+        if (success) {
+          setCommentText("");
+          setImage(null);
+          setImageUrl(null);
+          onPostAdded();
         }
       } else {
-        console.error("No se pudo obtener el userId o la imagen es nula.");
+        console.error("No se pudo obtener el userId.");
       }
     } catch (error) {
       console.error("Error al enviar el comentario:", error);
@@ -96,7 +87,7 @@ const AddPost = () => {
       <form onSubmit={handleSubmit}>
         <CardBody>
           <div className="flex flex-row gap-4 items-center">
-            <Avatar src={user?.imageUrl} size="lg" />
+            <Avatar src={photoUrl || user?.imageUrl} size="lg" />
             <div className="flex-grow relative">
               <textarea
                 ref={textareaRef}
@@ -133,7 +124,11 @@ const AddPost = () => {
               onChange={handleImageUpload}
             />
           </Button>
-          <Button className="bg-success-300 text-md" radius="lg" type="submit" disabled={loading}>
+          <Button
+            className={`bg-primary-500 text-md radius-lg font-bold text-white rounded-full ${!commentText ? 'opacity-50 cursor-not-allowed' : ''}`}
+            type="submit"
+            disabled={loading || !commentText}
+          >
             Post
           </Button>
         </CardFooter>

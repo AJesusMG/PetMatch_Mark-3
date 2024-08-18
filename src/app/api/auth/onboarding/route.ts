@@ -87,6 +87,11 @@ export async function GET(request: NextRequest) {
       where: {
         email: emailParam,
       },
+      select: {
+        id: true,
+        photoUrl: true,
+        onboarded: true,
+      },
     });
 
     if (!user) {
@@ -96,13 +101,11 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Retornar el userId
+    // Retornar el userId, photoUrl, y onboarded
     return NextResponse.json({
       code: 200,
       message: "Usuario encontrado.",
-      data: {
-        userId: user.id,
-      },
+      data: user,
     });
   } catch (error) {
     console.error("Error al procesar la solicitud GET:", error);

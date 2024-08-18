@@ -44,39 +44,42 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-    try {
-      // Realiza la consulta para obtener los comentarios junto con la información del usuario relacionado
+  try {
+      // Realiza la consulta para obtener los comentarios principales (sin parentId)
       const comments = await prisma.comment.findMany({
-        select: {
-          text: true,
-          imgUrl:true,
-          user: {
-            select: {
-              fullname: true,
-              username: true,
-              photoUrl: true,
-            },
+          where: {
+              parentId: null,  // Filtra los comentarios que no tienen un parentId
           },
-        },
-        orderBy: {
-          createdAt: 'desc', // Ordena los comentarios por la fecha de creación en orden descendente
-        },
+          select: {
+              id: true,
+              text: true,
+              imgUrl: true,
+              user: {
+                  select: {
+                      fullname: true,
+                      username: true,
+                      photoUrl: true,
+                  },
+              },
+          },
+          orderBy: {
+              createdAt: 'desc', // Ordena los comentarios por la fecha de creación en orden descendente
+          },
       });
-  
+
       return NextResponse.json({
-        code: 200,
-        message: "Comentarios obtenidos exitosamente.",
-        data: comments,
+          code: 200,
+          message: "Comentarios obtenidos exitosamente.",
+          data: comments,
       });
-    } catch (error) {
+  } catch (error) {
       console.error("Error al obtener los comentarios:", error);
       return NextResponse.json({
-        code: 500,
-        message: "Ocurrió un error al obtener los comentarios.",
+          code: 500,
+          message: "Ocurrió un error al obtener los comentarios.",
       });
-    } finally {
+  } finally {
       await prisma.$disconnect();
-    }
   }
-
+}
 
