@@ -1,5 +1,5 @@
 // getUserStatus.ts
-export async function getUserStatus(email: string): Promise<{ userId: string; photoUrl: string; onboarded: boolean } | null> {
+export async function getUserStatus(email: string): Promise<{ id: string; photoUrl: string; onboarded: boolean } | null> {
   try {
     const response = await fetch(`/api/auth/onboarding?email=${email}`, {
       method: "GET",
@@ -15,9 +15,9 @@ export async function getUserStatus(email: string): Promise<{ userId: string; ph
     const data = await response.json();
     
     // Asegúrate de que la respuesta contiene los campos que esperas
-    const { userId, photoUrl, onboarded } = data.data;
+    const { id, photoUrl, onboarded } = data.data;
     
-    return { userId, photoUrl, onboarded };
+    return { id, photoUrl, onboarded };
   } catch (error) {
     console.error("Failed to fetch user status:", error);
     return null; // Maneja el error de manera adecuada en tu aplicación

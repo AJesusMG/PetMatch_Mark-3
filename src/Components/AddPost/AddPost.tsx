@@ -35,7 +35,7 @@ const AddPost: React.FC<AddPostProps> = ({ onPostAdded, parentId }) => {
       if (user?.primaryEmailAddress?.emailAddress) {
         const userStatus = await getUserStatus(user.primaryEmailAddress.emailAddress);
         if (userStatus) {
-          setUserId(userStatus.userId);
+          setUserId(userStatus.id);
           setPhotoUrl(userStatus.photoUrl || null);
         }
       }
