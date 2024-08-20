@@ -2,17 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-html, body, :root{
-    height: 100%;
-}
-
-@layer components{
-  .rightsidebar {
-      @apply sticky right-0 top-0 z-20 flex h-screen w-96 flex-col justify-between gap-12 overflow-auto border-l px-10 pb-6 pt-28 max-xl:hidden;
-  }      
-}
-
 @layer utilities{
     .custom-scrollbar::-webkit-scrollbar {
         width: 3px;

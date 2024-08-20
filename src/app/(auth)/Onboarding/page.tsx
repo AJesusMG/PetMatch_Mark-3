@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react";
-import { Button, Input, Textarea, Avatar, CircularProgress } from "@nextui-org/react";
+import { Button, Input, Textarea, Avatar, CircularProgress, Select, SelectItem } from "@nextui-org/react";
 import { FaArrowLeft } from "react-icons/fa";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
@@ -78,45 +78,72 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onNext, formData, setFormData
   };
 
   return (
-    <div className="flex flex-col gap-4 items-center w-full animate-fadeIn">
-      <h1 className="text-xl font-semibold">Termina de crear tu perfil</h1>
-      <form className="flex flex-col gap-5 items-center w-full">
-        <Input
-          type="text"
-          label="Nombre"
-          name="fullname"
-          placeholder="Escribe tu nombre completo"
-          variant="bordered"
-          className="w-1/2"
-          value={formData.fullname}
-          onChange={handleChange}
-        />
-        <Input
-          type="text"
-          label="UserName"
-          name="username"
-          placeholder="Escribe tu nombre de usuario"
-          variant="bordered"
-          className="w-1/2"
-          value={formData.username}
-          onChange={handleChange}
-        />
-        <Input
-          type="text"
-          label="Número"
-          name="phoneNumber"
-          variant="bordered"
-          placeholder="Escribe tu número"
-          className="w-1/2"
-          value={formData.phoneNumber}
-          onChange={handleChange}
-        />
+    <div className="flex flex-col gap-8 items-center w-full animate-fadeIn">
+      <h1 className="text-4xl font-semibold">Termina de crear tu perfil</h1>
+      <form className="flex flex-col gap-5 items-center w-3/4">
+        <div className="flex flex-row gap-4 w-full">
+          <div className="flex flex-col gap-4 w-full">
+            <Input
+              type="text"
+              label="Nombre"
+              name="fullname"
+              placeholder="Escribe tu nombre completo"
+              variant="bordered"
+              className="w-full"
+              value={formData.fullname}
+              onChange={handleChange}
+            />
+            <Input
+              type="text"
+              label="Username"
+              name="username"
+              placeholder="Escribe tu nombre de usuario"
+              variant="bordered"
+              className="w-full"
+              value={formData.username}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex flex-col gap-4 w-full">
+            <Input
+              type="text"
+              label="Número"
+              name="phoneNumber"
+              variant="bordered"
+              placeholder="Escribe tu número"
+              className="w-full"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+            />
+            <div className="flex flex-row gap-2 w-full">
+              <Input
+                type="text"
+                label="Edad"
+                name="phoneNumber"
+                variant="bordered"
+                placeholder="Escribe tu edad"
+                className="w-1/2"
+
+              />
+              <Select
+                variant="bordered"
+                label="Experiencia con animales"
+                placeholder="Escribe tu número"
+                className="w-1/2"
+              >
+                <SelectItem key="poca">Poca</SelectItem>
+                <SelectItem key="mediana">Mediana</SelectItem>
+                <SelectItem key="mucha">Mucha</SelectItem>
+              </Select>
+            </div>
+          </div>
+        </div>
         <Textarea
           variant="bordered"
           label="Biografía"
           name="bio"
           placeholder="Escribe algo breve sobre ti"
-          className="w-1/2"
+          className="w-full"
           value={formData.bio}
           onChange={handleChange}
         />
@@ -153,32 +180,32 @@ const UploadProfilePicture: React.FC<UploadProfilePictureProps> = ({ onBack, for
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-  
+
     try {
       if (!formData.photoUrl) throw new Error("La URL de la imagen es nula. No se puede subir.");
-  
+
       const response = await fetch(formData.photoUrl);
       const blob = await response.blob();
       const imageFormData = new FormData();
       imageFormData.append("image", blob, "image.jpg");
-  
+
       // Primera solicitud para insertar en el bucket de AWS
       const uploadResponse = await fetch("/api/uploadImage", {
         method: "POST",
         body: imageFormData,
       });
-  
+
       if (!uploadResponse.ok) throw new Error(`Error al subir la imagen. Estado: ${uploadResponse.status}`);
-  
+
       const data = await uploadResponse.json();
-  
+
       // Segunda solicitud para insertar en la base de datos
       const postFormData = {
         ...formData,
         photoUrl: data.url, // Se asegura que `photoUrl` sea la URL final de la imagen
         email: user?.primaryEmailAddress?.emailAddress,
       };
-  
+
       const postResponse = await fetch(`/api/auth/onboarding?email=${user?.primaryEmailAddress?.emailAddress}`, {
         method: "POST",
         headers: {
@@ -186,10 +213,10 @@ const UploadProfilePicture: React.FC<UploadProfilePictureProps> = ({ onBack, for
         },
         body: JSON.stringify(postFormData),
       });
-  
+
       const resBody = await postResponse.json();
       if (resBody.code !== 201) throw new Error(`Error al enviar los datos: ${resBody.message}`);
-  
+
       router.push('/user/PrincipalPage');
     } catch (error) {
       console.error("Error en el proceso de submit:", error);
@@ -197,7 +224,7 @@ const UploadProfilePicture: React.FC<UploadProfilePictureProps> = ({ onBack, for
       setIsLoading(false);
     }
   };
-  
+
 
 
   return (
@@ -205,20 +232,20 @@ const UploadProfilePicture: React.FC<UploadProfilePictureProps> = ({ onBack, for
       <h1 className="text-xl font-semibold">Sube tu foto de perfil</h1>
       <div className="flex flex-col gap-8 items-center w-full">
         <Avatar
-          src={formData.photoUrl || "https://i.pravatar.cc/150?u=a04258114e29026708c"} 
+          src={formData.photoUrl || "https://i.pravatar.cc/150?u=a04258114e29026708c"}
           className="w-60 h-60 text-large cursor-pointer"
           onClick={handleAvatarClick}
         />
-         <Button
-            type="submit"
-            className="bg-success-400 font-bold w-1/2"
-            disabled={isLoading}  
+        <Button
+          type="submit"
+          className="bg-success-400 font-bold w-1/2"
+          disabled={isLoading}
         >
-            {isLoading ? (
-              <CircularProgress aria-label="Loading..." />
-            ) : (
-              "Finalizar"
-            )}
+          {isLoading ? (
+            <CircularProgress aria-label="Loading..." />
+          ) : (
+            "Finalizar"
+          )}
         </Button>
       </div>
       <div className="w-full justify-start mt-28">

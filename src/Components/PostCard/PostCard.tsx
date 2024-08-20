@@ -59,7 +59,7 @@ export default function PostCard({
           
         />
       </Card>
-      <Modal isOpen={isOpen} onClose={onClose} size="5xl">
+      <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalContent>
           <FullPostCard
             id={id}

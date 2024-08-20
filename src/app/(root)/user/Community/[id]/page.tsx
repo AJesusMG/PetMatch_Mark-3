@@ -2,10 +2,12 @@
 import AddPost from "@/Components/AddPost/AddPost";
 import CommunityCard from "@/Components/CommunityCard/CommunityCard";
 import { useUser } from "@clerk/nextjs";
-import { Button, Divider } from "@nextui-org/react";
+import { Button, Divider, Image } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { fetchChildrenComments } from "@/libs/actions/comment.actions";
+
+
 // Define un tipo para los comentarios hijos
 interface ChildComment {
     id: string;
@@ -27,7 +29,7 @@ interface Post {
     image: string;
     comments: number;
     likes: number;
-    childrenComments: ChildComment[]; 
+    childrenComments: ChildComment[];
 }
 
 interface PageProps {
@@ -40,11 +42,11 @@ const Page: React.FC<PageProps> = ({ params }) => {
     const [post, setPost] = useState<Post | null>(null);
     const { user } = useUser();
     const router = useRouter();
-    
+
     const loadComments = async () => {
         try {
             const result = await fetchChildrenComments(params.id);
-            
+
             if (result) {
                 const { id, text, imgUrl, user: commentUser, childrenComments } = result;
                 const mainPost: Post = {
@@ -91,17 +93,24 @@ const Page: React.FC<PageProps> = ({ params }) => {
         console.log(`Responder al post ${id}`);
     };
 
+    const returnCommunity = () => {
+      router.push('/user/Community'); 
+    };
+
     return (
         <div className="flex flex-row gap-4">
             <div className="flex flex-col w-full">
-                <nav className="fixed top-0 bg-white shadow-md z-50 flex justify-between items-center p-4 w-full">
-                    <Button
-                        onClick={handleScrollToTop}
-                        className="bg-transparent text-black hover:bg-primary-500 hover:text-white text-md font-bold"
-                        radius="sm"
-                    >
-                        Inicio
-                    </Button>
+                <nav className="bg-white shadow-md z-50 flex justify-between items-center w-full fixed top-0 p-2">
+                    <div className="flex items-center gap-8">
+                        <h1 className="text-4xl font-bold cursor-pointer" onClick={returnCommunity}>Comunidad</h1>
+                        <Button
+                            onClick={handleScrollToTop}
+                            className="bg-transparent text-black hover:bg-primary-500 hover:text-white text-md font-bold"
+                            radius="sm"
+                        >
+                            Inicio
+                        </Button>
+                    </div>
                 </nav>
                 <div className="flex flex-col w-full mt-16">
                     {post && (
@@ -114,13 +123,13 @@ const Page: React.FC<PageProps> = ({ params }) => {
                                 handleReply={() => handleReply(post.id)}
                             />
                             <Divider />
-                            <AddPost 
-                                onPostAdded={loadComments} 
+                            <AddPost
+                                onPostAdded={loadComments}
                                 parentId={params.id} // Pasar el parentId al componente
                             />
+                            <Divider />
                             {post.childrenComments.length > 0 && (
                                 <div className="mt-4">
-                                    <h3 className="text-xl font-semibold my-5">Comentarios:</h3>
                                     {post.childrenComments.map((comment) => (
                                         <div key={comment.id} className="mb-4 p-4 border rounded-md">
                                             <div className="flex items-center mb-2">
@@ -128,7 +137,17 @@ const Page: React.FC<PageProps> = ({ params }) => {
                                                 <span className="font-bold">{comment.user.fullname}</span>
                                             </div>
                                             <p>{comment.text}</p>
-                                            {comment.imgUrl && <img src={comment.imgUrl} alt="Comentario" className="mt-2 max-w-full h-auto" />}
+                                            {comment.imgUrl && (
+                                                <div className="mt-4 mx-auto flex justify-center">
+                                                    <Image
+                                                        src={comment.imgUrl}
+                                                        width={600}
+                                                        height={300}
+                                                        className="rounded-md justify-center"
+                                                        style={{ maxHeight: '300px', objectFit: 'cover' }}
+                                                    />
+                                                </div>
+                                            )}
                                         </div>
                                     ))}
                                 </div>

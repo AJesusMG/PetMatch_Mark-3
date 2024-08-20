@@ -53,7 +53,7 @@ const Community: React.FC = () => {
             avatar: comment.user?.photoUrl || user?.imageUrl || "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp",
             image: comment.imgUrl || "",
             comments: comment.childrenComments?.length || 0,
-            likes: 0, // Iniciamos el contador de likes en 0
+            likes: 0,
           };
         });
 
@@ -91,13 +91,14 @@ const Community: React.FC = () => {
   };
 
   const handleReply = (id: string) => {
-    console.log(`Responder al post ${id}`); 
+    console.log(`Responder al post ${id}`);
   };
 
   return (
-    <div className="flex flex-row gap-4">
-      <div className="flex flex-col w-full">
-        <nav className="fixed top-0 bg-white shadow-md z-50 flex justify-between items-center p-4 w-full">
+    <>
+      <nav className="bg-white shadow-md z-50 flex justify-between items-center w-full fixed top-0 p-2">
+        <div className="flex items-center gap-8">
+          <h1 className="text-4xl font-bold">Comunidad</h1>
           <Button
             onClick={handleScrollToTop}
             className="bg-transparent text-black hover:bg-primary-500 hover:text-white text-md font-bold"
@@ -105,30 +106,34 @@ const Community: React.FC = () => {
           >
             Inicio
           </Button>
-        </nav>
-        <div className="flex flex-col w-full mt-16">
-          <AddPost onPostAdded={fetchComments} />
-          <Divider />
-          {posts.map((post, index) => {
-            return (
-              <div key={post.id}>
-                <CommunityCard
-                  post={post}
-                  handleFavorite={handleFavorite}
-                  handleUnfavorite={handleUnfavorite}
-                  handleAddComment={() => handleAddComment(post.id)}  
-                  handleReply={() => handleReply(post.id)}  
-                />
-                {index < posts.length - 1 && <Divider />} 
-              </div>
-            );
-          })}
+        </div>
+      </nav>
+      <div className="flex flex-row mt-16">
+        <div className="w-full flex flex-col">
+          <div className="flex flex-col w-full">
+            <AddPost onPostAdded={fetchComments} />
+            <Divider />
+            {posts.map((post, index) => {
+              return (
+                <div key={post.id}>
+                  <CommunityCard
+                    post={post}
+                    handleFavorite={handleFavorite}
+                    handleUnfavorite={handleUnfavorite}
+                    handleAddComment={() => handleAddComment(post.id)}
+                    handleReply={() => handleReply(post.id)}
+                  />
+                  {index < posts.length - 1 && <Divider />}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className="w-1/10">
+          <RightSidebar />
         </div>
       </div>
-      <div>
-        <RightSidebar />
-      </div>
-    </div>
+    </>
   );
 };
 
