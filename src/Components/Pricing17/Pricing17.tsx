@@ -5,7 +5,7 @@ import type { ButtonProps } from "@relume_io/relume-ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { BiCheck } from "react-icons/bi";
-import { Button } from "@nextui-org/react"
+import { Button } from "@nextui-org/react";
 
 type Billing = "monthly" | "yearly";
 
@@ -21,7 +21,10 @@ type PricingPlan = {
     discount?: string;
     description: string;
     features: string[];
-    button: ButtonProps;
+    button: {
+        title: string;
+        onClick?: () => void;
+    };
 };
 
 type Tab = {
@@ -50,7 +53,7 @@ export const Pricing17 = (props: Pricing17Props) => {
     const MotionTabsContent = motion(TabsContent);
 
     return (
-        <section className="px-[5%] py-16 md:py-24 lg:py-28">
+        <section id="Planes" className="px-[5%] py-16 md:py-24 lg:py-28">
             <div className="container">
                 <div className="mx-auto mb-8 max-w-lg text-center md:mb-10 lg:mb-12">
                     <h2 className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl">{heading}</h2>
@@ -82,6 +85,7 @@ export const Pricing17 = (props: Pricing17Props) => {
         </section>
     );
 };
+
 const PricingPlan = ({ plan, billing }: { plan: PricingPlan; billing: Billing }) => (
     <div className="flex h-full flex-col justify-between rounded-lg px-6 py-8 md:p-8 shadow-medium">
         <div>
@@ -95,7 +99,7 @@ const PricingPlan = ({ plan, billing }: { plan: PricingPlan; billing: Billing })
                 </div>
             </div>
             <div className="my-8 h-px w-full shrink-0 bg-border" />
-            <p>Includes:</p>
+            <p>Incluye:</p>
             <div className="mb-8 mt-4 grid grid-cols-1 gap-x-6 gap-y-4 py-2 lg:grid-cols-2">
                 {plan.features.map((feature, index) => (
                     <div key={index} className="flex self-start">
@@ -108,8 +112,11 @@ const PricingPlan = ({ plan, billing }: { plan: PricingPlan; billing: Billing })
             </div>
         </div>
         <div>
-            <Button className="border-1 border-primary-500 bg-transparent hover:bg-primary-500 hover:text-white w-full p-6 text-xl font-bold">
-                Más Información
+            <Button
+                className="border-1 border-primary-500 bg-transparent hover:bg-primary-500 hover:text-white w-full p-6 text-xl font-bold"
+                onClick={plan.button.onClick}
+            >
+                {plan.button.title}
             </Button>
         </div>
     </div>
@@ -126,21 +133,21 @@ export const Pricing17Defaults: Pricing17Props = {
             plans: [
                 {
                     icon: {
-                        src: "/ZORRO1.svg",
+                        src: "/ZORROPALTEADO1.svg",
                         alt: "Relume icon 1",
                     },
                     planName: "Plan Gratuito",
-                    description: "Lorem ipsum dolor sit amet",
+                    description: "Explora y Conecta con Mascotas",
                     price: 0.00,
                     features: [
-                        "Feature text goes here",
-                        "Feature text goes here",
-                        "Feature text goes here",
-                        "Feature text goes here",
-                        "Feature text goes here",
-                        "Feature text goes here",
+                        "Acceso completo a la red social de la comunidad.",
+                        "Visualización de publicaciones y anuncios de mascotas.",
+                        "Opción de seguir a refugios y organizaciones.",
+                        "Interacción con publicaciones mediante likes y comentarios.",
+                        "Recibir recomendaciones personalizadas basadas en preferencias.",
+                        "Acceso a recursos educativos para adoptantes.",
                     ],
-                    button: { title: "Get started" },
+                    button: { title: "Iniciar sesión" },
                 },
                 {
                     icon: {
@@ -148,21 +155,17 @@ export const Pricing17Defaults: Pricing17Props = {
                         alt: "Relume icon 2",
                     },
                     planName: "Business plan",
-                    description: "Lorem ipsum dolor sit amet",
+                    description: "Maximiza tu visibilidad y apoya la adopción de mascotas.",
                     price: 19,
                     features: [
-                        "Feature text goes here",
-                        "Feature text goes here",
-                        "Feature text goes here",
-                        "Feature text goes here",
-                        "Feature text goes here",
-                        "Feature text goes here",
-                        "Feature text goes here",
-                        "Feature text goes here",
-                        "Feature text goes here",
-                        "Feature text goes here",
+                        "Publicación destacada de animales disponibles para adopción.",
+                        "Acceso a herramientas avanzadas de publicidad y promoción.",
+                        "Soporte personalizado para optimización de anuncios.",
+                        "Opción de crear publicaciones tipo Instagram para atraer más atención.",
+                        "Participación en eventos y campañas promocionales organizados por PetMatch.",
+                        "Herramientas para contactar directamente a posibles adoptantes.",
                     ],
-                    button: { title: "Get started" },
+                    button: { title: "Más Información" },
                 },
             ],
         },

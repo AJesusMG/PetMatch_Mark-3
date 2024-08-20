@@ -38,7 +38,7 @@ export const Layout121 = (props: Layout121Props) => {
   const height = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section className="px-[5%] py-16 md:py-24 lg:py-28">
+    <section id="Red Social" className="px-[5%] py-16 md:py-24 lg:py-28">
       <div className="container grid grid-cols-1 items-start gap-y-8 md:grid-cols-2 md:gap-x-12 lg:gap-x-20">
         <div>
           <p className="mb-3 font-semibold md:mb-4">{tagline}</p>
@@ -71,11 +71,11 @@ export const Layout121 = (props: Layout121Props) => {
 };
 
 export const Layout121Defaults: Layout121Props = {
-  heading: "Más que una red social Más que una app",
+  heading: "Más que una red social",
   features: [
     {
       icon: {
-        src: "/ZORRO1.svg",
+        src: "PM 05 A.svg",
         alt: "Relume icon 1",
       },
       heading: "Conexiones Reales",
@@ -84,7 +84,7 @@ export const Layout121Defaults: Layout121Props = {
     },
     {
       icon: {
-        src: "https://relume-assets.s3.amazonaws.com/relume-icon.svg",
+        src: "PM 05 B.svg",
         alt: "Relume icon 2",
       },
       heading: "Soporte Integral",
@@ -93,7 +93,7 @@ export const Layout121Defaults: Layout121Props = {
     },
     {
       icon: {
-        src: "https://relume-assets.s3.amazonaws.com/relume-icon.svg",
+        src: "PM 05 C.svg",
         alt: "Relume icon 3",
       },
       heading: "Eventos y Actividades",
@@ -102,7 +102,7 @@ export const Layout121Defaults: Layout121Props = {
     },
     {
       icon: {
-        src: "https://relume-assets.s3.amazonaws.com/relume-icon.svg",
+        src: "PM 05 D.svg",
         alt: "Relume icon 4",
       },
       heading: "Actualizaciones Continuas",

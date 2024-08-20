@@ -101,7 +101,7 @@ export const Layout16 = (props: Layout16Props) => {
   }, []);
 
   return (
-    <section id="#Plataforma" className="px-[5%] py-16 md:py-24 lg:py-28">
+    <section id="Plataforma" className="px-[5%] py-16 md:py-24 lg:py-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-y-12 md:grid-cols-2 md:items-center md:gap-x-12 lg:gap-x-20">
           <div>
@@ -117,9 +117,6 @@ export const Layout16 = (props: Layout16Props) => {
                 </li>
               ))}
             </ul>
-            <div className="mt-6 flex items-center gap-x-4 md:mt-8">
-              <Button className="border-1 border-primary-500 bg-transparent hover:bg-primary-500 hover:text-white">Más información</Button>
-            </div>
           </div>
           <div>
             <img src={image.src} className="w-full object-cover" alt={image.alt} />
@@ -136,20 +133,20 @@ export const Layout16Defaults: Layout16Props = {
     "PetMatch no es solo una plataforma de adopción, es una comunidad creada para mejorar la conexión entre humanos y mascotas. Gracias a nuestra tecnología avanzada y enfoque en la personalización, te garantizamos una experiencia única y enriquecedora.",
   features: [
     {
-      icon: { src: "https://relume-assets.s3.amazonaws.com/relume-icon.svg", alt: "Relume logo 1" },
+      icon: { src: "PM 05 A.svg", alt: "Relume logo 1" },
       paragraph: " Recomendaciones basadas en IA según tu estilo de vida.",
     },
     {
-      icon: { src: "https://relume-assets.s3.amazonaws.com/relume-icon.svg", alt: "Relume logo 2" },
+      icon: { src: "PM 05 A.svg", alt: "Relume logo 2" },
       paragraph: "Comparte fotos y conecta con otros amantes de los animales.",
     },
     {
-      icon: { src: "https://relume-assets.s3.amazonaws.com/relume-icon.svg", alt: "Relume logo 3" },
+      icon: { src: "PM 05 A.svg", alt: "Relume logo 3" },
       paragraph: "Participa en discusiones y eventos exclusivos.",
     },
   ],
   image: {
-    src: "/Plataforma.svg",
+    src: "/Plataforma.png",
     alt: "Placeholder image",
   },
 };

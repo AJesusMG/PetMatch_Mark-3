@@ -92,7 +92,7 @@ export const Footer4 = (props: Footer4Props) => {
 export const Footer4Defaults: Footer4Props = {
   logo: {
     url: "#",
-    src: "/ZORRO1.svg",
+    src: "/PM 04 v2.svg",
     alt: "Logo image",
   },
   columnLinks: [
