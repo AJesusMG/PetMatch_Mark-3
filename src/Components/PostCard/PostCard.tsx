@@ -24,7 +24,8 @@ export interface PostCardProps {
   id: number;
   urlImage?: string; 
   avatar?: string;   
-  user?: string;     
+  fullname?: string;     
+  username?: string;
   content: string;
   race?: string;     
   size?: string;     
@@ -34,9 +35,8 @@ export interface PostCardProps {
   facebook?: string;  
 }
 
-
 export default function PostCard({
-  id, urlImage, avatar, user, content, race, size, age, instagram, whatsapp, facebook
+  id, urlImage, avatar, fullname, username, content, race, size, age, instagram, whatsapp, facebook
 }: PostCardProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -56,7 +56,6 @@ export default function PostCard({
           height={300}
           width={300}
           src={urlImage || "/Lomito.jpg"}
-          
         />
       </Card>
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
@@ -65,7 +64,8 @@ export default function PostCard({
             id={id}
             urlImage={urlImage}
             avatar={avatar}
-            user={user}
+            fullname={fullname}
+            username={username}
             content={content}
             race={race}
             size={size}

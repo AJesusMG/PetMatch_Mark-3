@@ -105,7 +105,7 @@ export const Navbar1 = (props: Navbar1Props) => {
             </div>
           ))}
           <div className="mt-6 flex flex-col items-center gap-4 lg:ml-4 lg:mt-0 lg:flex-row">
-            <Button onClick={signIn} className="border-1 border-primary-500 bg-transparent hover:bg-primary-500 hover:text-white">Iniciar Sesión</Button>
+            <Button onClick={signIn} className="border-1 border-primary-500 bg-transparent hover:bg-primary-500 hover:text-white">Iniciar sesión</Button>
             <Button onClick={signUp} className="bg-success-400">Registrate</Button>
           </div>
         </motion.div>
@@ -183,7 +183,7 @@ export const Navbar1Defaults: Navbar1Props = {
   },
   navLinks: [
     { title: "Plataforma", url: "#Plataforma" },
-    { title: "Red Social", url: "#Red Social" },
+    { title: "Red Social", url: "#Red social" },
     { title: "Planes", url: "#Planes" },
     { title: "Testigos", url: "#Testigos" },
   ],

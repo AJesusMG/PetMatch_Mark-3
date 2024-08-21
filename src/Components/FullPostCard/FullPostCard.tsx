@@ -6,7 +6,8 @@ interface FullPostCardProps {
   id: number;
   urlImage?: string;
   avatar?: string;
-  user?: string;
+  fullname?: string;
+  username?: string;
   content: string;
   race?: string;
   size?: string;
@@ -16,7 +17,7 @@ interface FullPostCardProps {
   facebook?: string;
 }
 
-export default function FullPostCard({ id, urlImage, avatar, user, content, race, size, age, instagram, whatsapp, facebook }: FullPostCardProps) {
+export default function FullPostCard({ id, urlImage, avatar, fullname, username, content, race, size, age, instagram, whatsapp, facebook }: FullPostCardProps) {
   return (
     <Card className="h-[560px] items-stretch flex flex-row " key={id}>
       <div className="flex flex-col  gap-8 w-1/2 bg-gray-300">
@@ -26,11 +27,11 @@ export default function FullPostCard({ id, urlImage, avatar, user, content, race
         <header className="flex flex-row items-center justify-between">
           <div className="flex flex-row gap-4 items-center">
             <Avatar src={avatar} size="md" />
-            <p className="text-sm">{user}</p>
+            <p className="text-sm">{fullname} <span className="text-gray-500">@{username}</span></p>
           </div>
-          <Button isIconOnly className="bg-transparent"><span className="material-symbols-outlined">
-            more_horiz
-          </span></Button>
+          <Button isIconOnly className="bg-transparent">
+            <span className="material-symbols-outlined">more_horiz</span>
+          </Button>
         </header>
         <div className="flex-1">
           <p className="text-md text-justify">{content || "No content available"}</p>

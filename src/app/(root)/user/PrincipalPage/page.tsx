@@ -1,7 +1,10 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import { Button, Link } from "@nextui-org/react";
 import PostCard from "@/Components/PostCard/PostCard";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import { getUserStatus } from "@/libs/actions/user.actions";
 
 interface UserData {
   name: string;
@@ -13,7 +16,7 @@ interface UserData {
 const staticUser = {
   name: "Nombre del Usuario",
   email: "usuario@example.com",
-  image: "/path/to/default/avatar.jpg" // Cambia esto a la ruta de tu imagen por defecto
+  image: "/path/to/default/avatar.jpg", // Cambia esto a la ruta de tu imagen por defecto
 };
 
 // Datos de posts estáticos
@@ -30,17 +33,38 @@ const staticPosts = [
     instagram: "@usuario1",
     whatsapp: "+123456789",
     facebook: "/usuario1",
-  }
+  },
 ];
 
 export default function PrincipalPage() {
+  const { user } = useUser();
+  const router = useRouter();
   const email = staticUser.email;
 
   // Estado para almacenar los posts
   const [PostProps, setPostProps] = useState(staticPosts);
-  
+
   // Estado para controlar si el cuestionario ha sido resuelto
   const [questionnaireResolved, setQuestionnaireResolved] = useState(true);
+
+  // Verifica el estado de onboarded del usuario
+  useEffect(() => {
+    const checkUserOnboardingStatus = async () => {
+      if (user && user.emailAddresses[0].emailAddress) {
+        try {
+          const email = user.emailAddresses[0].emailAddress;
+          const userStatus = await getUserStatus(email);
+          if (userStatus && !userStatus.onboarded) {
+            router.push("/Onboarding");
+          }
+        } catch (error) {
+          console.error("Error al verificar el estado del usuario:", error);
+        }
+      }
+    };
+
+    checkUserOnboardingStatus();
+  }, [user, router]);
 
   // Comprobación inicial del usuario
   useEffect(() => {
@@ -56,22 +80,22 @@ export default function PrincipalPage() {
             password: "",
           };
 
-          const registerResponse = await fetch('/api/auth/register', {
-            method: 'POST',
+          const registerResponse = await fetch("/api/auth/register", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify(requestBody),
           });
 
-          console.log('Register Response:', registerResponse);
+          console.log("Register Response:", registerResponse);
 
           if (!registerResponse.ok) {
-            throw new Error('Error al registrar el usuario');
+            throw new Error("Error al registrar el usuario");
           }
         }
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     };
 
@@ -84,19 +108,21 @@ export default function PrincipalPage() {
       try {
         if (!email) return;
 
-        const postsIds = await fetch(`https://v4utf4qdjgpkumci6ogti5psdu0urtem.lambda-url.us-east-1.on.aws/surveys/${email}`);
+        const postsIds = await fetch(
+          `https://v4utf4qdjgpkumci6ogti5psdu0urtem.lambda-url.us-east-1.on.aws/surveys/${email}`
+        );
         const result = await postsIds.json();
 
         console.log(result);
 
         const list = {
-          list: result
+          list: result,
         };
 
-        const posts = await fetch(`/api/posts/getMany`, {
-          method: 'POST',
+        const posts = await fetch("/api/posts/getMany", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(list),
         });
@@ -161,7 +187,8 @@ export default function PrincipalPage() {
               id={post.id}
               urlImage={post.urlImage}
               avatar={post.avatar}
-              user={post.user}
+              fullname={post.user}
+              username={post.user}
               content={post.content}
               race={post.breed}
               size={post.size}
