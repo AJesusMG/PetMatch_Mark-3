@@ -183,7 +183,7 @@ export const Navbar1Defaults: Navbar1Props = {
   },
   navLinks: [
     { title: "Plataforma", url: "#Plataforma" },
-    { title: "Red Social", url: "#Red social" },
+    { title: "Red social", url: "#Red Social" },
     { title: "Planes", url: "#Planes" },
     { title: "Testigos", url: "#Testigos" },
   ],
