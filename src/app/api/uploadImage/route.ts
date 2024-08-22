@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     const Body = (await file.arrayBuffer()) as Buffer;
 
 
-    const resizedImage = await formatImage(Body);
+    const resizedImage = await formatImage(Body, 640);
 
 
     if (!resizedImage) {

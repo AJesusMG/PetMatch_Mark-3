@@ -2,11 +2,11 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import sharp from "sharp";
 import NameGenerator from "./nameGenerator";
 
-export async function formatImage(image: Buffer) {
+export async function formatImage(image: Buffer, size?: number) {
   try {
     return await sharp(image)
       .rotate()
-      .resize({width: 640, height: 640})
+      .resize({width: size, height: size})
       .toFormat("webp", { mozjpeg: true })
       .toBuffer();
   } catch (error) {
