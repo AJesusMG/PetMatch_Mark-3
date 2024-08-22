@@ -34,11 +34,11 @@ export const Navbar1 = (props: Navbar1Props) => {
   const router = useRouter();
 
   const signIn = () => {
-    router.push('/sign-in'); 
+    router.push('/sign-in');
   };
 
   const signUp = () => {
-    router.push('/sign-up'); 
+    router.push('/sign-up');
   };
 
   const { logo, navLinks, buttons } = {
@@ -53,9 +53,9 @@ export const Navbar1 = (props: Navbar1Props) => {
     <nav className="flex w-full items-center bg-white lg:min-h-18 lg:px-[5%] fixed top-0 z-50">
       <div className="size-full lg:flex lg:items-center lg:justify-between">
         <div className="flex min-h-16 items-center justify-between px-[5%] md:min-h-18 lg:min-h-full lg:px-0">
-          <a href={logo.url} className="flex flex-row items-center gap-4 text-xl font-bold">
-            <img src={logo.src} alt={logo.alt} className="w-[70px] h-[70px]" />
-            PetMatch
+          <a href={logo.url} className="flex items-center gap-4 text-xl font-bold">
+            <img src={logo.src} alt={logo.alt} className="h-[50px] mb-6" />
+            <span className="leading-none">PetMatch</span>
           </a>
           <button
             className="-mr-2 flex size-12 flex-col items-center justify-center lg:hidden"
@@ -111,6 +111,7 @@ export const Navbar1 = (props: Navbar1Props) => {
         </motion.div>
       </div>
     </nav>
+
   );
 };
 
@@ -178,7 +179,7 @@ const SubMenu = ({ navLink, isMobile }: { navLink: NavLink; isMobile: boolean })
 export const Navbar1Defaults: Navbar1Props = {
   logo: {
     url: "#Home",
-    src: "/ZORRO1.svg",
+    src: "ZORRO_SIN1.png",
     alt: "Logo image",
   },
   navLinks: [
