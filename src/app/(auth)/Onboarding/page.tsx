@@ -116,7 +116,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onNext, formData, setFormData
             />
             <Input
               type="text"
-              label="Username"
+              label="Nombre de usuario"
               name="username"
               placeholder="Escribe tu nombre de usuario"
               variant="bordered"
@@ -188,6 +188,10 @@ const UploadProfilePicture: React.FC<UploadProfilePictureProps> = ({ onBack, for
     fileInput.onchange = (event) => {
       const file = (event.target as HTMLInputElement).files?.[0];
       if (file) {
+        if (file.size > 8 * 1024 * 1024 || !file.type.startsWith("image/")) {
+          alert("El archivo debe ser una imagen y no superar los 8MB");
+          return;
+        }
         const localUrl = URL.createObjectURL(file);
         setFormData((prevData) => ({
           ...prevData,

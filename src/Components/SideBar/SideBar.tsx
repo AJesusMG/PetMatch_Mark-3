@@ -54,7 +54,14 @@ export default function Sidebar() {
   const handleShowImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (file.size > 8 * 1024 * 1024 || !file.type.startsWith("image/")) {
+        alert("El archivo debe ser una imagen y no superar los 8MB");
+        setImageUrl(null);
+        e.target.value = "";
+        return;
+      }
       setImageUrl(URL.createObjectURL(file));
+      e.target.value = "";
     }
   };
 
