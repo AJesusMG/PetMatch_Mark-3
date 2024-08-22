@@ -178,7 +178,7 @@ const SubMenu = ({ navLink, isMobile }: { navLink: NavLink; isMobile: boolean })
 export const Navbar1Defaults: Navbar1Props = {
   logo: {
     url: "#Home",
-    src: "/ZORRO1.svg",
+    src: "/ZORRO_SIN1.webp",
     alt: "Logo image",
   },
   navLinks: [

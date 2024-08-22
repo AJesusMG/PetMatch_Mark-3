@@ -64,7 +64,7 @@ type ImageProps = {
         quote:
           '"PetMatch hizo que encontrar a mi perro ideal fuera una experiencia increíble. La plataforma es intuitiva y las recomendaciones fueron exactas. Me encanta compartir ¡No podría estar más feliz!"',
         avatar: {
-          src: "/Avatar 1.svg",
+          src: "/Avatar 1.webp",
           alt: "Testimonial avatar 1",
         },
         name: "Jane Cooper",
@@ -79,7 +79,7 @@ type ImageProps = {
         quote:
           '"Adoptar a mi gata a través de PetMatch ha sido una experiencia fantástica. La comunidad es acogedora y llena de recursos útiles. Me encanta compartir y aprender con otros amantes de los animales."',
         avatar: {
-          src: "Avatar 2.svg",
+          src: "Avatar 2.webp",
           alt: "Testimonial avatar 2",
         },
         name: "Wade Warren",
@@ -94,7 +94,7 @@ type ImageProps = {
         quote:
           '"Gracias a PetMatch, encontré la mascota perfecta para mí. La plataforma no solo facilitó la adopción, sino que también ofrece eventos y recursos valiosos para el cuidado de mi nueva amiga."',
         avatar: {
-          src: "Avatar 3.svg",
+          src: "Avatar 3.webp",
           alt: "Testimonial avatar 3",
         },
         name: "Ronald Richards",

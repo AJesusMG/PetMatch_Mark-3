@@ -133,20 +133,20 @@ export const Layout16Defaults: Layout16Props = {
     "PetMatch no es solo una plataforma de adopción, es una comunidad creada para mejorar la conexión entre humanos y mascotas. Gracias a nuestra tecnología avanzada y enfoque en la personalización, te garantizamos una experiencia única y enriquecedora.",
   features: [
     {
-      icon: { src: "PM 05 A.svg", alt: "Relume logo 1" },
+      icon: { src: "PM 05 A.webp", alt: "Relume logo 1" },
       paragraph: " Recomendaciones basadas en IA según tu estilo de vida.",
     },
     {
-      icon: { src: "PM 05 A.svg", alt: "Relume logo 2" },
+      icon: { src: "PM 05 A.webp", alt: "Relume logo 2" },
       paragraph: "Comparte fotos y conecta con otros amantes de los animales.",
     },
     {
-      icon: { src: "PM 05 A.svg", alt: "Relume logo 3" },
+      icon: { src: "PM 05 A.webp", alt: "Relume logo 3" },
       paragraph: "Participa en discusiones y eventos exclusivos.",
     },
   ],
   image: {
-    src: "/Plataforma.png",
+    src: "Plataforma.webp",
     alt: "Placeholder image",
   },
 };

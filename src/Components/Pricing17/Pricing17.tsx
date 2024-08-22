@@ -133,7 +133,7 @@ export const Pricing17Defaults: Pricing17Props = {
             plans: [
                 {
                     icon: {
-                        src: "/ZORROPALTEADO1.svg",
+                        src: "/ZORROPALTEADO1.webp",
                         alt: "Relume icon 1",
                     },
                     planName: "Plan Gratuito",
@@ -151,7 +151,7 @@ export const Pricing17Defaults: Pricing17Props = {
                 },
                 {
                     icon: {
-                        src: "/ZORRO_DORADO1.svg",
+                        src: "/ZORRO_DORADO1.webp",
                         alt: "Relume icon 2",
                     },
                     planName: "Business plan",

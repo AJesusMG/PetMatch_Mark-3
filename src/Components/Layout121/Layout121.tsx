@@ -75,7 +75,7 @@ export const Layout121Defaults: Layout121Props = {
   features: [
     {
       icon: {
-        src: "PM 05 A.svg",
+        src: "ZORRO1.webp",
         alt: "Relume icon 1",
       },
       heading: "Conexiones Reales",
@@ -84,7 +84,7 @@ export const Layout121Defaults: Layout121Props = {
     },
     {
       icon: {
-        src: "PM 05 B.svg",
+        src: "PM 05 B.webp",
         alt: "Relume icon 2",
       },
       heading: "Soporte Integral",
@@ -93,7 +93,7 @@ export const Layout121Defaults: Layout121Props = {
     },
     {
       icon: {
-        src: "PM 05 C.svg",
+        src: "PM 05 C.webp",
         alt: "Relume icon 3",
       },
       heading: "Eventos y Actividades",
@@ -102,7 +102,7 @@ export const Layout121Defaults: Layout121Props = {
     },
     {
       icon: {
-        src: "PM 05 D.svg",
+        src: "PM 05 D.webp",
         alt: "Relume icon 4",
       },
       heading: "Actualizaciones Continuas",

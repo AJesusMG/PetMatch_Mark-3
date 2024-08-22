@@ -54,15 +54,15 @@ export default function FullPostCard({ id, urlImage, avatar, fullname, username,
           <h1 className="text-md font-bold">Contactame</h1>
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-2 items-center">
-              <Image src="/Instagram.svg" radius="none" />
+              <Image src="/Instagram.webp" radius="none" className=" w-[30px] h-[30px]" />
               <p className="text-md font-bold">{instagram}</p>
             </div>
             <div className="flex flex-row gap-2 items-center">
-              <Image src="/WhatsApp.svg" radius="none" />
+              <Image src="/WhatsApp.webp" radius="none" className=" w-[30px] h-[30px]" />
               <p className="text-md font-bold">{whatsapp}</p>
             </div>
             <div className="flex flex-row gap-2 items-center">
-              <Image src="/Facebook.svg" radius="none" />
+              <Image src="/Facebook.webp" radius="none" className=" w-[30px] h-[30px]" />
               <p className="text-md font-bold">{facebook}</p>
             </div>
           </div>

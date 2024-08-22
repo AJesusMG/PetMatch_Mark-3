@@ -60,7 +60,7 @@ export const Header26Defaults: Header26Props = {
     "PetMatch te conecta con la mascota perfecta para ti a través de un cuestionario especializado que analiza tu estilo de vida y preferencias. ¡Transforma la adopción en una experiencia personalizada y enriquecedora!",
   buttons: [{ title: "Inicia Sesión" }],
   image: {
-    src: "/HeroImage.png",
+    src: "HeroImage.webp",
     alt: "Placeholder image",
   },
 };
