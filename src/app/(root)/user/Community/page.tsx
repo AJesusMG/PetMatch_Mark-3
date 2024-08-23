@@ -96,7 +96,7 @@ const Community: React.FC = () => {
 
   return (
     <>
-      <nav className="bg-white shadow-md z-50 flex justify-between items-center w-full fixed top-0 p-2">
+      <nav className="backdrop-blur-2xl shadow-md z-50 flex justify-between items-center w-full fixed top-0 p-2">
         <div className="flex items-center gap-8">
           <h1 className="text-4xl font-bold">Comunidad</h1>
           <Button
@@ -108,9 +108,9 @@ const Community: React.FC = () => {
           </Button>
         </div>
       </nav>
-      <div className="flex flex-row mt-16">
+      <div className="flex flex-row mt-11">
         <div className="w-full flex flex-col">
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full border-2">
             <AddPost onPostAdded={fetchComments} />
             <Divider />
             {posts.map((post, index) => {

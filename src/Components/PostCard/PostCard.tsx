@@ -44,7 +44,7 @@ export default function PostCard({
     <>
       <Card
         isHoverable
-        radius="lg"
+        radius="sm"
         className="border-none transition-transform duration-300 ease-in-out transform-gpu hover:scale-105 w-64 h-64"
         key={id}
         isPressable

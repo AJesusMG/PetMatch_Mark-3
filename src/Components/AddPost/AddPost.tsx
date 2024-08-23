@@ -15,8 +15,8 @@ const AddPost: React.FC<AddPostProps> = ({ onPostAdded, parentId }) => {
   const [loading, setLoading] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [photoUrl, setPhotoUrl] = useState<string | null>(null); 
-  const [userId, setUserId] = useState<string | null>(null); 
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const adjustTextareaHeight = () => {
@@ -83,11 +83,13 @@ const AddPost: React.FC<AddPostProps> = ({ onPostAdded, parentId }) => {
   };
 
   return (
-    <Card className="p-4" radius="none" shadow="none">
-      <form onSubmit={handleSubmit}>
+    <Card className="p-4 flex flex-row" radius="none" shadow="none">
+      <div className="flex items-start h-full">
+        <Avatar src={photoUrl || user?.imageUrl} size="md" />
+      </div>
+      <form onSubmit={handleSubmit} className="flex flex-col w-full -mt-3">
         <CardBody>
           <div className="flex flex-row gap-4 items-center">
-            <Avatar src={photoUrl || user?.imageUrl} size="lg" />
             <div className="flex-grow relative">
               <textarea
                 ref={textareaRef}
@@ -106,7 +108,7 @@ const AddPost: React.FC<AddPostProps> = ({ onPostAdded, parentId }) => {
               {loading ? (
                 <CircularProgress size="lg" />
               ) : (
-                <img src={imageUrl} alt="Uploaded" className="w-full max-w-md h-auto object-cover mx-auto" style={{ maxHeight: '300px' }} />
+                <img src={imageUrl} alt="Uploaded" className="w-full max-w-md h-auto object-cover mx-auto rounded-md" style={{ maxHeight: '450px', objectFit: 'cover' }} />
               )}
             </div>
           )}
@@ -125,7 +127,8 @@ const AddPost: React.FC<AddPostProps> = ({ onPostAdded, parentId }) => {
             />
           </Button>
           <Button
-            className={`bg-primary-500 text-md radius-lg font-bold text-white rounded-full ${!commentText ? 'opacity-50 cursor-not-allowed' : ''}`}
+          size="sm"
+            className={`bg-primary-500 text-sm radius-lg font-bold text-white rounded-full ${!commentText ? 'opacity-50 cursor-not-allowed' : ''}`}
             type="submit"
             disabled={loading || !commentText}
           >

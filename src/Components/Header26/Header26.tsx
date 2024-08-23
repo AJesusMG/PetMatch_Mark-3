@@ -29,7 +29,7 @@ export const Header26 = (props: Header26Props) => {
     ...props,
   } as Props;
   return (
-    <section id="Home" className="px-[5%] py-16 md:py-24 lg:py-28 bg-gradient-to-tr from-primary-200 via-success-100/20 to-white">
+    <section id="Home" className="px-[5%] py-18 md:py-24 lg:py-28 bg-gradient-to-tr from-primary-200 via-success-100/20 to-white">
       <div className="container">
         <div className="flex flex-col items-center">
           <div className="mb-12 text-center md:mb-18 lg:mb-20">
@@ -39,7 +39,7 @@ export const Header26 = (props: Header26Props) => {
               </h1>
               <p className="md:text-md">{description}</p>
               <div className="mt-6 flex items-center justify-center gap-x-4 md:mt-8">
-                <Button className="bg-primary-500 text-white" radius="sm" onClick={signIn}>Inicia Sesión <span className="material-symbols-outlined">
+                <Button className="bg-primary-500 text-white" radius="sm" onClick={signIn}>Inicia sesión <span className="material-symbols-outlined">
                   arrow_forward
                 </span></Button>
               </div>

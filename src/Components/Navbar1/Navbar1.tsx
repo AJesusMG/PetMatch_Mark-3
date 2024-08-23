@@ -34,11 +34,11 @@ export const Navbar1 = (props: Navbar1Props) => {
   const router = useRouter();
 
   const signIn = () => {
-    router.push('/sign-in'); 
+    router.push('/sign-in');
   };
 
   const signUp = () => {
-    router.push('/sign-up'); 
+    router.push('/sign-up');
   };
 
   const { logo, navLinks, buttons } = {
@@ -54,8 +54,8 @@ export const Navbar1 = (props: Navbar1Props) => {
       <div className="size-full lg:flex lg:items-center lg:justify-between">
         <div className="flex min-h-16 items-center justify-between px-[5%] md:min-h-18 lg:min-h-full lg:px-0">
           <a href={logo.url} className="flex flex-row items-center gap-4 text-xl font-bold">
-            <img src={logo.src} alt={logo.alt} className="w-[70px] h-[70px]" />
-            PetMatch
+            <img src={logo.src} alt={logo.alt} className="w-[70px] h-[70px] -mt-9" />
+            <span>Pet<span className="text-primary-500">Match</span></span>
           </a>
           <button
             className="-mr-2 flex size-12 flex-col items-center justify-center lg:hidden"
@@ -105,7 +105,7 @@ export const Navbar1 = (props: Navbar1Props) => {
             </div>
           ))}
           <div className="mt-6 flex flex-col items-center gap-4 lg:ml-4 lg:mt-0 lg:flex-row">
-            <Button onClick={signIn} className="border-1 border-primary-500 bg-transparent hover:bg-primary-500 hover:text-white">Iniciar sesión</Button>
+            <Button onClick={signIn} className="border-1 border-primary-500 bg-transparent hover:bg-primary-500 hover:text-white">Inicia sesión</Button>
             <Button onClick={signUp} className="bg-success-400">Registrate</Button>
           </div>
         </motion.div>

@@ -8,7 +8,7 @@ export default function LayoutUser({ children }: { children: ReactNode }) {
   return (
     <div className="flex xl:flex-row flex-col-reverse h-screen">
         <Sidebar/>
-      <div className="p-6 pb-20 lg:h-screen overflow-auto w-full">
+      <div className="py-4 px-2 lg:h-screen overflow-auto w-full">
         {children}
       </div>
     </div>
