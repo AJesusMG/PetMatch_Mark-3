@@ -48,7 +48,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({ post, handleFavorite, han
             <div className="flex flex-row gap-4 items-center">
               <span className="font-bold">{post.fullname}</span>
               <span className="font-light text-sm">@{post.username}</span>
-              <span className="font-light text-sm">{post.timeDifference}</span> {/* Mostrar la diferencia de tiempo */}
+              <span className="font-light text-sm">Hace {post.timeDifference}</span> {/* Mostrar la diferencia de tiempo */}
             </div>
             <Button isIconOnly className="bg-transparent" size="sm">
               <span className="material-symbols-outlined text-sm">more_horiz</span>
@@ -58,7 +58,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({ post, handleFavorite, han
         <CardBody className="flex-grow">
           <div className="flex flex-col flex-grow">
             <div className="w-full">
-              <span className="text-gray-500 w-full">{post.text}</span> {/* Mostrar el texto del comentario */}
+              <span className="text-gray-500 w-full">{post.text}</span> 
             </div>
             {post.image && (
               <div className="mt-4 mx-auto flex justify-center">

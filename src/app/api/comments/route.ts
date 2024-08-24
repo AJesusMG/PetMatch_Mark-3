@@ -44,7 +44,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-
 export async function GET(request: NextRequest) {
   // fecha y hora actual en formato UTC
   const currentDateUTC = new Date();
@@ -132,5 +131,3 @@ export async function GET(request: NextRequest) {
     await prisma.$disconnect();
   }
 }
-
-

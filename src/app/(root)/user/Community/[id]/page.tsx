@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { fetchChildrenComments } from "@/libs/actions/comment.actions";
 
-
 // Define un tipo para los comentarios hijos
 interface ChildComment {
   id: string;
@@ -19,14 +18,18 @@ interface ChildComment {
     username: string;
     photoUrl: string;
   };
+  timeDifference: string; 
 }
 
-interface Post {
+// Define un tipo para los posts con los campos necesarios
+interface FormattedPost {
   id: string;
-  user: string;
-  message: string;
+  fullname: string;
+  username: string;
+  text: string;
   avatar: string;
-  image: string;
+  timeDifference: string; 
+  image?: string; 
   comments: number;
   likes: number;
   childrenComments: ChildComment[];
@@ -39,29 +42,31 @@ interface PageProps {
 }
 
 const Page: React.FC<PageProps> = ({ params }) => {
-  const [post, setPost] = useState<Post | null>(null);
+  const [post, setPost] = useState<FormattedPost | null>(null);
   const { user } = useUser();
   const router = useRouter();
-  const [isOpen, setisOpen] = useState(false)
-  const [modalImage, setmodalImage] = useState<string | undefined>("")
+  const [isOpen, setisOpen] = useState(false);
+  const [modalImage, setmodalImage] = useState<string | undefined>("");
 
   const handleOpen = (imageUrl?: string) => {
     setmodalImage(imageUrl);
     setisOpen(true);
-  }
+  };
 
   const loadComments = async () => {
     try {
       const result = await fetchChildrenComments(params.id);
 
       if (result) {
-        const { id, text, imgUrl, user: commentUser, childrenComments } = result;
-        const mainPost: Post = {
+        const { id, text, imgUrl, user: commentUser, childrenComments, timeDifference } = result;
+        const mainPost: FormattedPost = {
           id,
-          user: commentUser?.fullname || "Anonymous",
-          message: text,
+          fullname: commentUser?.fullname || "Anonymous",
+          username: commentUser?.username || "anonymous",
+          text: text,
           avatar: commentUser?.photoUrl || "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp",
           image: imgUrl || "",
+          timeDifference: timeDifference || "Unknown", 
           comments: childrenComments.length || 0,
           likes: 0,
           childrenComments // Incluye los comentarios hijos
@@ -106,8 +111,8 @@ const Page: React.FC<PageProps> = ({ params }) => {
 
   return (
     <div className="flex flex-row gap-4">
-      <div id="modal" className={`modal ${ isOpen ? "is-active" : ""}`} onClick={() => setisOpen(false)} >
-          <img src={modalImage} className="modal-content" alt="" />
+      <div id="modal" className={`modal ${isOpen ? "is-active" : ""}`} onClick={() => setisOpen(false)}>
+        <img src={modalImage} className="modal-content" alt="" />
       </div>
       <div className="flex flex-col w-full">
         <nav className="bg-white shadow-md z-50 flex justify-between items-center w-full fixed top-0 p-2">
@@ -141,13 +146,15 @@ const Page: React.FC<PageProps> = ({ params }) => {
               <Divider />
               {post.childrenComments.length > 0 && (
                 <div className="mt-4">
-                  {post.childrenComments.map((comment) => (
+                  {post.childrenComments.map((comment: ChildComment) => (
                     <div key={comment.id} className="mb-4 p-4 border rounded-md">
                       <div className="flex items-center mb-2">
                         <img src={comment.user.photoUrl} alt={comment.user.fullname} className="w-10 h-10 rounded-full mr-2" />
                         <span className="font-bold">{comment.user.fullname}</span>
+                        <span className="font-light text-sm ml-2">@{comment.user.username}</span>
                       </div>
                       <p>{comment.text}</p>
+                      <p className="text-gray-500 text-sm">Hace {comment.timeDifference}</p> 
                       {comment.imgUrl && (
                         <div className="mt-4 mx-auto flex justify-center">
                           <Image
