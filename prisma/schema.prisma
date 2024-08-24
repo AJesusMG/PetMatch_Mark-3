@@ -64,7 +64,7 @@ model community {
 model comment {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   text        String
-  createdAt   DateTime @default(now())
+  createdAt   DateTime
   imgUrl      String?
   communityId String?  @db.ObjectId
   userId      String   @db.ObjectId
@@ -76,6 +76,7 @@ model comment {
   parentComment    comment?  @relation("CommentChildren", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   childrenComments comment[] @relation("CommentChildren")
 }
+
 
 model reports {
   id     String  @id @default(auto()) @map("_id") @db.ObjectId

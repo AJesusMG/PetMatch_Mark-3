@@ -3,10 +3,12 @@ import { Avatar, Card, CardBody, CardFooter, CardHeader, Image, Button } from "@
 
 interface Post {
   id: string;
-  user: string;
-  message: string;
+  fullname: string;
+  username: string;
+  text: string;
   avatar: string;
-  image?: string; // Hacer que la imagen sea opcional
+  timeDifference: string; 
+  image?: string; 
   comments: number;
   likes: number;
 }
@@ -44,9 +46,9 @@ const CommunityCard: React.FC<CommunityCardProps> = ({ post, handleFavorite, han
         <CardHeader className="flex -mt-3">
           <div className="flex flex-row gap-4 w-full justify-between">
             <div className="flex flex-row gap-4 items-center">
-              <span className="font-bold">{post.user}</span>
-              <span className="font-light text-sm">@Usuario</span>
-              <span className="font-light text-sm">Tiempo o Fecha</span>
+              <span className="font-bold">{post.fullname}</span>
+              <span className="font-light text-sm">@{post.username}</span>
+              <span className="font-light text-sm">{post.timeDifference}</span> {/* Mostrar la diferencia de tiempo */}
             </div>
             <Button isIconOnly className="bg-transparent" size="sm">
               <span className="material-symbols-outlined text-sm">more_horiz</span>
@@ -56,7 +58,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({ post, handleFavorite, han
         <CardBody className="flex-grow">
           <div className="flex flex-col flex-grow">
             <div className="w-full">
-              <span className="text-gray-500 w-full">{post.message}</span>
+              <span className="text-gray-500 w-full">{post.text}</span> {/* Mostrar el texto del comentario */}
             </div>
             {post.image && (
               <div className="mt-4 mx-auto flex justify-center">

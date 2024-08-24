@@ -5,15 +5,17 @@ import CommunityCard from "@/Components/CommunityCard/CommunityCard";
 import AddPost from "@/Components/AddPost/AddPost";
 import { useUser } from "@clerk/nextjs";
 import RightSidebar from "@/Components/RightSideBar/RightSideBar";
-import { Button, Divider, Modal, Image, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
+import { Button, Divider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 
 interface FormattedPost {
   id: string;
-  user: string;
-  message: string;
+  fullname: string;
+  username: string;
+  text: string;
   avatar: string;
-  image: string;
+  timeDifference: string; 
+  image?: string; 
   comments: number;
   likes: number;
 }
@@ -22,13 +24,13 @@ const Community: React.FC = () => {
   const [posts, setPosts] = useState<FormattedPost[]>([]);
   const { user } = useUser();
   const router = useRouter();
-  const [isOpen, setisOpen] = useState(false)
-  const [modalImage, setmodalImage] = useState<string | undefined>("")
+  const [isOpen, setisOpen] = useState(false);
+  const [modalImage, setmodalImage] = useState<string | undefined>("");
 
   const handleOpen = (imageUrl?: string) => {
     setmodalImage(imageUrl);
     setisOpen(true);
-  }
+  };
 
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -55,10 +57,12 @@ const Community: React.FC = () => {
         const formattedPosts: FormattedPost[] = commentsArray.map((comment: any) => {
           return {
             id: comment.id,
-            user: comment.user?.fullname || "Anonymous",
-            message: comment.text,
+            fullname: comment.user?.fullname || "Anonymous", 
+            username: comment.user?.username || "anonymous", 
+            text: comment.text, 
             avatar: comment.user?.photoUrl || user?.imageUrl || "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp",
             image: comment.imgUrl || "",
+            timeDifference: comment.timeDifference || "Unknown", 
             comments: comment.childrenComments?.length || 0,
             likes: 0,
           };
@@ -103,8 +107,8 @@ const Community: React.FC = () => {
 
   return (
     <>
-      <div id="modal" className={`modal ${ isOpen ? "is-active" : ""}`} onClick={() => setisOpen(false)} >
-          <img src={modalImage} className="modal-content" alt="" onClick={(e) => e.stopPropagation()} /> 
+      <div id="modal" className={`modal ${isOpen ? "is-active" : ""}`} onClick={() => setisOpen(false)}>
+        <img src={modalImage} className="modal-content" alt="" onClick={(e) => e.stopPropagation()} />
       </div>
       <nav className="backdrop-blur-2xl shadow-md z-50 flex justify-between items-center w-full fixed top-0 p-2">
         <div className="flex items-center gap-8">
