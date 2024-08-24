@@ -27,6 +27,7 @@ interface UploadProfilePictureProps {
 }
 
 const Onboarding: React.FC = () => {
+
   const [step, setStep] = useState<number>(1);
   const [formData, setFormData] = useState<FormData>({
     fullname: "",

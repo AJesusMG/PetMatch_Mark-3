@@ -108,7 +108,7 @@ const Community: React.FC = () => {
       </div>
       <nav className="backdrop-blur-2xl shadow-md z-50 flex justify-between items-center w-full fixed top-0 p-2">
         <div className="flex items-center gap-8">
-          <h1 className="text-4xl font-bold">Comunidad</h1>
+          <h1 className="lg:text-4xl text-xl font-bold">Comunidad</h1>
           <Button
             onClick={handleScrollToTop}
             className="bg-transparent text-black hover:bg-primary-500 hover:text-white text-md font-bold"
