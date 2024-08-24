@@ -13,11 +13,13 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const { fullname, username, phoneNumber, bio, instagramUrl, facebookUrl, photoUrl } =
+  const { fullname, username, phoneNumber, ageUserN, experienceN, bio, instagramUrl, facebookUrl, photoUrl } =
     (await request.json()) as {
       fullname: string;
       username?: string;
       phoneNumber?: string;
+      ageUserN?: number;
+      experienceN?: number;
       bio?: string;
       instagramUrl?: string;
       facebookUrl?: string;
@@ -40,6 +42,8 @@ export async function POST(request: NextRequest) {
         username,
         email: emailParam, // Use the email from the URL parameter
         phoneNumber,
+        ageUser: ageUserN,
+        experience: experienceN,
         bio,
         instagramUrl,
         facebookUrl,
