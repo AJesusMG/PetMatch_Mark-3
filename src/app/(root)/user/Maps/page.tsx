@@ -7,7 +7,7 @@ import { LatLong } from '../../../../../types'
 const Maps = () => {
   const latlong: LatLong = {
     type: 'Point',
-    coordinates: [20.5888, -100.3899] // Centro de Querétaro
+    coordinates: [20.5888, -100.3899] 
   }
 
   return (
