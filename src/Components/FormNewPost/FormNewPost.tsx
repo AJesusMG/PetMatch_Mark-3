@@ -9,6 +9,7 @@ import {
   SelectItem,
   Textarea,
   Input,
+  CardHeader,
 } from "@nextui-org/react";
 import { typeAnimals } from "@/data/typeAnimals";
 import { dogsBreeds, catsBreeds, rodentBreeds, birdBreeds } from "@/data/breeds";
@@ -46,6 +47,7 @@ interface FormData {
 }
 
 interface FormNewPostProps {
+  formData: FormData;
   onFormDataChange: (data: FormData) => void;
 }
 
@@ -185,7 +187,11 @@ export default function FormNewPost({ onFormDataChange }: FormNewPostProps) {
   ]);
 
   return (
-    <Card>
+
+    <Card className="bg-transparent">
+      <CardHeader className="flex w-full">
+        <h1 className="text-xl w-full text-center">Haz una nueva publicación</h1>
+      </CardHeader>
       <CardBody>
         <div className="flex flex-col gap-2">
           <Select

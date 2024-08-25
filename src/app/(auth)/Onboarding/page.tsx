@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from "react";
-import { Button, Input, Textarea, Avatar, CircularProgress, Select, SelectItem } from "@nextui-org/react";
+import { Button, Input, Textarea, Avatar, CircularProgress, Select, SelectItem, select, getKeyValue } from "@nextui-org/react";
 import { FaArrowLeft } from "react-icons/fa";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
@@ -10,6 +10,10 @@ interface FormData {
   fullname: string;
   username: string;
   phoneNumber: string;
+  ageUser: string;
+  ageUserN: number;
+  experience: string;
+  experienceN: number;
   bio: string;
   photoUrl: string;
 }
@@ -27,11 +31,16 @@ interface UploadProfilePictureProps {
 }
 
 const Onboarding: React.FC = () => {
+
   const [step, setStep] = useState<number>(1);
   const [formData, setFormData] = useState<FormData>({
     fullname: "",
     username: "",
     phoneNumber: "",
+    ageUser: "",
+    ageUserN: 0,
+    experience: "",
+    experienceN: 0,
     bio: "",
     photoUrl: "",
   });
@@ -90,7 +99,7 @@ const Onboarding: React.FC = () => {
 };
 
 const ProfileForm: React.FC<ProfileFormProps> = ({ onNext, formData, setFormData }) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -140,21 +149,26 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onNext, formData, setFormData
               <Input
                 type="text"
                 label="Edad"
-                name="phoneNumber"
+                name="ageUser"
                 variant="bordered"
                 placeholder="Escribe tu edad"
                 className="w-1/2"
+                value={formData.ageUser}
+                onChange={handleChange}
 
               />
               <Select
                 variant="bordered"
                 label="Experiencia con animales"
+                name="experience"
                 placeholder="Escribe tu número"
                 className="w-1/2"
+                value={formData.experience}
+                onChange={handleChange}
               >
-                <SelectItem key="poca">Poca</SelectItem>
-                <SelectItem key="mediana">Mediana</SelectItem>
-                <SelectItem key="mucha">Mucha</SelectItem>
+                <SelectItem key="0">Poca</SelectItem>
+                <SelectItem key="0.5">Mediana</SelectItem>
+                <SelectItem key="1">Mucha</SelectItem>
               </Select>
             </div>
           </div>
@@ -225,6 +239,8 @@ const UploadProfilePicture: React.FC<UploadProfilePictureProps> = ({ onBack, for
       const data = await uploadResponse.json();
 
       // Segunda solicitud para insertar en la base de datos
+      formData.ageUserN = parseFloat(formData.ageUser);
+      formData.experienceN = parseFloat(formData.experience);
       const postFormData = {
         ...formData,
         photoUrl: data.url, // Se asegura que `photoUrl` sea la URL final de la imagen

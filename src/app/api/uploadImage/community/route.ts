@@ -19,12 +19,14 @@ export async function POST(request: NextRequest) {
     const resizedImage = await formatImage(Body);
 
     if (!resizedImage) {
+      console.log("Error resizing image");
       return NextResponse.json({ code: 500, message: "Failed to resize image" }, { status: 500 });
     }
     
     const uploadedImage = await uploadImage(resizedImage);
 
     if (!uploadedImage) {
+      console.log("Error uploading image");
       return NextResponse.json({ code: 500, message: "Failed to upload image" }, { status: 500 });
     }
 

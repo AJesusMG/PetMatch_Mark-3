@@ -1,3 +1,5 @@
+import Compressor from "compressorjs";
+
 // fetchChildrenComments.ts
 export async function fetchChildrenComments(id: string) {
     try {
@@ -91,10 +93,6 @@ export async function sendComment(
     return false;
   }
 }
-
-
-
-
 
   
   

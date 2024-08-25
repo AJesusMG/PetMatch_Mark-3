@@ -115,6 +115,7 @@ export async function GET(request: NextRequest) {
     // Obtén todos los posts, incluyendo la información relacionada del usuario y del animal
     const posts = await prisma.posts.findMany({
       select: {
+        id: true,
         urlImage: true,
         description: true,
         animal: {
