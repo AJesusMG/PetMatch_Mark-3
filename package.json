@@ -11,9 +11,11 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.583.0",
     "@clerk/nextjs": "^5.2.14",
+    "@googlemaps/js-api-loader": "^1.16.8",
     "@hookform/resolvers": "^3.3.4",
     "@nextui-org/react": "^2.3.6",
     "@prisma/client": "^5.13.0",
+    "@react-google-maps/api": "^2.19.3",
     "@relume_io/relume-tailwind": "^0.4.0",
     "@relume_io/relume-ui": "^0.4.0",
     "@splinetool/react-spline": "^2.2.6",
@@ -43,6 +45,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/google.maps": "^3.55.12",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
