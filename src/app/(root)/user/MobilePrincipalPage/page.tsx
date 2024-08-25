@@ -64,7 +64,7 @@ export default function MobilePrincipalPage() {
     return (
         <div className="flex flex-col w-full h-full">
             <header className="w-full">
-                <h1 className="text-center font-bold text-xl">Catalogo Personal</h1>
+                <h1 className="text-center font-bold text-xl">Tus Recomendaciones</h1>
             </header>
             <div className="grid grid-cols-3 gap-4 mt-4">
                 {posts.map((post, index) => (

@@ -77,7 +77,7 @@ export default function Catalogue() {
         </header>
       </div>
       <div className="flex flex-col gap-8">
-        <div className="grid grid-cols-5 gap-4 xl:grid-cols-6 xl:gap-4 md:grid-cols-4 md:gap-4">
+        <div className="grid grid-cols-5 gap-4 lg:grid-cols-5 lg:gap-4">
           {posts.map((post, index) => (
             <PostCard
               key={index}

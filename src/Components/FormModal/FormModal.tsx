@@ -2,7 +2,13 @@
 
 import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { Modal, ModalContent, Button, CircularProgress, ModalHeader } from "@nextui-org/react";
+import {
+  Modal,
+  ModalContent,
+  Button,
+  CircularProgress,
+  ModalFooter,
+} from "@nextui-org/react";
 import FormNewPost from "../FormNewPost/FormNewPost";
 import { useUser } from "@clerk/nextjs";
 
@@ -75,6 +81,17 @@ export default function FormModal({ isOpen, onClose }: FormModalProps) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (step === 1) {
+      setStep(2);
+      return; // No enviar el formulario en el primer paso
+    }
+
+    if (step === 2 && !imageUrl) {
+      alert("Por favor, selecciona una imagen antes de enviar.");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -111,10 +128,16 @@ export default function FormModal({ isOpen, onClose }: FormModalProps) {
           if (postResponse.ok) {
             console.log("Formulario enviado correctamente.");
           } else {
-            console.error("Error al enviar los datos. Estado:", postResponse.status);
+            console.error(
+              "Error al enviar los datos. Estado:",
+              postResponse.status
+            );
           }
         } else {
-          console.error("Error al subir la imagen. Estado:", uploadResponse.status);
+          console.error(
+            "Error al subir la imagen. Estado:",
+            uploadResponse.status
+          );
         }
       } else {
         console.error("La URL de la imagen es nula. No se puede subir.");
@@ -123,49 +146,63 @@ export default function FormModal({ isOpen, onClose }: FormModalProps) {
       console.error("Error al subir la imagen:", error);
     } finally {
       setIsLoading(false);
-      onClose();  // Close the modal after submission
+      onClose();
     }
   };
 
-  const handleNext = () => {
-    if (step === 1) setStep(2);
-  };
-
-  const handleBack = () => {
-    if (step === 2) setStep(1);
+  const handleRemoveImage = () => {
+    setImageUrl(null);
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} className="p-2" size="lg" hideCloseButton>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      className="p-2"
+      size="lg"
+      hideCloseButton
+    >
       <ModalContent className="max-h-[90vh] overflow-auto">
         <form onSubmit={handleSubmit} className="flex flex-col h-full">
           {step === 1 && (
             <div className="flex flex-col gap-4">
-              <FormNewPost onFormDataChange={handleFormDataChange} formData={formData} />
-              <Button onPress={handleNext} size="lg" className="bg-success-300">
-                Siguiente
-              </Button>
+              <FormNewPost
+                onFormDataChange={handleFormDataChange}
+                formData={formData}
+              />
             </div>
           )}
           {step === 2 && (
-            <div className="flex flex-col gap-4">
-              <Button
-                size="lg"
-                className="text-black bg-secondary-200"
-                onPress={() => imageIptRef.current?.click()}
-              >
-                Seleccionar Imagen
-              </Button>
-
-              {imageUrl && (
-                <div className="h-64 w-full relative rounded-t-large flex justify-center items-center">
+            <div className="flex flex-col items-center justify-center gap-4 p-4 border-2 border-dashed border-gray-400 rounded-lg h-[500px]">
+              {!imageUrl ? (
+                <div className="flex flex-col items-center justify-center">
+                  <p className="text-gray-600 text-center">
+                    Arrastra las fotos aquí
+                  </p>
+                  <Button
+                    size="lg"
+                    className="text-black bg-secondary-200 mt-4"
+                    onPress={() => imageIptRef.current?.click()}
+                  >
+                    Seleccionar Imagen
+                  </Button>
+                </div>
+              ) : (
+                <div className="relative w-full h-full">
                   <Image
                     src={imageUrl}
-                    alt="Imagen de miniatura"
-                    width={1920}
-                    height={1080}
-                    className="object-cover h-full w-full rounded-t-large"
+                    alt="Imagen seleccionada"
+                    layout="fill"
+                    objectFit="contain"
+                    className="rounded-lg"
                   />
+                  <Button
+                    size="sm"
+                    className="absolute top-2 right-2 bg-red-600 text-white"
+                    onPress={handleRemoveImage}
+                  >
+                    Cambiar Imagen
+                  </Button>
                 </div>
               )}
 
@@ -176,21 +213,28 @@ export default function FormModal({ isOpen, onClose }: FormModalProps) {
                 ref={imageIptRef}
                 onChange={handleShowImage}
               />
-
-              <div className="flex justify-between">
-                <Button onPress={handleBack} size="lg" className="bg-secondary">
-                  Atrás
-                </Button>
-                <Button type="submit" size="lg" className="bg-success-300">
-                  {isLoading ? (
-                    <CircularProgress size="sm" color="secondary" />
-                  ) : (
-                    "Subir Publicación"
-                  )}
-                </Button>
-              </div>
             </div>
           )}
+          <ModalFooter className="flex justify-between w-full mt-4">
+            {step === 2 && (
+              <Button
+                onPress={() => setStep(1)}
+                size="lg"
+                className="bg-secondary-200"
+              >
+                Atrás
+              </Button>
+            )}
+            <Button type="submit" size="lg" className="bg-success-300">
+              {isLoading ? (
+                <CircularProgress size="sm" color="secondary" />
+              ) : step === 1 ? (
+                "Siguiente"
+              ) : (
+                "Subir Publicación"
+              )}
+            </Button>
+          </ModalFooter>
         </form>
       </ModalContent>
     </Modal>

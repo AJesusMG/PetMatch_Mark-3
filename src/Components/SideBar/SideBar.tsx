@@ -26,88 +26,78 @@ export default function Sidebar() {
 
   return (
     <nav
-      className="xl:h-screen xl:w-fit w-full flex lg:flex-col p-4 flex-row"
+      className="xl:h-screen shadow-xl xl:w-fit w-full flex justify-between lg:flex-col p-4"
       style={{ boxShadow: "1px 0 6px rgba(0, 0, 0, 0.05)" }}
     >
-      <div className="flex flex-col justify-between h-full w-full">
-        <div className="flex xl:flex-col xl:gap-6 w-full justify-between flex-row items-center">
-          <Image
-            src="/ZORRO1.webp"
-            width={50}
-            height={50}
-            alt="Logo"
-            className="hidden xl:block"
-          />
-
-          <div className="flex flex-row gap-4 w-full justify-between xl:flex-col">
-            <Tooltip content="Recomendaciones" placement="right" size="sm">
-              <Button
-                variant="light"
-                className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
-                color="primary"
-                radius="sm"
-                isIconOnly
-                as={Link}
-                href={isMobile ? "/user/MobilePrincipalPage" : "/user/PrincipalPage"}
-              >
-                <span className="material-symbols-outlined">local_library</span>
-              </Button>
-            </Tooltip>
-
-            <Tooltip content="Catálogo" placement="right" size="sm">
-              <Button
-                variant="light"
-                className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
-                color="primary"
-                radius="sm"
-                isIconOnly
-                as={Link}
-                href={isMobile ? "/user/MobileCatalogue" : "/user/Catalogue"}
-              >
-                <span className="material-symbols-outlined">auto_stories</span>
-              </Button>
-            </Tooltip>
-
-            <Tooltip content="Comunidad" placement="right" size="sm">
-              <Button
-                variant="light"
-                className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
-                color="primary"
-                radius="sm"
-                isIconOnly
-                as={Link}
-                href="/user/Community"
-              >
-                <span className="material-symbols-outlined">groups</span>
-              </Button>
-            </Tooltip>
-
-            <Tooltip content="Subir" placement="right" size="sm">
-              <Button
-                variant="light"
-                className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
-                color="primary"
-                radius="sm"
-                isIconOnly
-                onPress={onOpen}
-              >
-                <span className="material-symbols-outlined">add_a_photo</span>
-              </Button>
-            </Tooltip>
-          </div>
+      <div className="flex xl:flex-col xl:gap-4 w-full justify-between flex-row">
+        <Image
+          src="/ZORRO_SIN1.webp"
+          width={60}
+          height={60}
+          alt="Logo"
+          className="hidden xl:block -mt-6"
+        />
+        <div className="flex flex-row gap-10 w-full xl:flex-col xl:gap-8 xl:mt-4 lg:gap-6 lg:mt-2">
+          <Tooltip content="Recomendaciones" placement="right" size="sm">
+            <Button
+              variant="light"
+              className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
+              color="primary"
+              radius="sm"
+              isIconOnly
+              as={Link}
+              href={isMobile ? "/user/MobilePrincipalPage" : "/user/PrincipalPage"}
+            >
+              <span className="material-symbols-outlined">local_library</span>
+            </Button>
+          </Tooltip>
+          <Tooltip content="Catálogo" placement="right" size="sm">
+            <Button
+              variant="light"
+              className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
+              color="primary"
+              radius="sm"
+              isIconOnly
+              as={Link}
+              href={isMobile ? "/user/MobileCatalogue" : "/user/Catalogue"}
+            >
+              <span className="material-symbols-outlined">auto_stories</span>
+            </Button>
+          </Tooltip>
+          <Tooltip content="Comunidad" placement="right" size="sm">
+            <Button
+              variant="light"
+              className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
+              color="primary"
+              radius="sm"
+              isIconOnly
+              as={Link}
+              href="/user/Community"
+            >
+              <span className="material-symbols-outlined">groups</span>
+            </Button>
+          </Tooltip>
+          <Tooltip content="Subir" placement="right" size="sm">
+            <Button
+              variant="light"
+              className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
+              color="primary"
+              radius="sm"
+              isIconOnly
+              onPress={onOpen}
+            >
+              <span className="material-symbols-outlined">add_a_photo</span>
+            </Button>
+          </Tooltip>
         </div>
-
-        <div className="mt-auto">
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-        </div>
-
-        <FormModal isOpen={isOpen} onClose={onClose} />
       </div>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
+      <FormModal isOpen={isOpen} onClose={onClose} />
     </nav>
   );
 }

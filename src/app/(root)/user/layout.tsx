@@ -1,7 +1,7 @@
 
 import { ReactNode } from "react";
 import Sidebar from "@/Components/SideBar/SideBar";
-import RightSidebar from "@/Components/RightSideBar/RightSideBar";
+
 
 export default function LayoutUser({ children }: { children: ReactNode }) {
 
