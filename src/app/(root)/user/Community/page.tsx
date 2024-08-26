@@ -8,6 +8,7 @@ import RightSidebar from "@/Components/RightSideBar/RightSideBar";
 import { Button, Divider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Loading from "@/Components/Loading/Loading";
 
 interface FormattedPost {
   id: string;
@@ -19,6 +20,7 @@ interface FormattedPost {
   image?: string; 
   comments: number;
   likes: number;
+  name?: string;
 }
 
 const Community: React.FC = () => {
@@ -27,6 +29,7 @@ const Community: React.FC = () => {
   const router = useRouter();
   const [isOpen, setisOpen] = useState(false);
   const [modalImage, setmodalImage] = useState<string | undefined>("");
+  const [loading, setloading] = useState(false)
 
   const handleOpen = (imageUrl?: string) => {
     setmodalImage(imageUrl);
@@ -66,6 +69,7 @@ const Community: React.FC = () => {
             timeDifference: comment.timeDifference || "Unknown", 
             comments: comment.childrenComments?.length || 0,
             likes: 0,
+            name: comment.user?.fullname.split(' ')[0] + " " + (comment.user?.fullname.split(' ').length > 1 ? comment.user?.fullname.split(' ')[1] : ''),
           };
         });
 
@@ -106,12 +110,25 @@ const Community: React.FC = () => {
     console.log(`Responder al post ${id}`);
   };
 
+  useEffect(() => {
+    if (posts.length > 0) {
+      setloading(false)
+    }
+
+    if (posts.length === 0) {
+      setloading(true)
+    }
+    
+  }, [posts])
+  
+
   return (
     <>
+      <Loading enabled={loading} fixed={true} />
       <div id="modal" className={`modal ${isOpen ? "is-active" : ""}`} onClick={() => setisOpen(false)}>
         <img src={modalImage} className="modal-content" alt="" onClick={(e) => e.stopPropagation()} />
       </div>
-      <nav className="backdrop-blur-2xl shadow-md z-50 flex justify-between items-center w-full fixed top-0 p-2">
+      <nav className="bg-white shadow-md z-50 flex justify-between items-center w-full fixed top-0 p-2">
         <div className="flex items-center gap-8">
           <Image
             src="/ZORRO_SIN1.webp"
@@ -132,7 +149,7 @@ const Community: React.FC = () => {
       </nav>
       <div className="flex flex-row mt-11">
         <div className="w-full flex flex-col">
-          <div className="flex flex-col border-2 m-auto w-3/4 max-lg:w-full">
+          <div className="flex flex-col border-2 mx-auto w-3/4 max-lg:w-full">
             <AddPost onPostAdded={fetchComments} />
             <Divider />
             {posts.map((post, index) => {

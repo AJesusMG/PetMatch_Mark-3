@@ -96,18 +96,14 @@ export async function GET(request: NextRequest) {
 
       let timeDifference: string;
 
-      if (years > 0) {
-        timeDifference = `${years} año${years > 1 ? 's' : ''}`;
-      } else if (months > 0) {
-        timeDifference = `${months} mes${months > 1 ? 'es' : ''}`;
-      } else if (days > 0) {
+      if (years > 0 || months > 0 || days > 0) {
         timeDifference = `${days} día${days > 1 ? 's' : ''}`;
       } else if (hours > 0) {
-        timeDifference = `${hours} hora${hours > 1 ? 's' : ''}`;
+        timeDifference = `${hours}h`;
       } else if (minutes > 0) {
-        timeDifference = `${minutes} minuto${minutes > 1 ? 's' : ''}`;
+        timeDifference = `${minutes}m`;
       } else {
-        timeDifference = `${seconds} segundo${seconds > 1 ? 's' : ''}`;
+        timeDifference = `${seconds}s`;
       }
 
       return {

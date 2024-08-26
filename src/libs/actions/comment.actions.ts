@@ -2,25 +2,25 @@ import Compressor from "compressorjs";
 
 // fetchChildrenComments.ts
 export async function fetchChildrenComments(id: string) {
-    try {
-        const response = await fetch(`/api/comments/children?id=${id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+  try {
+    const response = await fetch(`/api/comments/children?id=${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-        const resBody = await response.json();
+    const resBody = await response.json();
 
-        if (!response.ok) {
-            throw new Error(resBody.message || "Error fetching comments");
-        }
-
-        return resBody.data; // Asegúrate de que esto devuelva el comentario principal y sus childrenComments
-    } catch (error) {
-        console.error('Error fetching comments:', error);
-        throw error;
+    if (!response.ok) {
+      throw new Error(resBody.message || "Error fetching comments");
     }
+
+    return resBody.data; // Asegúrate de que esto devuelva el comentario principal y sus childrenComments
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    throw error;
+  }
 }
 
 export async function sendComment(
@@ -43,25 +43,42 @@ export async function sendComment(
   try {
     let imgUrl = "";
 
+    // If there's an image, compress and upload it
     if (image) {
-      const formData = new FormData();
-      formData.append("image", image);
+      // Wrap the Compressor logic inside a Promise
+      imgUrl = await new Promise<string>((resolve, reject) => {
+        new Compressor(image, {
+          quality: 0.2,
+          async success(result) {
+            try {
+              const formData = new FormData();
+              formData.append("image", result);
 
-      // Primera solicitud para subir la imagen al bucket de AWS
-      const uploadResponse = await fetch("/api/uploadImage/community", {
-        method: "POST",
-        body: formData,
+              const uploadResponse = await fetch("/api/uploadImage/community", {
+                method: "POST",
+                body: formData,
+              });
+
+              if (uploadResponse.ok) {
+                const { url } = await uploadResponse.json();
+                resolve(url);
+                console.log("Imagen subida correctamente. URL:", url);
+              } else {
+                const response = await uploadResponse.json().catch(() => ({
+                  message: "Error al subir la imagen.",
+                }));
+                reject(new Error(response.message));
+              }
+            } catch (error) {
+              reject(error);
+            }
+          },
+          error(err) {
+            console.error(err);
+            reject(err);
+          },
+        });
       });
-
-      if (uploadResponse.ok) {
-        const { url } = await uploadResponse.json();
-        imgUrl = url;
-        alert("Imagen subida correctamente. URL:" + url);
-      } else {
-        console.error("Error al subir la imagen. Estado:", uploadResponse.status);
-        alert("Error al subir la imagen. Estado:" + uploadResponse);
-        return false;
-      }
     }
 
     // Segunda solicitud para enviar el comentario
@@ -72,20 +89,23 @@ export async function sendComment(
       createdAt: formattedDate, // Utilizamos la fecha formateada
     };
 
-    const postResponse = await fetch(parentId ? `/api/comments/children?id=${parentId}` : "/api/comments", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postFormData),
-    });
+    const postResponse = await fetch(
+      parentId ? `/api/comments/children?id=${parentId}` : "/api/comments",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postFormData),
+      }
+    );
 
-    if (postResponse.status === 200) {
+    if (postResponse.ok) {
+      console.log("Comentario enviado correctamente.");
       return true;
     } else {
-      const errorData = await postResponse.json();
-      console.error("Error al enviar el comentario. Estado:", postResponse.status, "Mensaje:", errorData.message);
-      return false; // Devuelve false en caso de error
+      console.error("Error al enviar el comentario. Estado:", postResponse.status);
+      return false;
     }
 
   } catch (error) {
@@ -94,6 +114,6 @@ export async function sendComment(
   }
 }
 
-  
-  
-  
+
+
+

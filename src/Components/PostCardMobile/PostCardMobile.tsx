@@ -9,7 +9,7 @@ export interface PostCardPropsMobile {
 
 export default function PostCardMobile({ id, urlImage, onClick }: PostCardPropsMobile) {
   return (
-    <Card key={id} radius="none" className="w-30 h-30" isPressable onClick={onClick}>
+    <Card key={id} radius="none" className="w-30 h-30 mx-auto" isPressable onClick={onClick}>
       <Image
         radius="none"
         src={urlImage}

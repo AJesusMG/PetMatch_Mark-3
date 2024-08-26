@@ -45,7 +45,8 @@ export default function PostCard({
       <Card
         isHoverable
         radius="sm"
-        className="border-none transition-transform duration-300 ease-in-out transform-gpu hover:scale-105 w-64 h-64"
+        className="border-none transition-transform duration-300 ease-in-out transform-gpu hover:scale-105 w-56 h-56 mx-auto"
+        // className="border-none transition-transform duration-300 ease-in-out transform-gpu hover:scale-105 post-card"
         key={id}
         isPressable
         onPress={onOpen}
@@ -58,7 +59,7 @@ export default function PostCard({
           src={urlImage || "/Lomito.jpg"}
         />
       </Card>
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <Modal isOpen={isOpen} onClose={onClose} size="xl" hideCloseButton>
         <ModalContent>
           <FullPostCard
             id={id}

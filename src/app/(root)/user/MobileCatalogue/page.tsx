@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import PostCardMobile, { PostCardPropsMobile } from "@/Components/PostCardMobile/PostCardMobile";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function MobileCatalogue() {
   const [posts, setPosts] = useState<PostCardPropsMobile[]>([]);
@@ -48,10 +49,17 @@ export default function MobileCatalogue() {
 
   return (
     <div className="flex flex-col w-full h-full">
-      <header className="w-full">
+      <header className="w-full p-2 pt-0">
+        <Image
+          src="/ZORRO_SIN1.webp"
+          width={50}
+          height={50}
+          alt="Logo"
+          className="xl:hidden -mt-6"
+        />
         <h1 className="text-center font-bold text-xl">Catalogo</h1>
       </header>
-      <div className="grid grid-cols-3 gap-4 mt-4 sm:gap-2">
+      <div className="grid grid-cols-3 gap-4 mt-4 sm:gap-2 text-center items-center">
         {posts.map((post, index) => (
           <PostCardMobile
             key={index}

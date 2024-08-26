@@ -127,27 +127,44 @@ const AddPost: React.FC<AddPostProps> = ({ onPostAdded, parentId }) => {
         </CardBody>
         <CardFooter className="w-full flex justify-between items-center">
           <div>
-            <Button isIconOnly className="bg-transparent p-0 relative cursor-auto">
-              <label htmlFor="file-upload" className="">
-                <span className="material-symbols-outlined cursor-pointer">image</span>
-              </label>
-              <input
-                id="file-upload"
-                type="file"
-                accept="image/*"
-                className="hidden m-0 h-14 hover:cursor-pointer absolute top-0 left-0 w-14"
-                disabled={loading}
+            <div className="flex space-x-2">
+              {/* File Input (Gallery) */}
+              <Button isIconOnly className="bg-transparent p-0 relative cursor-auto">
+                <label htmlFor="gallery-upload" className="">
+                  <span className="material-symbols-outlined cursor-pointer">image</span>
+                </label>
+                <input
+                  id="gallery-upload"
+                  type="file"
+                  accept="image/*"
+                  className="hidden m-0 h-14 hover:cursor-pointer absolute top-0 left-0 w-14"
+                  disabled={loading}
+                  onChange={handleImageUpload}
+                />
+              </Button>
+
+              {/* Camera Input */}
+              <Button isIconOnly className="bg-transparent p-0 relative cursor-auto">
+                <label htmlFor="camera-upload" className="">
+                  <span className="material-symbols-outlined cursor-pointer">camera</span>
+                </label>
+                <input
+                  id="camera-upload"
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  className="hidden m-0 h-14 hover:cursor-pointer absolute top-0 left-0 w-14"
+                  disabled={loading}
+                  onChange={handleImageUpload}
+                />
+              </Button>
+            </div>
 
 
-                
-                
-                onChange={handleImageUpload}
-              />
-            </Button>
             {/* <p className="text-sm">(Imagenes no mayor a 8MB)</p> */}
           </div>
           <Button
-          size="sm"
+            size="sm"
             className={`bg-primary-500 text-sm radius-lg font-bold text-white rounded-full ${!commentText ? 'opacity-50 cursor-not-allowed' : ''}`}
             type="submit"
             disabled={loading || !commentText}

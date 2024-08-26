@@ -1,17 +1,10 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import Image from "next/image";
-
-import {
-  Modal,
-  ModalContent,
-  Button,
-  CircularProgress,
-  ModalFooter,
-} from "@nextui-org/react";
-import FormNewPost from "../FormNewPost/FormNewPost";
+import { Modal, ModalContent, Button, CircularProgress, ModalFooter, ModalHeader, } from "@nextui-org/react";
 import { useUser } from "@clerk/nextjs";
+import NewFormPost from "../NewFormPost/NewFormPost";
+import Image from "next/image";
 
 interface FormData {
   types?: string[];
@@ -160,20 +153,20 @@ export default function FormModal({ isOpen, onClose }: FormModalProps) {
       onClose={onClose}
       className="p-2"
       size="lg"
-      hideCloseButton
     >
       <ModalContent className="max-h-[90vh] overflow-auto">
+        <ModalHeader className="text-2xl text-center font-bold">Haz una nueva publicación</ModalHeader>
         <form onSubmit={handleSubmit} className="flex flex-col h-full">
           {step === 1 && (
             <div className="flex flex-col gap-4">
-              <FormNewPost
+              <NewFormPost
                 onFormDataChange={handleFormDataChange}
                 formData={formData}
               />
             </div>
           )}
           {step === 2 && (
-            <div className="flex flex-col items-center justify-center gap-4 p-4 border-2 border-dashed border-gray-400 rounded-lg h-[500px]">
+            <div className="flex flex-col items-center justify-center gap-4 p-4 border-2 border-dashed border-gray-400 rounded-md h-[500px]">
               {!imageUrl ? (
                 <div className="flex flex-col items-center justify-center">
                   <p className="text-gray-600 text-center">
@@ -194,11 +187,10 @@ export default function FormModal({ isOpen, onClose }: FormModalProps) {
                     alt="Imagen seleccionada"
                     layout="fill"
                     objectFit="contain"
-                    className="rounded-lg"
                   />
                   <Button
                     size="sm"
-                    className="absolute top-2 right-2 bg-red-600 text-white"
+                    className="absolute top-2 right-2 bg-primary-500 text-white"
                     onPress={handleRemoveImage}
                   >
                     Cambiar Imagen
@@ -225,7 +217,11 @@ export default function FormModal({ isOpen, onClose }: FormModalProps) {
                 Atrás
               </Button>
             )}
-            <Button type="submit" size="lg" className="bg-success-300">
+            <Button
+              type="submit"
+              size="lg"
+              className="bg-success-300 ml-auto w-full sm:w-auto"
+            >
               {isLoading ? (
                 <CircularProgress size="sm" color="secondary" />
               ) : step === 1 ? (
@@ -233,6 +229,9 @@ export default function FormModal({ isOpen, onClose }: FormModalProps) {
               ) : (
                 "Subir Publicación"
               )}
+              <span className="material-symbols-outlined">
+                arrow_forward
+              </span>
             </Button>
           </ModalFooter>
         </form>

@@ -105,6 +105,33 @@
   background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
 }
 
+.post-card {
+  max-width: 20rem;
+  max-height: 20rem;
+  min-height: 16rem;
+  min-width: 16rem;
+  width: auto;
+}
+
+.loading-container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100svh;
+  width: 100svw;
+  z-index: 9999;
+}
+
+.loading-fixed {
+  position: fixed;
+  z-index: 9999;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+}
+
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }

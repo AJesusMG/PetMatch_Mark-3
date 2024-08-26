@@ -7,10 +7,11 @@ interface Post {
   username: string;
   text: string;
   avatar: string;
-  timeDifference: string; 
-  image?: string; 
+  timeDifference: string;
+  image?: string;
   comments: number;
   likes: number;
+  name?: string;
 }
 
 interface CommunityCardProps {
@@ -43,13 +44,14 @@ const CommunityCard: React.FC<CommunityCardProps> = ({ post, handleFavorite, han
 
       {/* Div que contiene CardHeader, CardBody y CardFooter */}
       <div className="flex flex-col flex-grow h-full">
-        <CardHeader className="flex -mt-3">
+        <CardHeader className="flex -mt-3 p-1 sm:p-3">
           <div className="flex flex-row gap-4 w-full justify-between">
-            <div className="flex flex-row gap-4 items-center">
-              <span className="font-bold">{post.fullname}</span>
+            <div className="flex flex-row gap-1 xl:gap-4 items-center">
+              <span className="font-bold min-w-fit">{post.name}</span>
+              <span className="md:hidden">·</span>
               <span className="font-light text-sm">@{post.username}</span>
-              <span className="font-light text-sm">Hace {post.timeDifference}</span> {/* Mostrar la diferencia de tiempo */}
-
+              <span className="md:hidden">·</span>
+              <span className="font-light text-sm">{post.timeDifference}</span>
             </div>
             <Button isIconOnly className="bg-transparent" size="sm">
               <span className="material-symbols-outlined text-sm">more_horiz</span>
@@ -59,7 +61,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({ post, handleFavorite, han
         <CardBody className="flex-grow">
           <div className="flex flex-col flex-grow">
             <div className="w-full">
-              <span className="text-gray-500 w-full">{post.text}</span> 
+              <span className="text-gray-500 w-full">{post.text}</span>
             </div>
             {post.image && (
               <div className="mt-4 mx-auto flex justify-center">
