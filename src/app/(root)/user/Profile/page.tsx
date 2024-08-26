@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import {Card, CardBody, CardFooter, CardHeader, Divider, Image, Link} from "@nextui-org/react";
+import {Button, Card, CardBody, CardFooter, CardHeader, Divider, Image, Link} from "@nextui-org/react";
 import PostCard from "@/Components/PostCard/PostCard";
-import { Button, Divider } from "@nextui-org/react";
 import CustomPieChart from "@/Components/CustomPieChart/CustomPieChart";
 
 interface UserData {

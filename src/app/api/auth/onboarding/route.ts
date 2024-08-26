@@ -49,6 +49,7 @@ export async function POST(request: NextRequest) {
         facebookUrl,
         photoUrl,
         onboarded: true, // Set onboarded to true
+        
       },
     });
 
