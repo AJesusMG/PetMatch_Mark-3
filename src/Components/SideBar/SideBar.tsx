@@ -89,6 +89,19 @@ export default function Sidebar() {
               <span className="material-symbols-outlined">add_a_photo</span>
             </Button>
           </Tooltip>
+          <Tooltip content="Consultar" placement="right" size="sm">
+            <Button
+              variant="light"
+              className="p-6 bg-primary hover:bg-primary-500 hover:text-white transition-all duration-300"
+              color="primary"
+              radius="sm"
+              isIconOnly
+              as={Link}
+              href="/user/Profile"
+            >
+              <span className="material-symbols-outlined">assignment_ind</span>
+            </Button>
+          </Tooltip>
           <div className="mt-auto">
             <SignedIn>
               <UserButton />

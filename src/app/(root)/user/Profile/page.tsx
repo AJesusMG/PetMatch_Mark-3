@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Avatar, Chip } from "@nextui-org/react";
+import {Card, CardBody, CardFooter, CardHeader, Divider, Image, Link} from "@nextui-org/react";
 import PostCard from "@/Components/PostCard/PostCard";
 
 interface UserData {
@@ -45,14 +45,54 @@ export default function Profile() {
         </header>
       </div>
       <div className="flex flex-col w-full h-full gap-8">
-        <div className="flex flex-col w-full h-full gap-8 items-center">
-          <Avatar
-            src={userData.image}
-            className="w-48 h-48"
-          />
-          <h1 className="text-4xl font-bold">{userData.name}</h1>
-          <Chip size="md" className="bg-success-300 p-4 text-md">Mis publicaciones</Chip>
-        </div>
+      <Card className="max-w-full">
+  <CardHeader className="flex gap-3">
+    <Image
+      alt="veterinaria logo"
+      height={40}
+      radius="sm"
+      src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
+      width={40}
+    />
+    <div className="flex flex-col">
+      <p className="text-md font-bold">Veterinaria El Buen Amigo</p>
+      <div className="flex items-center gap-1 text-small text-default-500">
+      <span className="material-symbols-outlined w-4 h-4 mr-1">star</span>
+        <span>4.5 (200 valoraciones)</span>
+      </div>
+      <p className="text-small text-default-500 flex items-center">
+      <span className="material-symbols-outlined w-4 h-4 mr-1">location_on</span>
+        Av. Siempre Viva 742, Springfield
+      </p>
+      <p className="text-small text-default-500 flex items-center">
+      <span className="material-symbols-outlined w-4 h-4 mr-1">phone</span>
+        +52 442 555 1234
+      </p>
+      <p className="text-small text-default-500 flex items-center">
+      <span className="material-symbols-outlined w-4 h-4 mr-1">schedule</span>
+        Lunes a Viernes, 9 AM - 6 PM
+      </p>
+    </div>
+  </CardHeader>
+  <Divider />
+  <CardBody>
+    <p>
+      Somos un centro veterinario dedicado al cuidado y bienestar de tus mascotas.
+      Ofrecemos servicios de atención médica, vacunación, y mucho más.
+    </p>
+  </CardBody>
+  <Divider />
+  <CardFooter className="flex justify-end">
+    <Link
+      isExternal
+      showAnchorIcon
+      href="https://github.com/nextui-org/nextui"
+    >
+      Visita nuestro sitio web
+    </Link>
+  </CardFooter>
+</Card>
+
         <div className="flex flex-col gap-8">
           <div className="grid grid-cols-5 gap-4">
             {PostProps.map((post) => (
