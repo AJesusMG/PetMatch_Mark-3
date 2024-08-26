@@ -4,7 +4,13 @@ import { Button, Input, Textarea, Avatar, CircularProgress, Select, SelectItem, 
 import { FaArrowLeft } from "react-icons/fa";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { time } from "console";
 
+
+interface scheduleItem {
+  day: string;
+  time: string;
+}
 interface FormData {
   fullname: string;
   username: string;
@@ -19,7 +25,8 @@ interface FormData {
   openingHours: string;
   closingHours: string;
   experienceN: number;
-  [key: string]: string | number;
+  // [key: string]: string | number;
+  schedule: string;
 }
 
 
@@ -59,6 +66,7 @@ const Onboarding: React.FC = () => {
     photoUrl: "",
     openingHours: "",
     closingHours: "",
+    schedule: "",
   });
 
   // useEffect(() => {
@@ -237,47 +245,96 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onNext, formData, setFormData
 
 
 const ScheduleForm: React.FC<ScheduleFormProps> = ({ onNext, onBack, formData, setFormData }) => {
-  const [checkboxes, setCheckboxes] = useState<{ [key: string]: boolean }>({
-    lunes: false,
-    martes: false,
-    miércoles: false,
-    jueves: false,
-    viernes: false,
-    sábado: false,
-    domingo: false,
+  const [checkboxes, setCheckboxes] = useState<{ [key: string]: { active: boolean, time: string} }>({
+    lunes: {
+      active: false,
+      time: '',
+    },
+    martes: {
+      active: false,
+      time: '',
+    },
+    miércoles: {
+      active: false,
+      time: '',
+    },
+    jueves: {
+      active: false,
+      time: '',
+    },
+    viernes: {
+      active: false,
+      time: '',
+    },
+    sábado: {
+      active: false,
+      time: '',
+    },
+    domingo: {
+      active: false,
+      time: '',
+    },
   });
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
+
     setCheckboxes((prev) => {
       const updatedCheckboxes = {
         ...prev,
-        [value]: checked,
+        [value]: {
+          ...prev[value],
+          active: checked,
+          time: (!checked ? '' : prev[value].time),
+        },
       };
-      // Actualizar formData solo con días marcados
-      setFormData((prevData) => {
-        const updatedFormData = { ...prevData };
-        if (!checked) {
-          // Si el checkbox está desmarcado, eliminar el día del formData
-          delete updatedFormData[value];
-        }
-        console.log('Updated formData in ScheduleForm (Checkbox Change):', updatedFormData);
-        return updatedFormData;
-      });
       return updatedCheckboxes;
     });
+
+    
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData) => {
-      const newData = {
-        ...prevData,
-        [name]: value,
+
+    console.log('Input Change:', name, value);
+
+    // Actualizar formData solo con valores de los checks
+    setCheckboxes((prev) => {
+      return {
+        ...prev,
+        [name]: {
+          ...prev[name],
+          time: value,
+        },
       };
-      console.log('Updated formData in ScheduleForm (Input Change):', newData);
-      return newData;
     });
+  };
+
+  const handleNext = () => {
+
+    const schedule = Object.keys(checkboxes).map((day) => {
+      if (checkboxes[day].active) {
+        return ({
+          day,
+          time: checkboxes[day].time,
+        });
+      } else {
+        return ({
+          day,
+          time: 'Cerrado',
+        });
+      }
+    });
+
+    console.log('Updated schedule:', schedule);
+
+    setFormData({
+      ...formData,
+      schedule: JSON.stringify(schedule),
+    });
+
+    onNext();
   };
 
   return (
@@ -293,7 +350,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ onNext, onBack, formData, s
                 <Checkbox
                   value={day}
                   className="mr-5"
-                  checked={checkboxes[day]}
+                  checked={checkboxes[day].active}
                   onChange={handleCheckboxChange}
                 >
                   {day.charAt(0).toUpperCase() + day.slice(1)}
@@ -302,10 +359,10 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ onNext, onBack, formData, s
                   type="text"
                   name={day}
                   placeholder={`Horario ${day.charAt(0).toUpperCase() + day.slice(1)}`}
-                  className="w-1/2 p-1"
-                  value={String(formData[day] || '')} 
+                  className={`w-1/2 p-1`}
+                  value={String(checkboxes[day].time)} 
                   onChange={handleInputChange}
-                  disabled={!checkboxes[day]}
+                  isDisabled={!checkboxes[day].active}
                 />
               </div>
             ))}
@@ -315,7 +372,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ onNext, onBack, formData, s
           <Button onClick={onBack} className="w-1/2 bg-gray-400 text-white">
             Atrás
           </Button>
-          <Button onClick={onNext} className="w-1/2 bg-primary-400 text-white">
+          <Button onClick={handleNext} className="w-1/2 bg-primary-400 text-white">
             Siguiente
           </Button>
         </div>

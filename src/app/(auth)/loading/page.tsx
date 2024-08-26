@@ -26,10 +26,31 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    if (user && user.emailAddresses[0].emailAddress) {
-      const targetPage = isMobile ? "/user/MobilePrincipalPage" : "/user/PrincipalPage";
-      router.push(targetPage);
+    const checkUserStatus = async () => {
+      if (user && user.emailAddresses[0].emailAddress) {
+        try {
+
+          const userStatus = await getUserStatus(user.emailAddresses[0].emailAddress);
+
+          if (userStatus && userStatus.onboarded) {
+            const targetPage = isMobile ? "/user/MobilePrincipalPage" : "/user/PrincipalPage";
+            router.push(targetPage);
+          } else {
+            router.push("/Onboarding");
+          }
+
+        } catch (error) {
+
+          console.error("Error fetching user status:", error);
+
+        }
+
+      }
     }
+
+    checkUserStatus();
+
+
   }, [user, isMobile, router]);
 
   // useEffect(() => {
