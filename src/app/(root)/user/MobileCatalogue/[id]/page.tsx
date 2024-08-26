@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Avatar, Button, Chip, Divider } from "@nextui-org/react";
 import { FaArrowLeft } from "react-icons/fa6";
+import Loading from "@/Components/Loading/Loading";
 
 interface PetMatchUser {
   id: string;
@@ -81,7 +82,7 @@ export default function Page() {
   }, [id]);
 
   if (!post) {
-    return <div>Loading...</div>;
+    return <div><Loading/></div>;
   }
 
   return (

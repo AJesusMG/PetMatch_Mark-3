@@ -59,7 +59,7 @@ export default function PostCard({
           src={urlImage || "/Lomito.jpg"}
         />
       </Card>
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <Modal isOpen={isOpen} onClose={onClose} size="xl" hideCloseButton>
         <ModalContent>
           <FullPostCard
             id={id}
