@@ -12,7 +12,7 @@ interface UserData {
 // Datos de usuario estáticos
 const staticUser = {
   name: "Nombre del Usuario",
-  image: "/path/to/default/avatar.jpg" // Cambia esto a la ruta de tu imagen por defecto
+  image: "/path/to/default/avatar.jpg" 
 };
 
 // Datos de posts estáticos

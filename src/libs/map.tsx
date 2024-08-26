@@ -17,18 +17,17 @@ interface PetIdentification {
     breed?: string
     contactInfo?: string
 }
-
 const buildMapInfoCardContent = (info: PetIdentification): string => {
     const content = (
-        <div className="border border-gray-300 p-4 rounded-lg max-w-xs flex">
-            <div className="flex-shrink-0">
+        <div className="border border-gray-300 p-4 rounded-lg max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg flex items-start space-x-4">
+            <div className="w-16 h-14 flex-shrink-0">
                 <img
-                    className="w-16 h-16 rounded-full object-cover mr-5 mt-2" 
+                    className="w-14 h-14 rounded-full object-cover mr-4 mt-4" 
                     src="https://petmatchbucketcd.s3.amazonaws.com/1723859299087_166" 
-                    alt="${info.petName}"
+                    alt={info.petName}
                 />
             </div>
-            <div>
+            <div className="flex-1">
                 <h3 className="text-lg font-semibold mb-2">{info.petName}</h3>
                 <p><strong>Dueño:</strong> {info.ownerName}</p>
                 <p><strong>Localidad:</strong> {info.locality}</p>
@@ -135,18 +134,24 @@ function Map({ latlong }: { latlong: LatLong }) {
 
     return (
         <div className='flex flex-col space-y-4'>
-            <Input type='text' size="sm" label="Address" placeholder='Enter the address' ref={placeAutoCompleteRef} />
-            {isLoaded ? (
-                <div 
-                style={{ height: '600px', padding: '400px' }} 
-                ref={mapRef} 
-            />
-            ) : (
-                <div className="flex justify-center items-center h-96">
-                    <CircularProgress />
-                </div>
-            )}
-        </div>
+  <Input type='text' size="sm" label="Address" placeholder='Enter the address' ref={placeAutoCompleteRef} className='my-5'/>
+  {isLoaded ? (
+    <div 
+      style={{ 
+        height: '600px', 
+        width: '100%', 
+        maxWidth: '1300px' 
+      }} 
+      className='w-full h-[300px] md:h-[500px] lg:h-[600px]'
+      ref={mapRef} 
+    />
+  ) : (
+    <div className="flex justify-center items-center h-96">
+      <CircularProgress />
+    </div>
+  )}
+</div>
+
     )    
 }
 

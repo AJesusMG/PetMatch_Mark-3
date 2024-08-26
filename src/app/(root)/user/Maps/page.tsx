@@ -17,7 +17,9 @@ const Maps = () => {
                 <h1 className="text-4xl font-bold">Seguimiento de la mascota</h1>
             </header>
         </div>
-        <Map latlong={latlong} />
+        <div className='w-full'>
+          <Map latlong={latlong} />
+        </div>
     </div>
   )
 }
