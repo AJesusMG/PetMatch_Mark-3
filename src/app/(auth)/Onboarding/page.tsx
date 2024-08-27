@@ -4,13 +4,13 @@ import { Button, Input, Textarea, Avatar, CircularProgress, Select, SelectItem, 
 import { FaArrowLeft } from "react-icons/fa";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { time } from "console";
 
 
 interface scheduleItem {
   day: string;
   time: string;
 }
+
 interface FormData {
   fullname: string;
   username: string;
@@ -22,10 +22,7 @@ interface FormData {
   experience: string;
   bio: string;
   photoUrl: string;
-  openingHours: string;
-  closingHours: string;
   experienceN: number;
-  // [key: string]: string | number;
   schedule: string;
 }
 
@@ -64,8 +61,6 @@ const Onboarding: React.FC = () => {
     experienceN: 0,
     bio: "",
     photoUrl: "",
-    openingHours: "",
-    closingHours: "",
     schedule: "",
   });
 

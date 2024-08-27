@@ -24,9 +24,8 @@ model user {
   phoneNumber           String?
   bio                   String?
   onboarded             Boolean     @default(false)
-  instagramUrl          String?
-  facebookUrl           String?
   photoUrl              String?
+  schedule              String?
   ageUser               Float       @default(0)
   experience            Float       @default(0)
   community             community[]

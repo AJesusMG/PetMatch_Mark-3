@@ -13,17 +13,18 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const { fullname, username, phoneNumber, ageUserN, experienceN, bio, instagramUrl, facebookUrl, photoUrl } =
+  const { fullname, username, veterinaryClinicName, veterinaryAddress, phoneNumber, ageUserN, experienceN, bio, photoUrl, schedule } =
     (await request.json()) as {
       fullname: string;
       username?: string;
+      veterinaryClinicName?: string;
+      veterinaryAddress?: string;
       phoneNumber?: string;
       ageUserN?: number;
       experienceN?: number;
       bio?: string;
-      instagramUrl?: string;
-      facebookUrl?: string;
       photoUrl?: string;
+      schedule?: string;
     };
 
   // Validate required fields
@@ -40,14 +41,15 @@ export async function POST(request: NextRequest) {
       data: {
         fullname,
         username,
+        veterinaryClinicName,
+        veterinaryAddress,
         email: emailParam, // Use the email from the URL parameter
         phoneNumber,
         ageUser: ageUserN,
         experience: experienceN,
         bio,
-        instagramUrl,
-        facebookUrl,
         photoUrl,
+        schedule,
         onboarded: true, // Set onboarded to true
         
       },

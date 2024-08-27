@@ -5,19 +5,18 @@ import { Divider } from "@nextui-org/divider";
 import { Image } from "@nextui-org/react";
 import { Button } from "@nextui-org/button";
 import { useRouter } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 
 export default function Questionaire() {
   const [formValues, setFormValues] = useState({});
   const navigate = useRouter();
+  const { user } = useUser();
 
-  // Datos de usuario estáticos
-  const staticUser = {
-    email: "usuario@ejemplo.com"
-  };
+  
 
   const handleSubmit = async () => {
     // Agrega la propiedad email a formValues
-    const formData = { ...formValues, email: staticUser.email };
+    const formData = { ...formValues, email: user?.primaryEmailAddress?.emailAddress };
 
     try {
       const response = await fetch('/api/survey', {
