@@ -107,16 +107,17 @@ export const Footer4Defaults: Footer4Props = {
     },
   ],
   socialMediaLinks: [
-    { url: "#", icon: <BiLogoFacebookCircle className="size-6" /> },
-    { url: "#", icon: <BiLogoInstagram className="size-6" /> },
-    { url: "#", icon: <FaXTwitter className="size-6 p-0.5" /> },
-    { url: "#", icon: <BiLogoLinkedinSquare className="size-6" /> },
-    { url: "#", icon: <BiLogoYoutube className="size-6" /> },
+    {
+      url: "https://www.facebook.com/share/t9wypKmGVza6zWDj/?mibextid=LQQJ4d",
+      icon: <BiLogoFacebookCircle className="size-6" />
+    },
+    { url: "https://www.instagram.com/petmatch_mx?igsh=NW4xdGFreG54eWJv&utm_source=qr", icon: <BiLogoInstagram className="size-6" /> },
+    
   ],
   footerText: "© 2024 PetMatch. Todos los derechos estan reservados.",
   footerLinks: [
-    { title: "Politica de Privacidad", url: "#" },
-    { title: "Terminos de Servicio", url: "#" },
+    { title: "Politica de Privacidad", url: "/Onboarding/PolocyPrivacy" },
+    { title: "Terminos y Condiciones", url: "/Onboarding/TermsAndConditions" },
     { title: "Configuración de Cookies", url: "#" },
   ],
 };

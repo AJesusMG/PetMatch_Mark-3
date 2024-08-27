@@ -1,9 +1,10 @@
 import { SignUp } from "@clerk/nextjs";
 import Image from "next/image";
-export default function Page(){
-    return (
-        <>
-            <SignUp/>
-        </>
-    )
+import Link from "next/link";
+export default function Page() {
+  return (
+    <>
+      <SignUp />
+    </>
+  );
 }
