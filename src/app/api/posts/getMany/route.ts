@@ -29,9 +29,7 @@ export async function POST(request: NextRequest) {
             breed: post.animal?.breed,
             size: post.animal?.size,
             age: post.animal?.age,
-            instagram: post.user.instagramUrl,
-            whatsapp: post.user.phoneNumber,
-            facebook: post.user.facebookUrl
+            phoneNumber: post.user.phoneNumber,
         }))
         
 
