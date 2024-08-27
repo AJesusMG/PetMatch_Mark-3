@@ -1,5 +1,5 @@
 "use client";
-
+import Compressor from "compressorjs";
 import React, { useState, useRef } from "react";
 import { Modal, ModalContent, Button, CircularProgress, ModalFooter, ModalHeader, } from "@nextui-org/react";
 import { useUser } from "@clerk/nextjs";
@@ -50,6 +50,7 @@ interface FormModalProps {
 export default function FormModal({ isOpen, onClose }: FormModalProps) {
   const [step, setStep] = useState<number>(1);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [image, setImage] = useState<File | null>(null)
   const imageIptRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -64,6 +65,7 @@ export default function FormModal({ isOpen, onClose }: FormModalProps) {
         e.target.value = "";
         return;
       }
+      setImage(file);
       setImageUrl(URL.createObjectURL(file));
       e.target.value = "";
     }
@@ -76,6 +78,8 @@ export default function FormModal({ isOpen, onClose }: FormModalProps) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+
+
     if (step === 1) {
       setStep(2);
       return; // No enviar el formulario en el primer paso
@@ -85,55 +89,75 @@ export default function FormModal({ isOpen, onClose }: FormModalProps) {
       alert("Por favor, selecciona una imagen antes de enviar.");
       return;
     }
+
     setIsLoading(true);
 
     try {
-      if (imageUrl) {
-        const response = await fetch(imageUrl);
-        const blob = await response.blob();
 
-        const imageFormData = new FormData();
-        imageFormData.append("image", blob, "image.jpg");
+      let imgUrl = "";
 
-        const uploadResponse = await fetch("/api/uploadImage", {
-          method: "POST",
-          body: imageFormData,
-        });
+      if (image) {
 
-        if (uploadResponse.ok) {
-          const data = await uploadResponse.json();
-          console.log("Imagen subida correctamente. URL:", data.url);
+        imgUrl = await new Promise<string>((resolve, reject) => {
+          new Compressor(image, {
+            quality: 0.2,
+            async success(result) {
+              try {
+                const formData = new FormData();
+                formData.append("image", result);
 
-          const postFormData = {
-            ...formData,
-            imageUrl: data.url,
-            email: user?.primaryEmailAddress?.emailAddress,
-          };
+                const uploadResponse = await fetch("/api/uploadImage", {
+                  method: "POST",
+                  body: formData,
+                });
 
-          const postResponse = await fetch("/api/posts", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
+                if (uploadResponse.ok) {
+                  const data = await uploadResponse.json();
+                  console.log("Imagen subida correctamente. URL:", data.url);
+                  resolve(data.url);
+                } else {
+                  console.error(
+                    "Error al subir la imagen. Estado:",
+                    uploadResponse.status
+                  );
+                  reject();
+                }
+              } catch (error) {
+                console.error("Error al subir la imagen:", error);
+                reject();
+              }
             },
-            body: JSON.stringify(postFormData),
+            error(err) {
+              console.error("Error al comprimir la imagen:", err);
+              reject();
+            },
           });
-
-          if (postResponse.ok) {
-            console.log("Formulario enviado correctamente.");
-          } else {
-            console.error(
-              "Error al enviar los datos. Estado:",
-              postResponse.status
-            );
-          }
-        } else {
-          console.error(
-            "Error al subir la imagen. Estado:",
-            uploadResponse.status
-          );
-        }
+        });
       } else {
         console.error("La URL de la imagen es nula. No se puede subir.");
+      }
+
+      const postFormData = {
+        ...formData,
+        imageUrl: imgUrl,
+        email: user?.primaryEmailAddress?.emailAddress,
+      };
+
+      const postResponse = await fetch("/api/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postFormData),
+      });
+
+      if (postResponse.ok) {
+        console.log("Formulario enviado correctamente.");
+      } else {
+        console.error(
+          "Error al enviar los datos. Estado:",
+          postResponse.status
+        );
       }
     } catch (error) {
       console.error("Error al subir la imagen:", error);

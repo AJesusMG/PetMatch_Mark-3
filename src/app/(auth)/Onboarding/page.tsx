@@ -380,6 +380,7 @@ const UploadProfilePicture: React.FC<UploadProfilePictureProps> = ({ onBack, for
   const { user } = useUser();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [image, setImage] = useState<File | null>(null)
 
   const handleAvatarClick = () => {
     const fileInput = document.createElement('input');
@@ -393,6 +394,7 @@ const UploadProfilePicture: React.FC<UploadProfilePictureProps> = ({ onBack, for
           return;
         }
         const localUrl = URL.createObjectURL(file);
+        setImage(file);
         setFormData((prevData) => ({
           ...prevData,
           photoUrl: localUrl, // URL local de la imagen seleccionada
@@ -410,27 +412,60 @@ const UploadProfilePicture: React.FC<UploadProfilePictureProps> = ({ onBack, for
     try {
       if (!formData.photoUrl) throw new Error("La URL de la imagen es nula. No se puede subir.");
 
-      const response = await fetch(formData.photoUrl);
-      const blob = await response.blob();
-      const imageFormData = new FormData();
-      imageFormData.append("image", blob, "image.jpg");
+      // const response = await fetch(formData.photoUrl);
+      // const blob = await response.blob();
+      // const imageFormData = new FormData();
+      // imageFormData.append("image", blob, "image.jpg");
 
-      // Primera solicitud para insertar en el bucket de AWS
-      const uploadResponse = await fetch("/api/uploadImage", {
-        method: "POST",
-        body: imageFormData,
-      });
+      // // Primera solicitud para insertar en el bucket de AWS
+      // const uploadResponse = await fetch("/api/uploadImage", {
+      //   method: "POST",
+      //   body: imageFormData,
+      // });
 
-      if (!uploadResponse.ok) throw new Error(`Error al subir la imagen. Estado: ${uploadResponse.status}`);
+      // if (!uploadResponse.ok) throw new Error(`Error al subir la imagen. Estado: ${uploadResponse.status}`);
 
-      const data = await uploadResponse.json();
+      // const data = await uploadResponse.json();
+
+      let imgUrl = "";
+
+      if (image) {
+        imgUrl = await new Promise<string>((resolve, reject) => {
+          new Compressor(image, {
+            quality: 0.2,
+            async success(result) {
+              try {
+                const formData = new FormData();
+                formData.append("image", result);
+                const uploadResponse = await fetch("/api/uploadImage", {
+                  method: "POST",
+                  body: formData,
+                });
+
+                if (uploadResponse.ok) {
+                  const data = await uploadResponse.json();
+                  resolve(data.url);
+                } else {
+                  const response = await uploadResponse.json().catch(() => ({}));
+                  reject(new Error(`Error al subir la imagen: ${response.message}`));
+                }
+              } catch (error) {
+                reject(error);
+              }
+            },
+            error(err) {
+              reject(err);
+            },
+          });
+        });
+      }
 
       // Segunda solicitud para insertar en la base de datos
       formData.ageUserN = parseFloat(formData.ageUser);
       formData.experienceN = parseFloat(formData.experience);
       const postFormData = {
         ...formData,
-        photoUrl: data.url, // Se asegura que `photoUrl` sea la URL final de la imagen
+        photoUrl: imgUrl, // Se asegura que `photoUrl` sea la URL final de la imagen
         email: user?.primaryEmailAddress?.emailAddress,
       };
 

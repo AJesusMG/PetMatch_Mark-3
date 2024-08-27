@@ -47,7 +47,7 @@ const CustomPieChart: React.FC<CustomPieChartProps> = ({ title, labels, data, ba
   };
 
   return (
-    <Card className="lg:w-[500px] lg:h-[270px] w-[360px] h-[400px] p-4 items-center">
+    <Card className="lg:w-[500px] lg:h-[270px] w-[390px] h-[400px] p-4 items-center">
       <Pie data={chartData} options={options} />
     </Card>
   );

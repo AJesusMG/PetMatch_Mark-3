@@ -38,6 +38,7 @@ export async function POST(request: NextRequest) {
       !imageUrl ||
       !email // Validamos que el email esté presente
     ) {
+      console.log("Missing fields");
       return NextResponse.json({
         code: 400,
         message: "Faltan campos obligatorios. Por favor completa el formulario.",
@@ -52,6 +53,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (!user) {
+      console.log("User not found");
       return NextResponse.json({
         code: 404,
         message: "Usuario no encontrado.",
@@ -91,6 +93,8 @@ export async function POST(request: NextRequest) {
         userEmail: email, // Usamos email en lugar de userId
       },
     });
+
+    console.log({ animal, post });
 
     return NextResponse.json({
       code: 201,
