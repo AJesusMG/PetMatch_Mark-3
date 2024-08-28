@@ -93,9 +93,9 @@ const Onboarding: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col w-full h-screen items-center justify-center bg-secondary-200">
-      <div className="bg-white rounded-lg shadow-lg w-3/4 max-w-4xl h-full m-4 p-8">
-        <header className="text-4xl mb-8">
+    <div className="flex flex-col w-full h-full items-center justify-center bg-secondary-200">
+      <div className="bg-white rounded-lg shadow-lg w-96 lg:w-3/4 max-w-4xl h-full p-2 lg:m-4 lg:p-8">
+        <header className="text-4xl mb-4">
           Pet<span className="text-primary-500">Match</span>
         </header>
         {step === 1 && (
@@ -140,11 +140,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onNext, formData, setFormData
 
   return (
     <div className="flex flex-col gap-8 items-center w-full animate-fadeIn">
-      <h1 className="text-4xl font-semibold">Termina de crear tu perfil</h1>
+      <h1 className="text-xl lg:text-4xl font-semibold">Termina de crear tu perfil</h1>
       <form className="flex flex-col gap-5 items-center w-3/4">
-        <div className="flex flex-row gap-4 w-full">
+        <div className="flex flex-col lg:flex-row gap-4 w-full">
           <div className="flex flex-col gap-4 w-full">
             <Input
+              isRequired
               type="text"
               label="Nombre"
               name="fullname"
@@ -155,6 +156,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onNext, formData, setFormData
               onChange={handleChange}
             />
             <Input
+              isRequired
               type="text"
               label="Nombre de usuario"
               name="username"
@@ -165,10 +167,11 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onNext, formData, setFormData
               onChange={handleChange}
             />
             <Input
+              isRequired
               type="text"
-              label="Nombre de la Veterinaria"
+              label="Nombre de tu entidad"
               name="veterinaryClinicName"
-              placeholder="Escribe el nombre de tu clínica veterinaria"
+              placeholder="Escribe el nombre de tu entidad"
               variant="bordered"
               className="w-full"
               value={formData.veterinaryClinicName || ''} // Siempre como string
@@ -177,16 +180,18 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onNext, formData, setFormData
           </div>
           <div className="flex flex-col gap-4 w-full">
             <Input
+              isRequired
               type="text"
-              label="Dirección de la Veterinaria"
+              label="Dirección de tu entidad"
               name="veterinaryAddress"
-              placeholder="Escribe la dirección de tu clínica veterinaria"
+              placeholder="Escribe la dirección de tu entidad"
               variant="bordered"
               className="w-full"
               value={formData.veterinaryAddress || ''} // Siempre como string
               onChange={handleChange}
             />
             <Input
+              isRequired
               type="text"
               label="Número"
               name="phoneNumber"
@@ -195,46 +200,66 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onNext, formData, setFormData
               className="w-full"
               value={formData.phoneNumber || ''} // Siempre como string
               onChange={handleChange}
+              onKeyDown={(e) => {
+                // Evitar que el usuario ingrese caracteres no numéricos o negativos
+                if (!/^[0-9]*$/.test(e.key) && e.key !== 'Backspace') {
+                  e.preventDefault();
+                }
+              }}
             />
             <div className="flex flex-row gap-2 w-full">
               <Input
+                isRequired
                 type="text"
                 label="Edad"
                 name="ageUser"
                 variant="bordered"
                 placeholder="Escribe tu edad"
-                className="w-1/2"
+                className="w-full"
                 value={formData.ageUser || ''} // Siempre como string
                 onChange={handleChange}
+                onKeyDown={(e) => {
+                  // Evitar que el usuario ingrese caracteres no numéricos o negativos
+                  if (!/^[0-9]*$/.test(e.key) && e.key !== 'Backspace') {
+                    e.preventDefault();
+                  }
+                }}
               />
-              <Select
-                variant="bordered"
-                label="Experiencia con animales"
-                name="experience"
-                placeholder="Escribe tu experiencia"
-                className="w-1/2"
-                value={formData.experience || ''} // Asegúrate de que sea string
-                onChange={handleChange}
-              >
-                <SelectItem key="0">Poca</SelectItem>
-                <SelectItem key="0.5">Mediana</SelectItem>
-                <SelectItem key="1">Mucha</SelectItem>
-              </Select>
             </div>
           </div>
         </div>
+        <Select
+          isRequired
+          variant="bordered"
+          label="Experiencia con animales"
+          name="experience"
+          placeholder="Escribe tu experiencia"
+          className="w-full"
+          value={formData.experience || ''} // Asegúrate de que sea string
+          onChange={handleChange}
+        >
+          <SelectItem key="0">Poca</SelectItem>
+          <SelectItem key="0.5">Mediana</SelectItem>
+          <SelectItem key="1">Mucha</SelectItem>
+        </Select>
         <Textarea
+          isRequired
           variant="bordered"
           label="Misión"
           name="bio"
-          placeholder="Escribe la misión de tu clínica veterinaria"
+          placeholder="Escribe la misión de tu entidad"
           className="w-full"
           value={formData.bio || ''} // Siempre como string
           onChange={handleChange}
         />
-        <Button onClick={onNext} className="w-1/2 bg-primary-400 text-white">
-          Siguiente
-        </Button>
+        <div className="flex flex-row w-full justify-end">
+          <Button onClick={onNext} className="w-full lg:w-52  bg-success-300 text-black">
+            Siguiente
+            <span className="material-symbols-outlined">
+              arrow_forward
+            </span>
+          </Button>
+        </div>
       </form>
     </div>
   );
@@ -242,7 +267,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onNext, formData, setFormData
 
 
 const ScheduleForm: React.FC<ScheduleFormProps> = ({ onNext, onBack, formData, setFormData }) => {
-  const [checkboxes, setCheckboxes] = useState<{ [key: string]: { active: boolean, time: string} }>({
+  const [checkboxes, setCheckboxes] = useState<{ [key: string]: { active: boolean, time: string } }>({
     lunes: {
       active: false,
       time: '',
@@ -288,7 +313,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ onNext, onBack, formData, s
       return updatedCheckboxes;
     });
 
-    
+
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -336,28 +361,31 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ onNext, onBack, formData, s
 
   return (
     <div className="flex flex-col gap-8 items-center w-full animate-fadeIn">
-      <h1 className="text-4xl font-semibold">Horario de la clínica veterinaria</h1>
+      <h1 className="text-xl lg:text-4xl font-semibold">Horario de la entidad</h1>
       <form className="flex flex-col gap-5 items-center w-3/4">
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex flex-col w-full">
           <CheckboxGroup
-            label="Selecciona los días disponibles"
+            className="text-black"
+            label="Selecciona los días disponibles:"
           >
             {Object.keys(checkboxes).map((day) => (
-              <div key={day} className="flex items-center gap-2 mb-2">
+              <div key={day} className="flex items-center grid-cols-2 w-full justify-between lg:px-14">
                 <Checkbox
                   value={day}
-                  className="mr-5"
+                  className=""
                   checked={checkboxes[day].active}
                   onChange={handleCheckboxChange}
                 >
                   {day.charAt(0).toUpperCase() + day.slice(1)}
                 </Checkbox>
                 <Input
+                  isRequired
+                  variant="bordered"
                   type="text"
                   name={day}
-                  placeholder={`Horario ${day.charAt(0).toUpperCase() + day.slice(1)}`}
+                  placeholder={`ej.07:00AM - 15:00PM`}
                   className={`w-1/2 p-1`}
-                  value={String(checkboxes[day].time)} 
+                  value={String(checkboxes[day].time)}
                   onChange={handleInputChange}
                   isDisabled={!checkboxes[day].active}
                 />
@@ -365,12 +393,15 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ onNext, onBack, formData, s
             ))}
           </CheckboxGroup>
         </div>
-        <div className="flex gap-4 w-full mt-6">
-          <Button onClick={onBack} className="w-1/2 bg-gray-400 text-white">
-            Atrás
+        <div className="flex gap-4 w-full mt-6 justify-between">
+          <Button onClick={onBack} className="bg-transparent text-primary-500 justify-center hover:bg-primary-400 hover:text-white">
+            <FaArrowLeft /> Atrás
           </Button>
-          <Button onClick={handleNext} className="w-1/2 bg-primary-400 text-white">
+          <Button onClick={onNext} className="w-32 lg:w-52 bg-success-300 text-black">
             Siguiente
+            <span className="material-symbols-outlined">
+              arrow_forward
+            </span>
           </Button>
         </div>
       </form>
@@ -497,7 +528,7 @@ const UploadProfilePicture: React.FC<UploadProfilePictureProps> = ({ onBack, for
       <h1 className="text-xl font-semibold">Sube tu foto de perfil</h1>
       <div className="flex flex-col gap-8 items-center w-full">
         <Avatar
-          src={formData.photoUrl || "https://i.pravatar.cc/150?u=a04258114e29026708c"}
+          src={formData.photoUrl || ""}
           className="w-60 h-60 text-large cursor-pointer"
           onClick={handleAvatarClick}
         />

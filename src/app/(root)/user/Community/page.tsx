@@ -138,13 +138,6 @@ const Community: React.FC = () => {
             className="xl:hidden -mt-6"
           />
           <h1 className="lg:text-4xl text-xl font-bold">Comunidad</h1>
-          <Button
-            onClick={handleScrollToTop}
-            className="bg-transparent text-black hover:bg-primary-500 hover:text-white text-md font-bold"
-            radius="sm"
-          >
-            Inicio
-          </Button>
         </div>
       </nav>
       <div className="flex flex-row mt-11">

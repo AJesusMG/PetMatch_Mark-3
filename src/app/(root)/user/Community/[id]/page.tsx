@@ -118,13 +118,6 @@ const Page: React.FC<PageProps> = ({ params }) => {
         <nav className="bg-white shadow-md z-50 flex justify-between items-center w-full fixed top-0 p-2">
           <div className="flex items-center gap-8">
             <h1 className="text-4xl font-bold cursor-pointer" onClick={returnCommunity}>Comunidad</h1>
-            <Button
-              onClick={handleScrollToTop}
-              className="bg-transparent text-black hover:bg-primary-500 hover:text-white text-md font-bold"
-              radius="sm"
-            >
-              Inicio
-            </Button>
           </div>
         </nav>
         <div className="flex flex-col w-full mt-16">
