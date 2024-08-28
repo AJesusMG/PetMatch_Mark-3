@@ -36,16 +36,18 @@ const staticPosts = [
   },
 ];
 
+
 export default function PrincipalPage() {
+  
   const { user } = useUser();
   const router = useRouter();
-  const email = staticUser.email;
+  const email = user?.primaryEmailAddress?.emailAddress;
 
   // Estado para almacenar los posts
   const [PostProps, setPostProps] = useState(staticPosts);
 
   // Estado para controlar si el cuestionario ha sido resuelto
-  const [questionnaireResolved, setQuestionnaireResolved] = useState(true);
+  const [questionnaireResolved, setQuestionnaireResolved] = useState(false);
 
   // Verifica el estado de onboarded del usuario
   useEffect(() => {
@@ -66,64 +68,33 @@ export default function PrincipalPage() {
     checkUserOnboardingStatus();
   }, [user, router]);
 
-  // Comprobación inicial del usuario
-  useEffect(() => {
-    const checkUser = async () => {
-      try {
-        // Petición para comprobar si el usuario existe
-        const response = await fetch(`/api/user/${email}`);
-        if (!response.ok) {
-          // Si no existe, se registra el usuario
-          const requestBody = {
-            name: staticUser.name,
-            email: staticUser.email,
-            password: "",
-          };
-
-          const registerResponse = await fetch("/api/auth/register", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(requestBody),
-          });
-
-
-          if (!registerResponse.ok) {
-            throw new Error("Error al registrar el usuario");
-          }
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    checkUser();
-  }, [email]);
-
   // Petición para obtener los IDs de los posts y los datos completos de los posts
   useEffect(() => {
     const getPostsId = async () => {
       try {
         if (!email) return;
 
+        const request = {email: email};
         const postsIds = await fetch(
-          `https://v4utf4qdjgpkumci6ogti5psdu0urtem.lambda-url.us-east-1.on.aws/surveys/${email}`
+          'https://s136w4qddk.execute-api.us-east-1.amazonaws.com/dev', {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(request),
+          }
         );
         const result = await postsIds.json();
 
-        (result);
-
-        const list = {
-          list: result,
-        };
-
+        const { response } = result;
+        if(response == undefined) return;
+        const arrayIde = JSON.stringify(response);
         const posts = await fetch("/api/posts/getMany", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(list),
+          body: arrayIde,
         });
 
         const finalResult = await posts.json();
@@ -131,6 +102,7 @@ export default function PrincipalPage() {
         (finalResult.data);
         if (finalResult.data) {
           setPostProps(finalResult.data);
+          setQuestionnaireResolved(true);
         }
       } catch (error) {
         (error);

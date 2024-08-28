@@ -6,12 +6,14 @@ const prisma = new PrismaClient();
 export async function POST(request: NextRequest) {
     try {
 
-        const { list } = await request.json()
+        const listed = await request.json()
         const posts = await prisma.posts.findMany({
             where: {
-                id: {
-                    in: list
-                }
+                animal:{
+                    id:{
+                        in: listed,
+                    },
+                },
             },
             include: {
                 user: true,

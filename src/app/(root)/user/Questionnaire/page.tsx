@@ -58,7 +58,7 @@ export default function Questionaire() {
       <div className="mt-6 w-full h-full flex justify-between items-center">
         <div className="overflow-auto w-full max-h-[720px] p-6">
           <QuestionaireForm setFormValues={setFormValues} />
-          <div className="absolute bottom-14 right-20">
+          <div className="bottom-10 right-20">
             <Button
               type="submit"
               className="bg-success-300 font-bold text-xl"
@@ -67,13 +67,6 @@ export default function Questionaire() {
               Enviar Cuestionario
             </Button>
           </div>
-        </div>
-        <div className="object-center w-full flex justify-center">
-          <Image
-            src="/Lomito.jpg"
-            alt="Descripción de la imagen"
-            className="object-center w-[450px] h-[450px] rounded-full object-cover shadow-md"
-          />
         </div>
       </div>
     </div>
