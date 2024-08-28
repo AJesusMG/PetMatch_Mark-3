@@ -49,6 +49,23 @@ interface ScheduleItem {
 const Page: React.FC<PageProps> = ({ params }) => {
   const [vetInfo, setVetInfo] = useState<FormattedPage | null>(null);
   const router = useRouter()
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  const vetPost = () => {
+    router.push(isMobile ? "/user/MobilePostVet" : "/user/VetPost"); 
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobileDevice = window.innerWidth <= 768;
+      setIsMobile(isMobileDevice);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const loadVeterinarianData = async () => {
     try {
@@ -163,7 +180,7 @@ const Page: React.FC<PageProps> = ({ params }) => {
             </ul>
           </div>
           <div id="botones" className="flex flex-col gap-4 justify-end lg:items-end lg:flex-row">
-            <Button className="bg-secondary-200 w-full lg:w-auto" onClick={() => router.push("/user/VetPost")}>Ver Publicaciones</Button>
+            <Button className="bg-secondary-200 w-full lg:w-auto" onClick={vetPost}>Ver Publicaciones</Button>
             <Button className="bg-secondary-200 w-full lg:w-auto" onClick={() => router.push("/user/Maps")}>Ver Mapa</Button>
           </div>
         </div>

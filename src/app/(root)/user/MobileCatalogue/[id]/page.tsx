@@ -57,6 +57,12 @@ export default function Page() {
   const { id } = useParams(); // Obtiene el ID del post desde la URL
   const [post, setPost] = useState<FullPostProps | null>(null);
 
+  const handleMatchClick = () => {
+    if (post?.user.id) {
+      router.push(`/user/Profile/${post.user.id}`); // Redirigir al perfil del usuario
+    }
+  };
+
   useEffect(() => {
     if (!id) {
       console.error("No post ID found in the URL.");
@@ -65,7 +71,7 @@ export default function Page() {
 
     const fetchPost = async () => {
       try {
-        ("Fetching post...");
+        console.log("Fetching post...");
         const response = await fetch(`/api/posts/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch post data");
@@ -81,7 +87,7 @@ export default function Page() {
   }, [id]);
 
   if (!post) {
-    return <div><Loading/></div>;
+    return <div><Loading /></div>;
   }
 
   return (
@@ -130,9 +136,13 @@ export default function Page() {
           </Chip>
         </div>
       </div>
-      <div className="flex flex-col w-full gap-4">
-        <h1 className="text-sm">Contacto</h1>
-        {/* Contacto Section */}
+      <div className="flex flex-col w-full mt-5">
+        <Button
+          className="font-bold bg-transparent border-1 border-primary-500 hover:bg-primary-500 hover:text-white"
+          onClick={handleMatchClick} // Añadir el evento de clic
+        >
+          Match
+        </Button>
       </div>
     </div>
   );
