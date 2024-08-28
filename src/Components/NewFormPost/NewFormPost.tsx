@@ -60,7 +60,7 @@ export default function NewFormPost({ onFormDataChange }: FormNewPostProps) {
 
   useEffect(() => {
     onFormDataChange(formData);
-    console.log(formData)
+    (formData)
   }, [formData, onFormDataChange]);
 
 

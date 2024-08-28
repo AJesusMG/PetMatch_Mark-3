@@ -49,12 +49,10 @@ export default function VetPost() {
         }
   
         data.posts.forEach((post: any, index: number) => {
-          console.log(`Post ${index}:`, post);
         });
   
         const userPosts = data.posts.filter((post: any) => post.userEmail === user.emailAddresses[0]?.emailAddress);
   
-        console.log("User Posts:", userPosts);
   
         const formattedPosts = userPosts.map((post: any, index: number) => {
           return {

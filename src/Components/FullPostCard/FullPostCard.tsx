@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"; // Importar useRouter
 
 interface FullPostCardProps {
   id: number;
+  veterinaryClinicName?:string,
   urlImage?: string;
   avatar?: string;
   fullname?: string;
@@ -13,14 +14,12 @@ interface FullPostCardProps {
   race?: string;
   size?: string;
   age?: string;
-  instagram?: string;
-  whatsapp?: string;
-  facebook?: string;
-  userId?: string; // Agregar la prop userId
+  userId?: string; 
 }
 
 export default function FullPostCard({
   id,
+  veterinaryClinicName,
   urlImage,
   avatar,
   fullname,
@@ -29,16 +28,13 @@ export default function FullPostCard({
   race,
   size,
   age,
-  instagram,
-  whatsapp,
-  facebook,
   userId, // Agregar la prop userId
 }: FullPostCardProps) {
   const router = useRouter(); // Inicializar useRouter
 
   const handleMatchClick = () => {
     if (userId) {
-      console.log(userId)
+      (userId)
       router.push(`/user/Profile/${userId}`); // Redirigir al perfil del usuario
     }
   };
@@ -68,7 +64,7 @@ export default function FullPostCard({
         </div>
         <div className="flex-1">
           <div className="flex flex-col gap-5 w-full">
-            <div className="flex flex-row w-full text-md font-bold px-4"> Veterinaria MyKan</div>
+            <div className="flex flex-row w-full text-md font-bold px-4">{veterinaryClinicName}</div>
             <p className="text-sm text-justify px-4">{content || "No content available"}</p>
           </div>
         </div>

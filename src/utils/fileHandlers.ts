@@ -10,7 +10,7 @@ export async function formatImage(image: Buffer, size?: number) {
       .toFormat("webp", { mozjpeg: true, quality: 40 })
       .toBuffer();
   } catch (error) {
-    console.log(error);
+    (error);
   }
 }
 
@@ -38,7 +38,7 @@ export async function uploadImage(image: Buffer) {
     return `https://${process.env.S3_BUCKET_NAME}.s3.amazonaws.com/${key}`;
 
   } catch (error) {
-    console.log(error);
+    (error);
   }
 }
 

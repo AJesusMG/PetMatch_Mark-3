@@ -64,7 +64,6 @@ export const Layout16 = (props: Layout16Props) => {
         "li",
       ]);
 
-      console.log('Found elements:', elements.length);
 
       if (elements.length === 0) {
         console.warn('No elements found for the provided selectors.');

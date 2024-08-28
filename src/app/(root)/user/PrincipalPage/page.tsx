@@ -88,7 +88,6 @@ export default function PrincipalPage() {
             body: JSON.stringify(requestBody),
           });
 
-          console.log("Register Response:", registerResponse);
 
           if (!registerResponse.ok) {
             throw new Error("Error al registrar el usuario");
@@ -113,7 +112,7 @@ export default function PrincipalPage() {
         );
         const result = await postsIds.json();
 
-        console.log(result);
+        (result);
 
         const list = {
           list: result,
@@ -129,12 +128,12 @@ export default function PrincipalPage() {
 
         const finalResult = await posts.json();
 
-        console.log(finalResult.data);
+        (finalResult.data);
         if (finalResult.data) {
           setPostProps(finalResult.data);
         }
       } catch (error) {
-        console.log(error);
+        (error);
       }
     };
 
@@ -193,9 +192,6 @@ export default function PrincipalPage() {
               race={post.breed}
               size={post.size}
               age={post.age}
-              instagram={post.instagram}
-              whatsapp={post.whatsapp}
-              facebook={post.facebook}
             />
           ))}
         </div>

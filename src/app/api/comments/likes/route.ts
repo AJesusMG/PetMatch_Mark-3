@@ -53,7 +53,7 @@ export async function PATCH(request: NextRequest) {
 
         
       } catch (error) {
-        console.log("User already liked this comment");
+        ("User already liked this comment");
       }
     }
 
@@ -81,7 +81,7 @@ export async function PATCH(request: NextRequest) {
           },
         });
       } catch (error) {
-        console.log("User already disliked this comment");
+        ("User already disliked this comment");
       }
     }
 
@@ -89,7 +89,7 @@ export async function PATCH(request: NextRequest) {
 
 
   } catch (error) {
-    console.log(error);
+    (error);
     return NextResponse.json({ code: 500, message: "ERROR" });
     
   }

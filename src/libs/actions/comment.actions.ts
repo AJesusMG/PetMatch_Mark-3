@@ -62,7 +62,6 @@ export async function sendComment(
               if (uploadResponse.ok) {
                 const { url } = await uploadResponse.json();
                 resolve(url);
-                console.log("Imagen subida correctamente. URL:", url);
               } else {
                 const response = await uploadResponse.json().catch(() => ({
                   message: "Error al subir la imagen.",
@@ -101,7 +100,7 @@ export async function sendComment(
     );
 
     if (postResponse.ok) {
-      console.log("Comentario enviado correctamente.");
+      ("Comentario enviado correctamente.");
       return true;
     } else {
       console.error("Error al enviar el comentario. Estado:", postResponse.status);

@@ -113,7 +113,6 @@ export default function FormModal({ isOpen, onClose }: FormModalProps) {
 
                 if (uploadResponse.ok) {
                   const data = await uploadResponse.json();
-                  console.log("Imagen subida correctamente. URL:", data.url);
                   resolve(data.url);
                 } else {
                   console.error(
@@ -152,7 +151,7 @@ export default function FormModal({ isOpen, onClose }: FormModalProps) {
       });
 
       if (postResponse.ok) {
-        console.log("Formulario enviado correctamente.");
+        ("Formulario enviado correctamente.");
       } else {
         console.error(
           "Error al enviar los datos. Estado:",

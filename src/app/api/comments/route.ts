@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
   // fecha y hora local a ISO-8601 DateTime
   const currentDateLocalISO = currentDateLocal.toISOString();
 
-  console.log(currentDateLocalISO);
+  (currentDateLocalISO);
 
   try {
 

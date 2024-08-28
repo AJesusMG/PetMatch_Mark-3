@@ -31,7 +31,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ code: 400, message: "No file provided" }, { status: 400 });
     }
 
-    console.log("File:", file);
     const Body = (await file.arrayBuffer()) as Buffer;
 
 
@@ -52,7 +51,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ url: uploadedImage }, { status: 200 });
 
   } catch (error) {
-    console.log(error);
+    (error);
     return NextResponse.json({ code: 500, message: "Failed to upload image" }, { status: 500 });
   }
 }

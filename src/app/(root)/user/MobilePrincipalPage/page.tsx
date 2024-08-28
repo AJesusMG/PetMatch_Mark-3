@@ -33,7 +33,7 @@ export default function MobilePrincipalPage() {
           throw new Error("Failed to fetch data");
         }
         const data = await response.json();
-        console.log(data.data);
+        (data.data);
 
         const formattedPosts = data.data.map((post: any, index: number) => ({
           id: post.id, // Asigna el id correcto aquí

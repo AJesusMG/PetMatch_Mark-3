@@ -11,29 +11,27 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ code: 400, message: "No file provided" }, { status: 400 });
     }
 
-    console.log("File:", file);
-
     const Body = (await file.arrayBuffer()) as Buffer;
 
 
     const resizedImage = await formatImage(Body);
 
     if (!resizedImage) {
-      console.log("Error resizing image");
+      ("Error resizing image");
       return NextResponse.json({ code: 500, message: "Failed to resize image" }, { status: 500 });
     }
     
     const uploadedImage = await uploadImage(resizedImage);
 
     if (!uploadedImage) {
-      console.log("Error uploading image");
+      ("Error uploading image");
       return NextResponse.json({ code: 500, message: "Failed to upload image" }, { status: 500 });
     }
 
     return NextResponse.json({ url: uploadedImage }, { status: 200 });
     
   } catch (error) {
-    console.log(error);
+    (error);
     return NextResponse.json({ code: 500, message: "ERROR" });
   }
 }

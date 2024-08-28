@@ -6,7 +6,6 @@ import { getSizeLabel } from "@/data/sizeAnimals";
 import { getAgeLabel } from "@/data/ageAnimals";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-import { getUserStatus } from "@/libs/actions/user.actions";
 
 export default function Catalogue() {
   const [posts, setPosts] = useState<PostCardProps[]>([]);
@@ -28,6 +27,7 @@ export default function Catalogue() {
         const formattedPosts = data.data.map((post: any, index: number) => {
           const formattedPost = {
             id: index,
+            veterinaryClinicName: post.user.veterinaryClinicName,
             urlImage: post.urlImage,
             avatar: post.user.photoUrl,
             fullname: post.user.fullname,
@@ -66,6 +66,7 @@ export default function Catalogue() {
             <PostCard
               key={post.id}
               id={post.id}
+              veterinaryClinicName={post.veterinaryClinicName}
               urlImage={post.urlImage}
               avatar={post.avatar}
               fullname={post.fullname}
@@ -74,9 +75,6 @@ export default function Catalogue() {
               race={post.race}
               size={post.size}
               age={post.age}
-              instagram={post.instagram}
-              whatsapp={post.whatsapp}
-              facebook={post.facebook}
               userId={post.userId} // Pasar userId a PostCard
             />
           ))}

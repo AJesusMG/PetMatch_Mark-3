@@ -134,7 +134,7 @@ function Map({ latlong }: { latlong: LatLong }) {
 
     return (
         <div className='flex flex-col space-y-4'>
-  <Input type='text' size="sm" label="Address" placeholder='Enter the address' ref={placeAutoCompleteRef} className='my-5'/>
+  <Input type='text' size="sm" label="Address" placeholder='Enter the address' ref={placeAutoCompleteRef} className='mb-5'/>
   {isLoaded ? (
     <div 
       style={{ 

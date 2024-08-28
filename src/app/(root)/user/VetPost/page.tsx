@@ -4,8 +4,6 @@ import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 import PostCard from "@/Components/PostCard/PostCard";
 import { PostCardProps } from "@/Components/PostCard/PostCard";
-import { getSizeLabel } from "@/data/sizeAnimals";
-import { getAgeLabel } from "@/data/ageAnimals";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { getUserStatus } from "@/libs/actions/user.actions";
@@ -43,12 +41,10 @@ export default function VetPost() {
         }
   
         data.posts.forEach((post: any, index: number) => {
-          console.log(`Post ${index}:`, post);
         });
   
         const userPosts = data.posts.filter((post: any) => post.userEmail === user.emailAddresses[0]?.emailAddress);
   
-        console.log("User Posts:", userPosts);
   
         const formattedPosts = userPosts.map((post: any, index: number) => {
           return {
@@ -103,9 +99,6 @@ export default function VetPost() {
                 race={post.race}
                 size={post.size}
                 age={post.age}
-                instagram={post.instagram}
-                whatsapp={post.whatsapp}
-                facebook={post.facebook}
               />
             ))
           ) : (

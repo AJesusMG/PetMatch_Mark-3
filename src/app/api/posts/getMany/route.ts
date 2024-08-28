@@ -7,9 +7,6 @@ export async function POST(request: NextRequest) {
     try {
 
         const { list } = await request.json()
-
-        console.log(list);
-
         const posts = await prisma.posts.findMany({
             where: {
                 id: {
@@ -36,7 +33,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ code: 200, message: "OK", data: result})
         
     } catch (error) {
-        console.log(error);
+        (error);
         return NextResponse.json({ code: 500, message: "ERROR"})
     }
 }

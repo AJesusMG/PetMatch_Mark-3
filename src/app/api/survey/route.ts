@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ code: 201, message: "Survey created", newSurvey });
 
   } catch (error) {
-    console.log(error);
+    (error);
     return NextResponse.json({ code: 500, message: "ERROR" });
   }
 }
@@ -102,7 +102,7 @@ export async function GET(request: NextRequest) {
     const surveys = await db.survey.findMany();
     return NextResponse.json(surveys);
   } catch (error) {
-    console.log(error);
+    (error);
     return NextResponse.json({ code: 500, message: "ERROR" });
   }
 }

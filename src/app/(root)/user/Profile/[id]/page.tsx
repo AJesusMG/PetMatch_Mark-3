@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Divider } from "@nextui-org/react";
 import CustomPieChart from "@/Components/CustomPieChart/CustomPieChart";
 import { fetchVeterinarianData } from "@/libs/actions/user.actions";
+import { useRouter } from "next/navigation";
 
 const chartData = [
   {
@@ -47,6 +48,7 @@ interface ScheduleItem {
 
 const Page: React.FC<PageProps> = ({ params }) => {
   const [vetInfo, setVetInfo] = useState<FormattedPage | null>(null);
+  const router = useRouter()
 
   const loadVeterinarianData = async () => {
     try {
@@ -161,8 +163,8 @@ const Page: React.FC<PageProps> = ({ params }) => {
             </ul>
           </div>
           <div id="botones" className="flex flex-col gap-4 justify-end lg:items-end lg:flex-row">
-            <Button className="bg-secondary-200 w-full lg:w-auto">Ver Publicaciones</Button>
-            <Button className="bg-secondary-200 w-full lg:w-auto">Ver Mapa</Button>
+            <Button className="bg-secondary-200 w-full lg:w-auto" onClick={() => router.push("/user/VetPost")}>Ver Publicaciones</Button>
+            <Button className="bg-secondary-200 w-full lg:w-auto" onClick={() => router.push("/user/Maps")}>Ver Mapa</Button>
           </div>
         </div>
         <Divider />

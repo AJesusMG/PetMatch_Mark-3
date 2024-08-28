@@ -62,7 +62,7 @@ const AddPost: React.FC<AddPostProps> = ({ onPostAdded, parentId }) => {
         }
         setImageUrl(reader.result as string);
         setLoading(false);
-        console.log(file);
+        (file);
       };
       reader.readAsDataURL(file);
       event.target.value = ""

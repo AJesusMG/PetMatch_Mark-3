@@ -64,7 +64,6 @@ export default function UserSettings() {
       }
 
       const data = await response.json();
-      console.log("Datos del usuario guardados:", data);
     } catch (error) {
       console.error("Error:", error);
     }

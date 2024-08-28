@@ -65,14 +65,13 @@ export default function Page() {
 
     const fetchPost = async () => {
       try {
-        console.log("Fetching post...");
+        ("Fetching post...");
         const response = await fetch(`/api/posts/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch post data");
         }
         const data = await response.json();
         setPost(data);
-        console.log("Post fetched successfully", data);
       } catch (error) {
         console.error("Error fetching post data:", error);
       }

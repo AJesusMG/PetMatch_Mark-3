@@ -32,7 +32,6 @@ export default function Questionaire() {
       }
 
       const data = await response.json();
-      console.log('Respuesta del servidor:', data);
       // Puedes manejar la respuesta del servidor aquí, por ejemplo, mostrando un mensaje de éxito
 
       if (data.code == 201) {

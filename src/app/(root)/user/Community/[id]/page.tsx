@@ -102,7 +102,7 @@ const Page: React.FC<PageProps> = ({ params }) => {
   };
 
   const handleReply = (id: string) => {
-    console.log(`Responder al post ${id}`);
+    (`Responder al post ${id}`);
   };
 
   const returnCommunity = () => {
